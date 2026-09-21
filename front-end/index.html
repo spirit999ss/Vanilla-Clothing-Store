@@ -1,0 +1,1339 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>La Bella y la Bestia - Moda para Él & Ella</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="icon"
+      href="https://res.cloudinary.com/vz7kcusz/image/upload/v1783886627/brand-favicon_fff3nw.png"
+      type="image/png"
+    />
+    <!-- Slider -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <!-- Para hacer Factura -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  </head>
+
+  <body>
+    <!-- ============================
+              HEADER 
+    ============================ -->
+    <header class="header">
+      <!-- Btn Menú Categorías -->
+      <div class="menu-category-container">
+        <button class="menu-btn" aria-label="Abrir menú de categorías">
+          <img
+            src=""
+            alt="Menú de categorías"
+            loading="lazy"
+            data-asset="categoryMenu"
+          />
+        </button>
+      </div>
+
+      <a class="logo-container" href="index.html">
+        <img
+          src=""
+          alt="La Bella y la Bestia - Logo"
+          loading="lazy"
+          title="home"
+          data-asset="brandLogo"
+        />
+      </a>
+
+      <!--  MODAL DE LOGIN -->
+      <div class="login-container" hidden>
+        <img
+          src=""
+          alt="Logo de la tienda"
+          loading="lazy"
+          class="logo-marca"
+          data-asset="brandLogo"
+        />
+        <!-- Log In del Usuario -->
+        <form class="login-form">
+          <h2 class="title-login">Iniciar Sesión</h2>
+
+          <label class="input-group">
+            Correo Electrónico
+            <input
+              type="email"
+              name="correo"
+              placeholder="correo@ejemplo.com"
+              required
+              autocomplete="email"
+            />
+          </label>
+
+          <label class="input-group">
+            Contraseña
+            <input
+              type="password"
+              name="password"
+              placeholder="Ingresa tu contraseña"
+              required
+              autocomplete="current-password"
+            />
+          </label>
+
+          <button class="btn-iniciar-sesion">Iniciar Sesión</button>
+          <p class="mensaje-login" id="mensajeLogin"></p>
+
+          <p class="crear-cuenta">
+            ¿No tienes cuenta?
+            <a href="#" id="btn-crear-cuenta">Crear cuenta</a>
+          </p>
+        </form>
+        <!-- Modal de Registro -->
+        <div id="modal-registro" class="modal-registro">
+          <div class="modal-contenido">
+            <span class="cerrar-modal">&times;</span>
+
+            <h2>Crear cuenta</h2>
+
+            <form class="form-registro">
+              <fieldset>
+                <legend>Datos personales</legend>
+
+                <label for="nombre">Nombre completo</label>
+                <input
+                  type="text"
+                  id="nombre"
+                  placeholder="Tu nombre completo"
+                  required
+                />
+
+                <label for="username">Nombre de usuario</label>
+                <input
+                  type="text"
+                  id="username"
+                  placeholder="Elige un username único"
+                  required
+                />
+
+                <label for="genero">Género</label>
+                <select id="genero" required>
+                  <option value="">Selecciona tu género</option>
+                  <option value="Masculino">Masculino</option>
+                  <option value="Femenino">Femenino</option>
+                  <option value="Otro">Otro</option>
+                </select>
+
+                <label for="telefono">Teléfono</label>
+                <input type="tel" id="telefono" />
+              </fieldset>
+
+              <fieldset>
+                <legend>Seguridad y contacto</legend>
+
+                <label for="email">Correo electrónico</label>
+                <input
+                  type="email"
+                  id="email"
+                  placeholder="ejemplo@correo.com"
+                  required
+                />
+
+                <label for="registro-contraseña">Contraseña</label>
+                <input
+                  type="password"
+                  id="registro-contraseña"
+                  placeholder="Crea una contraseña"
+                  required
+                />
+
+                <label for="registro-confirmar-contraseña"
+                  >Confirmar Contraseña</label
+                >
+                <input
+                  type="password"
+                  id="registro-confirmar-contraseña"
+                  placeholder="Confirma tu contraseña"
+                  required
+                />
+              </fieldset>
+
+              <fieldset>
+                <legend>Dirección</legend>
+
+                <label for="direccion">Dirección de envío</label>
+                <textarea
+                  id="direccion"
+                  rows="3"
+                  placeholder="Calle, número, colonia, ciudad, CP"
+                  required
+                ></textarea>
+              </fieldset>
+
+              <button type="submit" class="btn-registrarse">Registrarse</button>
+            </form>
+
+            <p class="ya-tienes-cuenta">
+              ¿Ya tienes cuenta?
+              <a href="#" id="btn-login-modal">Iniciar sesión</a>
+            </p>
+          </div>
+        </div>
+
+        <!-- Opciones de login social -->
+        <section class="opciones-login-container">
+          <div class="title-opciones-login">
+            <span></span>
+            <h4>o continuar con</h4>
+            <span></span>
+          </div>
+
+          <div class="opciones-login">
+            <button
+              class="opcion-caja opcion-caja--google"
+              aria-label="Continuar con Google"
+            >
+              <img src="" alt="" loading="lazy" data-asset="google" />
+            </button>
+
+            <button
+              class="opcion-caja opcion-caja--facebook"
+              aria-label="Continuar con Facebook"
+            >
+              <img src="" alt="" loading="lazy" data-asset="facebook" />
+            </button>
+
+            <button
+              class="opcion-caja opcion-caja--apple"
+              aria-label="Continuar con Apple"
+            >
+              <img src="" alt="" loading="lazy" data-asset="apple" />
+            </button>
+          </div>
+        </section>
+        <!-- Perfil del Usuario -->
+        <div class="perfil-container">
+          <!-- Imagen del Usuario -->
+          <div class="perfil-header">
+            <div class="user-image-container">
+              <div class="image-wrapper">
+                <img
+                  src=""
+                  alt="Imagen del Usuario"
+                  id="imagenUsuario"
+                  class="user-image"
+                  data-asset="userActive"
+                />
+                <div class="edit-label">
+                  <label for="uploadImage">
+                    <img src="" alt="Editar Imagen" data-asset="edit" />
+                  </label>
+                </div>
+              </div>
+
+              <!-- Input para subir img-->
+              <input
+                type="file"
+                id="uploadImage"
+                accept="image/*"
+                style="display: none"
+              />
+            </div>
+            <p>Usuario</p>
+            <p class="nombre-perfil-usuario"></p>
+          </div>
+
+          <div class="perfil-menu">
+            <!-- Editar Perfil -->
+            <div class="perfil-item">
+              <button
+                class="perfil-btn btn-activo-fijo"
+                data-target="editarPerfil"
+              >
+                Editar Perfil
+              </button>
+
+              <div
+                class="perfil-contenido editar-perfil"
+                id="editarPerfil"
+                hidden
+              >
+                <form class="perfil-info">
+                  <fieldset>
+                    <legend>Información Personal</legend>
+
+                    <!-- Nombre -->
+                    <label for="nombre-usuario-perfil">
+                      Nombre:
+                      <input
+                        type="text"
+                        id="nombre-usuario-perfil"
+                        value="Messi Ronaldo"
+                        minlength="6"
+                        maxlength="12"
+                      />
+                    </label>
+
+                    <!-- Género -->
+                    <label for="genero-usuario-perfil">
+                      Género:
+                      <select
+                        id="genero-usuario-perfil"
+                        name="genero-usuario-perfil"
+                      >
+                        <option value="" disabled selected>
+                          Seleccionar género
+                        </option>
+                        <option value="Masculino">Masculino</option>
+                        <option value="Femenino">Femenino</option>
+                        <option value="Otros">Otros</option>
+                      </select>
+                    </label>
+
+                    <!-- Teléfono -->
+                    <label for="telefono-usuario-perfil">
+                      Teléfono:
+                      <input type="text" id="telefono-usuario-perfil" />
+                    </label>
+
+                    <!-- Correo -->
+                    <label for="correo-usuario-perfil">
+                      Correo:
+                      <input type="email" id="correo-usuario-perfil" />
+                    </label>
+
+                    <!-- Dirección -->
+                    <label for="direccion-usuario-perfil">
+                      Dirección:
+                      <input
+                        type="text"
+                        id="direccion-usuario-perfil"
+                        minlength="12"
+                        maxlength="12"
+                      />
+                    </label>
+
+                    <!-- Botón submit real del form -->
+                    <button type="submit" class="btn-editar-perfil">
+                      Guardar Cambios
+                    </button>
+                  </fieldset>
+                </form>
+              </div>
+            </div>
+            <!-- Métodos de Pago -->
+            <div class="perfil-item">
+              <button class="perfil-btn" data-target="metodosPago">
+                Métodos de Pago
+              </button>
+
+              <!-- Perfil Contenido -->
+              <div class="perfil-contenido" id="metodosPago">
+                <div class="perfil-tarjeta">
+                  <h3>Tarjeta Guardada</h3>
+                  <div class="tarjeta-guardada-container"></div>
+                  <!-- Template para renderizar la tarjeta dinámicamente -->
+                  <template id="tarjeta-template">
+                    <div class="tarjeta-guardada">
+                      <div class="tarjeta-header">
+                        <span class="tarjeta-tipo"></span>
+                        <img class="tarjeta-logo" />
+
+                        <div class="btn-tarjetas-guardadas-container">
+                          <button class="btn-actualizar-tarjetas-guardadas">
+                            <img src="" alt="edit-tarjeta" data-asset="edit" />
+                          </button>
+                          <button class="btn-eliminar-tarjetas-guardadas">
+                            <img
+                              src=""
+                              alt="delete-tarjeta"
+                              data-asset="delete"
+                            />
+                          </button>
+                        </div>
+                      </div>
+                      <div class="tarjeta-numero"></div>
+                      <div class="tarjeta-footer">
+                        <div class="titular">
+                          <span class="label">CARDHOLDER NAME</span>
+                          <span class="tarjeta-titular"></span>
+                        </div>
+                        <div class="expiracion">
+                          <span class="label">EXPIRE DATE</span>
+                          <span class="tarjeta-fecha"></span>
+                        </div>
+                      </div>
+                    </div>
+                  </template>
+                  <!-- Input para Actualizar o Add Nueva Tarjeta -->
+                  <section class="agregar-tarjeta">
+                    <h3>Agregar / Actualizar Forma de Pago</h3>
+                    <!-- Btn de los tipos de tarjetas -->
+                    <div class="botones-tipo-pago">
+                      <button class="btn-add-visa-mastercard" type="button">
+                        <img src="" alt="Visa" data-asset="visa" />
+                        <img src="" alt="Mastercard" data-asset="mastercard" />
+                      </button>
+
+                      <button class="btn-add-paypal" type="button">
+                        <img src="" alt="Paypal" data-asset="paypal" />
+                      </button>
+                    </div>
+
+                    <!-- Form de Visa y Mastercard -->
+                    <form class="form-tarjeta" id="form-tarjeta">
+                      <fieldset>
+                        <legend>Tarjeta de crédito</legend>
+
+                        <label for="tipo-tarjeta">Tipo de tarjeta:</label>
+                        <select id="tipo-tarjeta" name="tipo-tarjeta" required>
+                          <option value="" selected disabled>
+                            Selecciona una tarjeta
+                          </option>
+                          <option value="Visa">Visa</option>
+                          <option value="Mastercard">Mastercard</option>
+                        </select>
+                        <label for="titular-tarjeta">Titular:</label>
+                        <div class="">
+                          <img src="" alt="" data-asset="userAnonymous" /><input
+                            type="text"
+                            id="titular-tarjeta"
+                            name="titular-tarjeta"
+                            placeholder="Nombre completo"
+                            required
+                          />
+                        </div>
+                        <label for="numero-tarjeta">Número:</label>
+                        <div>
+                          <img
+                            src=""
+                            class="img-tipo-visa-mastercard"
+                            data-asset="cardAnonymous"
+                          />
+                          <input
+                            type="text"
+                            id="numero-tarjeta"
+                            name="numero-tarjeta"
+                            placeholder="Ingresa número o correo"
+                            maxlength="10"
+                            minlength="10"
+                            required
+                          />
+                        </div>
+
+                        <label for="expiracion-tarjeta"
+                          >Fecha de expiración:</label
+                        >
+                        <div class="">
+                          <img src="" alt="" data-asset="cvcAnonymous" />
+                          <input
+                            type="text"
+                            id="expiracion-tarjeta"
+                            name="expiracion-tarjeta"
+                            maxlength="4"
+                            minlength="4"
+                            required
+                          />
+                        </div>
+
+                        <button type="submit" id="guardar-tarjeta">
+                          Guardar Tarjeta
+                        </button>
+                      </fieldset>
+                    </form>
+
+                    <!-- Form de Paypal -->
+                    <form class="form-paypal" id="form-paypal">
+                      <fieldset>
+                        <legend>PayPal</legend>
+
+                        <label for="titular-paypal">Titular:</label>
+                        <div class="">
+                          <img src="" alt="" data-asset="userAnonymous" />
+                          <input
+                            type="text"
+                            id="titular-paypal"
+                            name="titular-paypal"
+                            placeholder="Nombre completo"
+                            required
+                            maxlength="10"
+                            minlength="10"
+                          />
+                        </div>
+
+                        <label for="email-paypal">Correo de PayPal:</label>
+                        <div class="">
+                          <img src="" alt="" data-asset="paypal" />
+                          <input
+                            type="email"
+                            id="email-paypal"
+                            name="email-paypal"
+                            placeholder="tucorreo@ejemplo.com"
+                            required
+                          />
+                        </div>
+
+                        <label for="confirm-email-paypal"
+                          >Confirmar correo:</label
+                        >
+                        <div class="">
+                          <img src="" data-asset="paypal" /><input
+                            type="email"
+                            id="confirm-email-paypal"
+                            name="confirm-email-paypal"
+                            placeholder="repite tu correo"
+                            required
+                          />
+                        </div>
+
+                        <button type="submit" id="guardar-paypal">
+                          Guardar PayPal
+                        </button>
+                      </fieldset>
+                    </form>
+                  </section>
+                </div>
+              </div>
+            </div>
+
+            <!-- Mis Pedidos -->
+            <div class="perfil-item">
+              <button class="perfil-btn" data-target="misPedidos">
+                Mis Pedidos
+              </button>
+
+              <div class="perfil-contenido" id="misPedidos">
+                <ul>
+                  <li>
+                    <button class="btn-historial">Historial de Pedidos</button>
+                  </li>
+                  <div class="encabezado-pedido-container" hidden></div>
+                  <div class="historial-pedidos-container" hidden></div>
+
+                  <li>
+                    <button class="btn-tabla-pedido">Estado de Pedidos</button>
+                  </li>
+                  <div class="tabla-estados-pedidos-container">
+                    <table class="tabla-estados-pedidos">
+                      <thead>
+                        <tr>
+                          <th>#Pedido</th>
+                          <th>Fecha</th>
+                          <th>Total</th>
+                          <th>Estado</th>
+                          <th>Detalle</th>
+                        </tr>
+                      </thead>
+                      <tbody class="tabla-pedidos-body"></tbody>
+                    </table>
+                  </div>
+
+                  <div class="encabezado-facturas-container"></div>
+                  <div class="facturas-container"></div>
+                  <!-- Template: Detalle del Pedido -->
+                  <template id="pedido-detalle-template">
+                    <div class="pedido-detalle-container">
+                      <div class="pedido-detalle-header"></div>
+                      <div class="pedido-detalle-info"></div>
+                      <div class="pedido-detalle-productos"></div>
+                    </div>
+                  </template>
+                  <template id="factura-template">
+                    <div class="facturas-modal">
+                      <section class="factura-container">
+                        <div class="factura-wrapper" data-pagina="1">
+                          <!-- HEADER (aparece en todas las páginas pero con datos diferentes) -->
+                          <div class="factura-header">
+                            <img
+                              src=""
+                              class="logo-factura"
+                              data-asset="brandLogo"
+                            />
+                            <div class="empresa-info">
+                              <h3>La Bella y la Bestia</h3>
+                              <div>
+                                <p>
+                                  <strong>Direccion:</strong> En algún lugar del
+                                  mundo
+                                </p>
+                                <p>
+                                  <strong>Calle:</strong> Av. Malecón Principal
+                                </p>
+                                <p>
+                                  <strong>Correo:</strong>
+                                  labellaylabestia123@gmail.com
+                                </p>
+                                <p><strong>Telefono:</strong> 123456789</p>
+                              </div>
+                            </div>
+                          </div>
+
+                          <!-- Datos de la factura (solo primera página) -->
+                          <div class="datos-factura pagina-1-only">
+                            <h2>Factura</h2>
+                            <p>
+                              <strong># Pedido:</strong>
+                              <span class="factura-pedido"></span>
+                            </p>
+                            <p>
+                              <strong>Fecha:</strong>
+                              <span class="factura-fecha"></span>
+                            </p>
+                            <p class="precio-final">
+                              <strong>Precio Final:</strong>
+                              <span class="factura-total"></span>
+                            </p>
+                          </div>
+
+                          <!-- Destinatario  -->
+                          <div class="destinatario pagina-1-only">
+                            <h3>Destinatario</h3>
+                            <p>
+                              <strong>Nombre:</strong>
+                              <span class="cliente-nombre"></span>
+                            </p>
+                            <p>
+                              <strong>Dirección:</strong>
+                              <span class="cliente-direccion"></span>
+                            </p>
+                            <p>
+                              <strong>Correo:</strong>
+                              <span class="cliente-correo"></span>
+                            </p>
+                            <p>
+                              <strong>Teléfono:</strong>
+                              <span class="cliente-telefono"></span>
+                            </p>
+                          </div>
+
+                          <!-- Tabla de productos -->
+                          <table class="tabla-factura">
+                            <thead>
+                              <tr>
+                                <th>Producto</th>
+                                <th>Cantidad</th>
+                                <th>Precio(U)</th>
+                                <th>Total</th>
+                              </tr>
+                            </thead>
+                            <tbody class="factura-productos"></tbody>
+                          </table>
+
+                          <!-- Totales (solo última página) -->
+                          <div class="totales-factura ultima-pagina-only">
+                            <p>
+                              Subtotal: <span class="factura-subtotal"></span>
+                            </p>
+                            <p>IVA: <span class="factura-iva"></span></p>
+                            <p>
+                              Descuento: <span class="factura-descuento"></span>
+                            </p>
+                            <p class="total-final">
+                              Total: <span class="factura-total-final"></span>
+                            </p>
+                          </div>
+
+                          <!-- Detalles de pago  -->
+                          <div class="detalles-pago ultima-pagina-only">
+                            <h3>Detalles del Pago</h3>
+                            <p>
+                              <span>Metodo de Pago:</span>
+                              <span class="tipo-forma-pago"></span>
+                            </p>
+                            <p>
+                              <span> Tarjeta / # Cuenta :</span>
+                              <span class="numero-cuenta"></span>
+                            </p>
+                          </div>
+
+                          <!-- Número de página  -->
+                          <div class="pagina-numero">
+                            Página <span class="num-pagina-actual"></span> de
+                            <span class="total-paginas"></span>
+                          </div>
+                        </div>
+                      </section>
+
+                      <!-- Btn exit Factura  -->
+                      <div class="exit-factura">
+                        <img src="" alt="Exit Factura" data-asset="exit" />
+                      </div>
+                    </div>
+                  </template>
+                </ul>
+              </div>
+            </div>
+            <!-- Seguridad -->
+            <div class="perfil-item">
+              <!-- Botón para abrir seguridad -->
+              <button class="perfil-btn" data-target="seguridad">
+                Seguridad
+              </button>
+
+              <!-- Modal de Seguridad -->
+              <div class="perfil-contenido" id="seguridad">
+                <div class="seguridad-header">
+                  <h2>Configuración de Seguridad</h2>
+                  <p>Gestiona la seguridad de tu cuenta</p>
+                </div>
+
+                <section class="cambiar-contraseña-usuario-container">
+                  <form class="form-cambiar-contraseña-usuario">
+                    <fieldset>
+                      <legend>Cambiar contraseña</legend>
+
+                      <label for="contraseña-guardada-usuario"
+                        >Contraseña actual:</label
+                      >
+                      <input
+                        type="password"
+                        id="contraseña-guardada-usuario"
+                        name="contraseña-guardada-usuario"
+                        required
+                      />
+
+                      <label
+                        class="nueva-contraseña-usuario"
+                        for="nueva-contraseña-usuario"
+                        >Nueva contraseña:</label
+                      >
+                      <input
+                        type="password"
+                        id="nueva-contraseña-usuario"
+                        name="nueva-contraseña-usuario"
+                        minlength="9"
+                        maxlength="15"
+                        required
+                      />
+
+                      <label for="confirm-contraseña-usuario"
+                        >Confirmar nueva contraseña:</label
+                      >
+                      <input
+                        class="input-cambiar-contraseña-usuario"
+                        type="password"
+                        id="confirm-contraseña-usuario"
+                        name="confirm-contraseña-usuario"
+                        minlength="9"
+                        maxlength="15"
+                        required
+                      />
+
+                      <button
+                        class="btn-cambiar-contraseña-usuario"
+                        type="submit"
+                      >
+                        Actualizar Contraseña
+                      </button>
+                    </fieldset>
+                  </form>
+                </section>
+              </div>
+            </div>
+
+            <!-- Cerrar Sesión -->
+            <div class="perfil-item">
+              <button class="btn-cerrar-seccion">Cerrar Sesión</button>
+            </div>
+            <!-- Exit de Contenedor activo Perfil del Usuario-->
+            <img src="" class="img-volver" data-asset="back" />
+          </div>
+        </div>
+      </div>
+      <!-- Btn Descargar Factura -->
+      <div class="btn-descargar-factura-container">
+        <button class="btn-descargar-factura">Descargar Factura</button>
+      </div>
+
+      <!--MENÚ  CATEGORÍAS-->
+      <nav class="menu-categorias" aria-label="Menu Categorias">
+        <!-- Wrapper de Menu  -->
+        <div class="menu-categorias-container">
+          <!-- Menu Btn Categorias -->
+          <div class="menu-btn-container">
+            <button data-categoria="categorias-btn-mujer">Mujer</button>
+            <button data-categoria="categorias-btn-hombre">Hombre</button>
+          </div>
+          <!-- Menu Categorias Mujer-Hombre -->
+          <div class="categorias-menu-lateral-wrapper">
+            <ul>
+              <!--  Menu Categoría Mujer -->
+              <li>
+                <div class="categoria-mujer-container" data-template="mujer">
+                  <template>
+                    <!-- Productos del Menu Mujer-->
+                    <div class="producto-mujer-menu">
+                      <h3></h3>
+                      <img loading="lazy" alt="" />
+                    </div>
+                  </template>
+                </div>
+              </li>
+              <!-- Menu Categoría  Hombre -->
+              <li>
+                <div class="categoria-hombre-container" data-template="hombre">
+                  <template>
+                    <!-- Productos del Menu Hombre -->
+                    <div class="producto-hombre-menu">
+                      <h3></h3>
+                      <img loading="lazy" alt="" />
+                    </div>
+                  </template>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <!---->
+          <!--MENÚ LATERAL DE USUARIO -->
+          <aside class="user-lateral">
+            <ul>
+              <li>
+                <button class="log-in-lateral">
+                  <img src="" alt="" loading="lazy" data-asset="login" />
+                  Iniciar Sesion
+                </button>
+              </li>
+
+              <li>
+                <button class="favorito-lateral">
+                  <img
+                    src=""
+                    alt=""
+                    loading="lazy"
+                    data-asset="wishlistContainer"
+                  />
+                  Favoritos
+                </button>
+              </li>
+
+              <li>
+                <button class="carrito-lateral">
+                  <img src="" alt="" loading="lazy" data-asset="cart" />
+                  Carrito
+                </button>
+              </li>
+            </ul>
+          </aside>
+        </div>
+      </nav>
+      <!--BARRA DE BÚSQUEDA-->
+      <div class="buscar-container">
+        <div class="buscar-wrapper">
+          <input
+            type="text"
+            id="buscar-input"
+            placeholder="Buscar productos..."
+            aria-label="Buscar productos"
+          />
+          <button class="buscar-input-btn" aria-label="Buscar">
+            <img src="" alt="Buscar Producto" data-asset="search" />
+          </button>
+        </div>
+        <!-- Produtos Filtrados -->
+        <div id="contenedor-productos-filtrados">
+          <div class="mensaje-busqueda">Hola</div>
+        </div>
+        <!-- Template para mostrar los Productos Buscados -->
+        <template id="producto-filtrado-template">
+          <div class="producto-filtrado-card">
+            <img class="producto-filtrado-img" />
+            <div>
+              <h3 class="producto-filtrado-titulo"></h3>
+
+              <p class="producto-filtrado-descripcion"></p>
+
+              <span class="producto-filtrado-precio"></span>
+            </div>
+          </div>
+        </template>
+      </div>
+      <div class="container-input"></div>
+
+      <!-- ACCIONES DE USUARIO -->
+      <div class="user-container">
+        <!-- Buscar Header -->
+        <button class="buscar-btn-container">
+          <img
+            class="buscar"
+            src=""
+            alt="Buscar"
+            loading="lazy"
+            data-asset="search"
+          />
+        </button>
+
+        <!-- Login -->
+
+        <button class="log-in-logo">
+          <img
+            src=""
+            alt="Iniciar sesión"
+            id="icono-login"
+            data-asset="login"
+          />
+        </button>
+
+        <!-- Favoritos -->
+
+        <div class="favoritos-wrapper">
+          <button class="favoritos-logo">
+            <img
+              src=""
+              alt="Favoritos"
+              loading="lazy"
+              data-asset="wishlistContainer"
+            />
+          </button>
+        </div>
+
+        <!-- Carrito -->
+
+        <div class="carrito-wrapper">
+          <button class="carrito-logo">
+            <img src="" alt="Carrito" loading="lazy" data-asset="cart" />
+            <!-- Contador de Carrito -->
+            <span class="contador-add-carrito"
+              ><span class="span-contador">0</span></span
+            >
+          </button>
+        </div>
+        <!-- Mini Modal de Compra -->
+        <div class="mini-modal-carrito-container">
+          <div class="mini-modal-carrito"></div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ============================
+    CONTENIDO PRINCIPAL
+    ============================ -->
+    <main>
+      <!-- Contenedores  Favorito y Carrito -->
+      <div class="favoritos-container">
+        <h3>Favoritos</h3>
+        <div class="wrapper-favoritos">
+          <div class="favoritos-productos"></div>
+        </div>
+        <!-- Favoritos Vacio Contenedor -->
+        <div class="mostrar-mensaje-vacio" hidden></div>
+      </div>
+      <div class="carrito-container">
+        <h3>Carrito</h3>
+        <div class="wrapper-carrito">
+          <div class="carrito-productos"></div>
+          <div class="detalles-compra-container"></div>
+        </div>
+        <!-- Carrito Vacio Contenedor -->
+        <div class="mostrar-mensaje-vacio" hidden></div>
+      </div>
+      <!-- SLIDER DE IMAGENES -->
+
+      <section id="slider-contenedor">
+        <div class="swiper">
+          <div class="swiper-wrapper"></div>
+
+          <div class="previuw-next-container">
+            <button class="swiper-button-prev btn-prev"></button>
+            <button class="swiper-button-next btn-next"></button>
+          </div>
+          <div class="swiper-pagination"></div>
+        </div>
+      </section>
+
+      <!-- Title de la Pagina  -->
+      <div class="title">
+        <h1>La Bella y la Bestia Moda para Él & Ella</h1>
+      </div>
+      <!--===Categorías Hombre y Mujer===-->
+      <div class="categorias-wrapper">
+        <!--===Categorías Mujer===-->
+        <section id="categoria-mujer">
+          <h2>Categorías Mujer</h2>
+          <div class="productos-mujer-container">
+            <div class="productos-mujer">
+              <h3>Vestidos</h3>
+              <img data-category="vestidos" alt="Vestidos Mujer" />
+              <div class="vestidos-container">
+                <div class="vestidos-grid"></div>
+              </div>
+            </div>
+
+            <div class="productos-mujer">
+              <h3>Blusas</h3>
+              <img data-category="blusas" alt="Blusas Mujer" />
+              <div class="blusas-container">
+                <div class="blusas-grid"></div>
+              </div>
+            </div>
+
+            <div class="productos-mujer">
+              <h3>Pantalones</h3>
+              <img data-category="pantalones-mujer" alt="Pantalones Mujer" />
+              <div class="pantalones-mujer-container">
+                <div class="pantalones-mujer-grid"></div>
+              </div>
+            </div>
+
+            <div class="productos-mujer">
+              <h3>Faldas</h3>
+              <img data-category="faldas" alt="Faldas Mujer" />
+              <div class="faldas-container">
+                <div class="faldas-grid"></div>
+              </div>
+            </div>
+
+            <div class="productos-mujer">
+              <h3>Conjuntos</h3>
+              <img data-category="conjuntos-mujer" alt="Conjuntos Mujer" />
+              <div class="conjuntos-mujer-container">
+                <div class="conjuntos-mujer-grid"></div>
+              </div>
+            </div>
+
+            <div class="productos-mujer">
+              <h3>Accesorios</h3>
+              <img data-category="accesorios-mujer" alt="Accesorios Mujer" />
+              <div class="accesorios-mujer-container">
+                <div class="accesorios-mujer-grid"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!--===Categorías Hombre===-->
+        <section id="categoria-hombre">
+          <h2>Categorías Hombre</h2>
+          <div class="productos-hombre-container">
+            <div class="productos-hombre">
+              <h3>Camisas</h3>
+              <img data-category="camisas" alt="Camisas Hombre" />
+              <div class="camisas-container">
+                <div class="camisas-grid"></div>
+              </div>
+            </div>
+
+            <div class="productos-hombre">
+              <h3>Pantalones</h3>
+              <img data-category="pantalones-hombre" alt="Pantalones Hombre" />
+              <div class="pantalones-hombre-container">
+                <div class="pantalones-hombre-grid"></div>
+              </div>
+            </div>
+
+            <div class="productos-hombre">
+              <h3>Gorras</h3>
+              <img data-category="gorras" alt="Gorras Hombre" />
+              <div class="gorras-container">
+                <div class="gorras-grid"></div>
+              </div>
+            </div>
+
+            <div class="productos-hombre">
+              <h3>Zapatos</h3>
+              <img data-category="zapatos" alt="Zapatos Hombre" />
+              <div class="zapatos-container">
+                <div class="zapatos-grid"></div>
+              </div>
+            </div>
+
+            <div class="productos-hombre">
+              <h3>Conjuntos</h3>
+              <img data-category="conjuntos-hombre" alt="Conjuntos Hombre" />
+              <div class="conjuntos-hombre-container">
+                <div class="conjuntos-hombre-grid"></div>
+              </div>
+            </div>
+
+            <div class="productos-hombre">
+              <h3>Accesorios</h3>
+              <img data-category="accesorios-hombre" alt="Accesorios Hombre" />
+              <div class="accesorios-hombre-container">
+                <div class="accesorios-hombre-grid"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- Dashboard simple para pruebas -->
+    <div id="dashboard-container" class="dashboard-container">
+      <!--Estadísticas -->
+      <div class="dashboard-header">
+        <h2>📊 Panel de Gestión de Pedidos</h2>
+      </div>
+
+      <!-- Tarjetas de estadísticas -->
+      <div class="stats-container">
+        <div class="stat-card">
+          <div class="stat-label">Total Pedidos</div>
+          <div class="stat-value" id="total-pedidos">0</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-label">En Proceso</div>
+          <div class="stat-value" id="pedidos-proceso">0</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-label">Tasa Completados</div>
+          <div class="stat-value" id="tasa-completados">0%</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-label">Ingresos Hoy</div>
+          <div class="stat-value" id="ingresos-hoy">0.00</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-label">Ingresos Semana</div>
+          <div class="stat-value" id="ingresos-semana">0.00</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-label">Ingresos Año</div>
+          <div class="stat-value" id="ingresos-año">0.00</div>
+        </div>
+      </div>
+
+      <!-- Tabla principal -->
+      <div class="dashboard-table">
+        <table>
+          <thead>
+            <tr>
+              <th>#Pedido</th>
+              <th>Cliente</th>
+              <th>Productos</th>
+              <th>Fecha</th>
+              <th>Total</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="dashboard-body"></tbody>
+        </table>
+      </div>
+    </div>
+    <!-- ============================
+                FOOTER
+    ============================ -->
+
+    <!-- Lo tengo asi para poner hacer pruebas simulando Dashboard /*
+    <footer class="site-footer">
+      <div class="info-container">
+        <p>&copy; 2025 Tienda de Ropa | Todos los derechos reservados.</p>
+
+        <nav aria-label="Enlaces del footer">
+          <ul>
+            <li><a href="#privacidad">Política de Privacidad</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+            <li><a href="#envios">Envíos</a></li>
+          </ul>
+        </nav>
+      </div>
+    </footer>
+    */ -->
+    <!--MODAL DE COMPRA -->
+    <div class="modal-comprar-container" hidden>
+      <div class="modal-comprar-container-wrapper">
+        <div>
+          <!-- Productos a Comprar -->
+          <div class="productos-modal-compra-container">
+            <h3>Producto <span>( 0 )</span></h3>
+            <div class="eliminarTodoLosProductosContainer">
+              <button>
+                <img src="" alt="" data-asset="delete" />Eliminar Todo
+              </button>
+            </div>
+            <div class="productos-modal-compra"></div>
+          </div>
+          <!-- Detalles de la Compra -->
+          <div class="detalles-compra">
+            <h3>Proceso de Compra</h3>
+
+            <div class="total-compra">
+              <div><span>Subtotal</span><span id="subtotal">$0.00</span></div>
+              <div><span>Descuento</span><span id="descuento">$0.00</span></div>
+              <div><span>IVA</span><span id="iva">$0.00</span></div>
+              <div class="total">
+                <span>Total</span><span id="total">$0.00</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Flujo de compra -->
+        <div class="proceso-compra-container">
+          <div class="centrar-contenido-compra">
+            <!-- Formulario de tarjeta -->
+            <div>
+              <div class="tarjeta-aceptadas">
+                <h3>Aceptamos</h3>
+
+                <div class="botones-tipo-pago">
+                  <button class="btn-forma-pago-visa" type="button">
+                    <img src="" alt="Tarjeta Visa" data-asset="visa" />
+                  </button>
+                  <button class="btn-forma-pago-mastercard" type="button">
+                    <img
+                      src=""
+                      alt="Tarjeta Mastercard"
+                      data-asset="mastercard"
+                    />
+                  </button>
+
+                  <button class="btn-forma-pago-paypal" type="button">
+                    <img src="" alt="Paypal" data-asset="paypal" />
+                  </button>
+                </div>
+              </div>
+
+              <form class="form-tarjetas-pago" id="form-tarjetas-pago">
+                <fieldset>
+                  <legend>Información de Tarjeta</legend>
+
+                  <label>
+                    Nombre
+                    <div class="">
+                      <img src="" alt="" data-asset="userAnonymous" />
+                      <input
+                        type="text"
+                        id="nombre-input-tarjeta-pago"
+                        name="nombre"
+                      />
+                    </div>
+                  </label>
+
+                  <!-- Numero de Tarjeta -->
+                  <label class="input-numero-tarjeta-compra">
+                    Número de tarjeta
+                    <div class="input-tarjetas-compra-wrapper">
+                      <img
+                        id="img-tarjeta-icon"
+                        class="tarjeta-icon"
+                        src=""
+                        alt=""
+                        data-asset="cardAnonymous"
+                      />
+                      <input
+                        type="text"
+                        id="input-numero-tarjeta-compra"
+                        name="numero-tarjeta"
+                        maxlength="10"
+                        required
+                      />
+                    </div>
+                  </label>
+
+                  <!-- Expiración -->
+                  <div class="fecha-expiracion-container">
+                    <label>
+                      Fecha de expiración
+                      <div class="">
+                        <img src="" alt="" data-asset="expiryAnonymous" />
+                        <input
+                          type="text"
+                          placeholder="MM/AA"
+                          pattern="^(0[1-9]|1[0-2])\/\d{2}$"
+                          maxlength="5"
+                          required
+                        />
+                      </div>
+                    </label>
+
+                    <!-- CVC -->
+                    <label for="cvc">
+                      CVC
+                      <div class="">
+                        <img src="" alt="" data-asset="cvcAnonymous" />
+                        <input
+                          type="text"
+                          id="cvc"
+                          name="cvc"
+                          maxlength="4"
+                          required
+                        />
+                      </div>
+                    </label>
+                  </div>
+
+                  <!-- Botón pagar -->
+                  <button id="btn-tarjetas-pago" type="submit">Pagar</button>
+                </fieldset>
+              </form>
+              <!--  -->
+              <form class="form-paypal-pago" id="form-paypal-pago" hidden>
+                <fieldset>
+                  <legend>PayPal</legend>
+
+                  <label for="titular-paypal-pago"
+                    >Titular
+
+                    <div>
+                      <img src="" data-asset="userAnonymous" />
+                      <input
+                        type="text"
+                        id="titular-paypal-pago"
+                        name="titular-paypal-pago"
+                        placeholder="Nombre completo"
+                        required
+                        maxlength="30"
+                      />
+                    </div>
+                  </label>
+                  <label class="input-email-paypal-compra">
+                    Correo de PayPal
+
+                    <div class="input-paypal-compra-wrapper">
+                      <img
+                        id="img-paypal-icon"
+                        src=""
+                        alt="PayPal"
+                        data-asset="paypal"
+                      />
+
+                      <input
+                        type="email"
+                        id="email-paypal"
+                        name="email-paypal"
+                        placeholder="tucorreo@ejemplo.com"
+                        required
+                      />
+                    </div>
+                  </label>
+
+                  <label class="confirm-email-paypal">
+                    Confirmar correo
+
+                    <div class="input-paypal-compra-wrapper">
+                      <img
+                        id="img-paypal-icon-confirmar"
+                        src=""
+                        alt="PayPal"
+                        data-asset="paypal"
+                      />
+
+                      <input
+                        type="email"
+                        id="confirm-email-paypall"
+                        name="email-paypal"
+                        placeholder="tucorreo@ejemplo.com"
+                        required
+                      />
+                    </div>
+                  </label>
+
+                  <button type="submit" id="btn-paypal-pago">
+                    Pagar con PayPal
+                  </button>
+                </fieldset>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/main.js" type="module"></script>
+  </body>
+</html>

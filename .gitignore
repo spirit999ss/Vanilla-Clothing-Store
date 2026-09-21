@@ -1,0 +1,34 @@
+# Dependencias
+node_modules/
+**/node_modules/
+
+# Variables de entorno
+.env
+.env.*
+**/.env
+**/.env.*
+
+# Permitir plantillas sin secretos
+!.env.example
+!**/.env.example
+
+# Credenciales privadas
+serviceAccountKey.json
+**/serviceAccountKey.json
+*.pem
+*.key
+
+# Registros y archivos temporales
+*.log
+*.tmp
+*.swp
+.DS_Store
+
+# Editores
+.vscode/
+.idea/
+
+# Compilaciones
+dist/
+build/
+coverage/
