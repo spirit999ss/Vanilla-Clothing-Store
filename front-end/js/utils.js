@@ -23,6 +23,7 @@ import {
   miniModalCarrito,
   slider,
   menuCategorias,
+  menuCategoriasContainer,
   categoriasMenuLateralWrapper,
   favoritosContainer,
   carritoContainer,
@@ -30,11 +31,14 @@ import {
   perfilContainer,
   modalComprarContainer,
   width,
+  buscarBtnContainer,
 } from "./selectors.js";
 
 import { carrito } from "./state.js";
 //Import Assets
 import { assets } from "./assets.js";
+//Import Render
+import { renderMiniModalCarrito } from "./render.js";
 /* ============================================
    SECCIÓN 1: FUNCIONES DE UTILIDAD GENERAL
    ============================================ */
@@ -142,22 +146,33 @@ function actualizarContadorCarrito() {
   if (!contadorCirculo || !spanContador) {
     return;
   }
+  //Que no aparezca si esta Abierto esos container
+  if (width >= 768) {
+    if (
+      perfilContainer.classList.contains("activado") ||
+      favoritosContainer.classList.contains("activado") ||
+      buscarBtnContainer.classList.contains("activado")
+    ) {
+      return;
+    }
+  }
 
   const cantidad = Array.isArray(carrito) ? carrito.length : 0;
   spanContador.textContent = cantidad;
 
   if (cantidad > 0) {
     contadorCirculo.classList.add("activado");
-    miniModalCarrito.classList.add("activado");
-    miniModalCarritoContainer.classList.add("activado");
-    //slider.style.zIndex = "-9";
+    renderMiniModalCarrito();
   } else {
     contadorCirculo.classList.remove("activado");
     miniModalCarrito.classList.remove("activado");
     miniModalCarritoContainer.classList.remove("activado");
   }
-}
 
+  if (carritoContainer.classList.contains("activado")) {
+    miniModalCarritoContainer.classList.remove("activado");
+  }
+}
 /* ============================================
    SECCIÓN 3: FUNCIONES DE INTERACCIÓN
    ============================================ */

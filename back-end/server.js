@@ -8,13 +8,22 @@ dotenv.config();
 
 const app = express();
 
+const allowedOrigins = [
+  "http://localhost:5500",
+  "http://127.0.0.1:5500",
+  "http://localhost:3000",
+  process.env.FRONTEND_URL,
+].filter(Boolean);
+
 app.use(
   cors({
-    origin: [
-      "http://localhost:5500",
-      "http://127.0.0.1:5500",
-      "http://localhost:3000",
-    ],
+    origin(origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("Origen no permitido por CORS"));
+    },
     credentials: true,
   }),
 );
@@ -31,6 +40,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
   secure: true,
 });
+
 // =====================================================
 // Firebase Admin config
 // =====================================================
@@ -307,7 +317,6 @@ app.get("/", (req, res) => {
 
 // =====================================================
 // Ver imágenes directamente desde Cloudinary
-// SOLO debug/admin, no tienda pública
 // =====================================================
 
 app.get("/api/images", async (req, res) => {
@@ -320,8 +329,6 @@ app.get("/api/images", async (req, res) => {
       images,
     });
   } catch (error) {
-    console.error("❌ Error en /api/images:", error);
-
     res.status(500).json({
       success: false,
       error: error.message,
@@ -348,8 +355,6 @@ app.get("/api/check-firebase", async (req, res) => {
       sample,
     });
   } catch (error) {
-    console.error("❌ Error en /api/check-firebase:", error);
-
     res.status(500).json({
       success: false,
       error: error.message,
@@ -410,8 +415,6 @@ app.get("/api/products-with-images", async (req, res) => {
       products,
     });
   } catch (error) {
-    console.error("❌ Error en /api/products-with-images:", error);
-
     res.status(500).json({
       success: false,
       error: error.message,
@@ -458,8 +461,6 @@ app.get("/api/image-urls", async (req, res) => {
       urls,
     });
   } catch (error) {
-    console.error("❌ Error en /api/image-urls:", error);
-
     res.status(500).json({
       success: false,
       error: error.message,
@@ -491,8 +492,6 @@ app.get("/api/image-urls-text", async (req, res) => {
     res.setHeader("Content-Type", "text/plain; charset=utf-8");
     res.send(text);
   } catch (error) {
-    console.error("❌ Error en /api/image-urls-text:", error);
-
     res.status(500).send(`Error: ${error.message}`);
   }
 });
@@ -571,8 +570,6 @@ app.get("/api/multiple-candidates", async (req, res) => {
       autoResolved,
     });
   } catch (error) {
-    console.error("❌ Error en /api/multiple-candidates:", error);
-
     res.status(500).json({
       success: false,
       error: error.message,
@@ -591,18 +588,6 @@ app.post("/api/migrate-image-urls", async (req, res) => {
   const autoResolveDuplicates = req.query.autoResolveDuplicates === "true";
 
   try {
-    console.log("🚀 Iniciando migración de imágenes");
-    console.log(
-      "Modo:",
-      dryRun ? "DRY RUN - No escribe" : "REAL - Actualiza Firestore",
-    );
-    console.log("Eliminar imageUrl:", removeImageUrl ? "sí" : "no");
-    console.log("Force:", force ? "sí" : "no");
-    console.log(
-      "Auto resolver duplicados:",
-      autoResolveDuplicates ? "sí" : "no",
-    );
-
     const cloudinaryImages = await getAllCloudinaryImages();
     const productsSnapshot = await db.collection("products").get();
 
@@ -739,8 +724,6 @@ app.post("/api/migrate-image-urls", async (req, res) => {
       report,
     });
   } catch (error) {
-    console.error("❌ Error en migración:", error);
-
     res.status(500).json({
       success: false,
       error: error.message,
@@ -754,6 +737,4 @@ app.post("/api/migrate-image-urls", async (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
-  console.log(`🚀 Servidor en http://localhost:${PORT}`);
-});
+app.listen(PORT);

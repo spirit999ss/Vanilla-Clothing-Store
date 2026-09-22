@@ -2,7 +2,14 @@
 
 // Import Assets
 import { assets } from "./assets.js";
-
+//Selectors
+import {
+  width,
+  body,
+  menuCategoriasContainer,
+  menuCategorias,
+  miniModalCarritoContainer,
+} from "./selectors.js";
 // Import Render
 import {
   renderCarrito,
@@ -68,7 +75,6 @@ export function loadAssets() {
 /* Cargar portadas de categorías */
 function loadCategoryImages() {
   setTimeout(() => {
-    console.log(" Cargando portadas de los Productos");
     //Img Rando
     const getMiddleSrc = (arr) => {
       if (!arr?.length) return "";
@@ -157,7 +163,6 @@ function initDynamicSlider() {
 
 /* Renderizar grids */
 function renderAllProducts() {
-  console.log(" Renderizando productos");
   populateGrid(".vestidos-grid", dataMujeres.vestidos);
   populateGrid(".blusas-grid", dataMujeres.blusas);
   populateGrid(".pantalones-mujer-grid", dataMujeres.pantalones);
@@ -225,13 +230,17 @@ function setupAutoSave() {
     save();
     return result;
   };
-
-  console.log(" Auto-Guardado  activado con pedidos)");
 }
 /* ==================== INICIALIZACIÓN ==================== */
 async function initApp() {
   await loadProducts();
 
+  //
+  if (carrito.length > 0) {
+    renderMiniModalCarrito();
+  } else {
+    miniModalCarritoContainer.style.display = "none";
+  }
   //Cargar Local Storage
 
   loadFromLocalStorage();
@@ -258,13 +267,10 @@ async function initApp() {
 
   renderFavoritos();
   renderCarrito();
-  renderMiniModalCarrito();
   renderHistorialPedidos();
   renderEstadoTabla();
 
   setupAutoSave();
-
-  console.log(" Tienda cargada completamente con LocalStorage");
 }
 
 document.addEventListener("DOMContentLoaded", initApp);

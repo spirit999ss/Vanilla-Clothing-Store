@@ -1,7 +1,9 @@
 // products.js
 
-const API_URL = "http://localhost:3000/api/products-with-images";
+const API_URL =
+  "https://vanilla-clothing-store-backend.vercel.app/api/products-with-images";
 
+//
 export let products = [];
 
 export let dataMujeres = {
@@ -91,16 +93,12 @@ export async function loadProducts() {
     cacheTime &&
     Date.now() - Number(cacheTime) < CACHE_DURATION
   ) {
-    console.log("Productos cargados desde caché");
-
     products = JSON.parse(cachedProducts);
 
     procesarProductos(products);
 
     return products;
   }
-
-  console.log(" Consultando Firebase");
 
   const response = await fetch(API_URL);
   const data = await response.json();

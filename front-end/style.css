@@ -47,44 +47,12 @@
   --active-accent: #27ae60;
   --hover-btn-primary: #02642e;
   --hover-btn-secondary: #34495e;
+
+  /*Animation*/
+  --transition-out:
+    opacity 0.4s ease-out, visibility 0.4s ease-out, z-index 0s linear 0.4s;
+  --transition-in: opacity 0.6s ease-out, visibility 0.6s ease-out;
 }
-/* Theme Dark
-
-:root[data-theme="dark"] {
-  /* MAIN COLORS 
-  --color-bg-primary: #0f0f0f;
-  --color-bg-secondary: #1a1a1a;
-  --color-bg-box: #222222;
-  --color-bg-footer: #111111;
-
-  /* BUTTONS
-  --btn-primary-bg: #ffffff;
-  --btn-primary-text: #0f0f0f;
-
-  /* TEXT 
-  --text-primary: #000;
-  --text-secondary: #cccccc;
-
-  /*  INPUTS 
-  --input-bg: #1a1a1a;
-  --input-border: #444444;
-  --input-border-focus: #ffffff;
-  --input-placeholder: #777777;
-
-  /* BORDERS AND SHADOWS 
-  --color-border: #333333;
-  --border-radius: 9px;
-  --shadow-base: rgba(0, 0, 0, 0.6);
-
-  /* TRANSITIONS & STATES 
-  --transition-base: 1s opacity ease-in-out, 1s visibility ease-in-out;
-
-  --hover-accent: #ef9f5a;
-  --active-accent: #a25e14;
-
-  --hover-btn-primary: #e6e6e6;
-  --hover-btn-secondary: #ffffff;
-}*/
 /*==========================*/
 /*=====GENERAL BODY=========*/
 /*==========================*/
@@ -92,9 +60,8 @@
 body {
   width: 100%;
   background-color: var(--color-bg-primary);
-
-  overflow-x: hidden;
   font-family: sans-serif, Arial;
+  overflow-x: hidden;
 }
 /* Scrollbar */
 ::-webkit-scrollbar {
@@ -105,6 +72,14 @@ body {
 ::-webkit-scrollbar-thumb {
   background-color: #bdc3c7;
 }
+button {
+  /* Quitar el marco / fondo azul del navegador */
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
 /*======//////==============*/
 /*======HEADER==============*/
 /*======//////==============*/
@@ -172,13 +147,17 @@ header {
   color: var(--text-primary);
   opacity: 0;
   visibility: hidden;
-  transition: var(--transition-base);
+  transition: var(--transition-out);
 }
 
 .login-container.activado {
   opacity: 1;
   visibility: visible;
   z-index: 999;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: var(--transition-in);
+  padding: 20px;
 }
 
 .login-container .logo-marca {
@@ -221,7 +200,6 @@ header {
   justify-content: space-around;
   width: 90%;
   max-width: 400px;
-  height: 72vh;
   padding: 1rem;
 
   border-radius: 9px;
@@ -277,7 +255,6 @@ header {
   background-color: var(--btn-primary-bg);
   color: var(--btn-primary-text);
   cursor: pointer;
-  transition: var(--transition-base);
 }
 
 .btn-iniciar-sesion:hover {
@@ -301,7 +278,6 @@ header {
   text-decoration: none;
   margin-left: 10px;
   color: var(--btn-primary-bg);
-  transition: var(--transition-base);
 }
 
 .crear-cuenta a:hover {
@@ -536,7 +512,6 @@ select {
   border: 1px solid #bdc3c7;
 
   border-radius: 9px;
-  transition: var(--transition-base);
   cursor: pointer;
 }
 
@@ -560,6 +535,7 @@ select {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   width: 100vw;
   height: 100vh;
   padding: 40px 20px;
@@ -689,8 +665,10 @@ select {
   align-items: center;
   justify-content: space-around;
   width: 100%;
-  max-width: 500px;
-  height: 72%;
+  gap: 15px;
+  padding: 20px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .perfil-item {
@@ -712,20 +690,25 @@ select {
 
   transition: 0.3s ease;
 }
+/* Hover y Activado de btn de Perfil */
+.perfil-btn:hover {
+  background-color: var(--btn-accent-bg);
+  color: var(--btn-primary-text);
+}
 
-.perfil-btn:hover,
 .perfil-btn.activado {
   background-color: var(--btn-accent-bg);
-  color: white;
+  color: var(--btn-accent-text);
 }
-.perfil-btn.suave {
-  background-color: #6a58d6;
-  color: white;
-  opacity: 0.7;
-}
+
 .perfil-btn .btn-activo-fijo.activado {
   background-color: var(--btn-accent-bg);
-  color: white;
+  color: var(--btn-accent-text);
+}
+.perfil-btn.suave {
+  background-color: var(--btn-accent-bg);
+  color: var(--btn-accent-text);
+  opacity: 0.7;
 }
 
 /* ============================= */
@@ -1073,7 +1056,8 @@ legend {
 
 /* Inputs y select */
 
-.agregar-tarjeta .form-tarjeta input[type="text"] {
+.agregar-tarjeta .form-tarjeta input[type="password"],
+#titular-tarjeta {
   width: 100%;
   height: 40px;
   padding: 9px;
@@ -1115,6 +1099,7 @@ legend {
 #expiracion-tarjeta {
   width: 100%;
   margin-bottom: 6px;
+  padding-left: 39px;
 }
 /* Botón Guardar */
 .agregar-tarjeta .form-tarjeta button {
@@ -1586,6 +1571,9 @@ legend {
   position: fixed;
   top: 0;
   left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   height: 100vh;
   background-color: #fff;
@@ -1593,7 +1581,12 @@ legend {
   overflow-y: auto;
 }
 
+.pedido-detalle-container {
+  max-width: 90vw;
+  height: 100vh;
+}
 .pedido-detalle-header {
+  margin-block: 1rem;
   padding: 15px;
   border-radius: 9px;
   background-color: var(--color-bg-box2);
@@ -1610,6 +1603,9 @@ legend {
 .pedido-detalle-header h2 {
   margin: 0 0 10px 0;
   color: #333;
+}
+.pedido-detalle-productos {
+  padding-bottom: 20px;
 }
 .pedido-detalle-productos h3 {
   padding: 9px;
@@ -1644,12 +1640,13 @@ legend {
 .modal-content {
   position: relative;
   padding: 20px;
+  width: 90%;
 }
 
 .modal-close-btn {
-  position: absolute;
-  top: 10px;
-  right: 0;
+  position: fixed;
+  top: 9px;
+  right: 0.2em;
   font-size: 1.5rem;
   background: none;
   border: none;
@@ -1658,6 +1655,7 @@ legend {
 }
 .modal-close-btn:hover {
   transform: rotate(360deg);
+  font-size: 1.8rem;
 }
 /*==================*/
 /*==== Seguridad=====*/
@@ -1880,30 +1878,30 @@ legend {
   background-color: #c0392b;
   transform: scale(1.03);
 }
-
-/*========//////////========*/
-/*=====MENÚ  CATEGORÍAS=====*/
-/*========//////////========*/
+/*======================================== */
+/*======== MENÚ CATEGORÍAS MÓVIL ========*/
+/*======================================== */
 .menu-categorias {
   position: fixed;
   top: 0;
   left: 0;
+  width: min(63vw, 280px);
   min-width: 15em;
   max-width: 63vw;
-  height: 100vh;
+  height: 100dvh;
   opacity: 0;
   visibility: hidden;
   overflow: hidden;
-  background-color: var(--color-bg-secondary);
+  background-color: var(--color-bg-primary);
   box-shadow: var(--shadow-base);
-  transition: var(--transition-base);
-  background-color: black;
+  z-index: 20;
+  transition: var(--transition-out);
 }
+
 .menu-categorias.activado {
-  position: fixed;
-  display: block;
   opacity: 1;
   visibility: visible;
+  transition: var(--transition-in);
 }
 
 /* Menu BackDroop Lateral*/
@@ -1915,160 +1913,155 @@ legend {
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.6);
 }
-/*Wrapper de Menu  */
 .menu-categorias-container {
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100%;
+  overflow-y: auto;
   background-color: var(--color-bg-primary);
 }
-/* Menu Btn Categorias */
+
 .menu-btn-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: flex;
-}
-.menu-btn-container.activado {
+  position: relative;
+  top: auto;
+  left: auto;
+  display: none;
+  flex-shrink: 0;
   width: 100%;
-  min-width: 15em;
-  max-width: 63vw;
-  z-index: 12;
+  z-index: 2;
 }
+
+.menu-btn-container.activado {
+  display: flex;
+  width: 100%;
+  min-width: unset;
+  max-width: unset;
+  order: -1;
+}
+
 .menu-btn-container button[data-categoria="categorias-btn-mujer"],
 .menu-btn-container button[data-categoria="categorias-btn-hombre"] {
-  width: 38vw;
   width: 50%;
   height: 63px;
   font-size: 1rem;
   font-weight: 600;
-  background-color: var(--color-bg-box);
+  border: none;
   cursor: pointer;
+  background-color: var(--color-bg-box);
 }
+
 .menu-btn-container button[data-categoria="categorias-btn-mujer"].activado,
 .menu-btn-container button[data-categoria="categorias-btn-hombre"].activado {
   background-color: var(--btn-primary-bg);
+  color: #fff;
 }
 
-/* Menu Categorias Mujer-Hombre*/
+/* Categorías de Menu Lateral  */
 .categorias-menu-lateral-wrapper {
   display: none;
-  width: 75vw;
-  min-width: 15em;
-  max-width: 63vw;
-  height: 68vh;
-  height: 50vh;
-  background-color: var(--color-bg-primary);
+  flex: 1 1 auto;
+  width: 100%;
+  height: 34vh;
+  height: 44vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  background-color: #f5f0e6;
 }
+
 .categorias-menu-lateral-wrapper.activado {
-  display: flex;
-  z-index: 12;
+  display: block;
 }
-/**/
+
 .categoria-mujer-container,
 .categoria-hombre-container {
-  position: absolute;
-  top: 3.65em;
+  position: relative;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
   width: 100%;
-  height: 50vh;
-  height: 62vh;
-
-  opacity: 1;
-  margin-top: 5px;
-  visibility: visible;
-  transition: var(--transition-base);
-  overflow-y: auto;
-
-  background-color: var(--color-bg-box);
+  gap: 8px;
+  padding: 10px 8px 12px;
 }
-.categoria-mujer-container.activadoMujer {
-  opacity: 0;
-  visibility: hidden;
+
+.categoria-mujer-container {
+  opacity: 1;
+  visibility: visible;
 }
 
 .categoria-hombre-container {
-  opacity: 0;
-  visibility: hidden;
+  display: none;
 }
-.categoria-hombre-container.activadoHombre {
-  opacity: 1;
-  visibility: visible;
+.categoria-mujer-container.activadoMujer {
+  display: none;
 }
 
-/* Productos del Menu */
+.categoria-hombre-container.activadoHombre {
+  display: flex;
+}
+
 .producto-mujer-menu,
 .producto-hombre-menu {
   position: relative;
   display: flex;
-  flex: 0 0 auto;
-  flex: 1 0 auto;
-  flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
-  width: 90%;
-  height: 3.6rem;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  border-radius: 9px;
-  background-color: var(--color-bg-box);
+  width: 100%;
+  min-height: 52px;
+  border-radius: 10px;
   background-color: var(--btn-primary-bg);
-  cursor: pointer;
-}
-.producto-mujer-menu:hover,
-.producto-hombre-menu:hover {
-  background-color: var(--btn-accent-bg);
+  overflow: hidden;
   cursor: pointer;
 }
 
 .producto-mujer-menu h3,
 .producto-hombre-menu h3 {
+  margin-left: 16px;
   font-size: 1rem;
   font-weight: 600;
-  margin-left: 33px;
-  color: var(--text-primary);
+  color: #fff;
+  z-index: 1;
 }
 
 .producto-mujer-menu img,
 .producto-hombre-menu img {
   position: absolute;
   right: 0;
-  width: clamp(3.6rem, 15vw, 12rem);
+  top: 0;
+  width: clamp(3.6rem, 28%, 7rem);
   height: 100%;
+  object-fit: cover;
 }
 
-/* MENÚ LATERAL DE USUARIO */
-
+/* User lateral*/
 .user-lateral {
   display: flex;
-  align-items: center;
   width: 100%;
-  height: 30vh;
-  padding-top: 0vh;
-  margin-top: auto;
+  height: 45vh;
+  min-width: 15em;
+  max-width: 63vw;
+  padding: 10px 0 14px;
+  background-color: var(--color-bg-primary);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  z-index: 999;
 }
+
 .user-lateral ul {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
   align-items: center;
-  height: 100%;
-
-  background-color: var(--color-bg-box2);
+  justify-content: space-evenly;
+  width: 100%;
   gap: 10px;
-  justify-content: flex-start;
-  padding-top: 21px;
+  background: transparent;
+  overflow: auto;
 }
 
 .user-lateral ul li {
   width: 90%;
-  height: 54px;
+  min-height: 52px;
   border-radius: 9px;
+  background-color: var(--btn-primary-bg);
 }
+
 .log-in-lateral,
 .favorito-lateral,
 .carrito-lateral {
@@ -2078,41 +2071,24 @@ legend {
   justify-content: center;
   width: 100%;
   height: 100%;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 600;
+  border: none;
   border-radius: 9px;
-  text-align: center;
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
   background-color: var(--btn-primary-bg);
-}
-.log-in-lateral {
-  padding-left: 18px;
+  cursor: pointer;
 }
 
-.log-in-lateral:hover,
-.favorito-lateral:hover,
-.carrito-lateral:hover {
-  background-color: var(--btn-accent-bg);
-}
 .user-lateral ul li img {
   position: absolute;
-  left: 6vw;
-  width: 1.7rem;
+  left: 14px;
+  width: 1.5rem;
   height: auto;
-  filter: brightness(0.9) saturate(1.2);
 }
-
-.user-lateral .log-in-lateral img {
-  top: 12px;
-}
-.user-lateral ul li {
-  background-color: var(--btn-primary-bg);
-}
-
-.user-lateral ul li:hover {
-  background-color: var(--btn-accent-bg);
-}
-/*BARRA DE BÚSQUEDA*/
+/* ===================== */
+/*  BARRA DE BÚSQUEDA   */
+/* ===================== */
 .buscar-container {
   position: fixed;
   top: 0;
@@ -2122,12 +2098,13 @@ legend {
   background-color: var(--color-bg-secondary);
   opacity: 0;
   visibility: hidden;
-  transition: var(--transition-base);
+  transition: var(--transition-out);
 }
 .buscar-container.activado {
   opacity: 1;
   visibility: visible;
   background-color: var(--btn-secondary-bg);
+  transition: var(--transition-in);
   z-index: 999;
 }
 .buscar-wrapper {
@@ -2138,11 +2115,47 @@ legend {
   height: 21vh;
   background: var(--color-bg-box2);
 }
+/* Buscar vacío */
+.searchEmpty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
+  text-align: center;
+  overflow-y: auto;
+}
+
+.searchEmpty .searchEmptyImg {
+  width: 25rem;
+  height: 25rem;
+  max-width: 100%;
+  max-height: 25rem;
+  object-fit: contain;
+}
+
+.searchEmpty p {
+  width: 100%;
+  max-width: 30rem;
+  margin: 1rem 0 0;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #555;
+  overflow-wrap: anywhere;
+}
+
+.searchEmpty strong {
+  color: #222;
+}
+
+/* Buscar img */
 .buscar-container img {
   width: 1.5rem;
 }
 .buscar-container #buscar-input {
-  flex: 1;
   min-width: 240px;
   max-width: 290px;
   height: 2.7rem;
@@ -2183,7 +2196,6 @@ legend {
   z-index: 12;
   background-color: var(--color-bg-primary);
 }
-
 .producto-filtrado-card {
   display: flex;
   width: 15rem;
@@ -2276,7 +2288,7 @@ legend {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  cursor: pointer;
+  padding-right: 9px;
 }
 
 .user-container button {
@@ -2288,6 +2300,7 @@ legend {
   background: transparent;
   cursor: pointer;
 }
+
 .user-container button img {
   width: 20px;
   height: 20px;
@@ -2373,6 +2386,7 @@ legend {
 .exitBuscarContainer {
   position: fixed;
   top: 9px;
+  top: 0.1rem;
   right: 3px;
   display: block;
   background-color: transparent;
@@ -2399,10 +2413,13 @@ main {
 /*Title*/
 .title {
   display: flex;
+  flex-shrink: 0;
   align-items: center;
   justify-content: center;
   width: 100vw;
-  height: 15vh;
+  min-height: 15vh;
+  margin: 6vh;
+  padding: 21px;
 }
 h1 {
   color: var(--text-primary);
@@ -2585,14 +2602,18 @@ h1 {
 .accesorios-hombre-container {
   position: fixed;
   top: 63px;
-  left: 0px;
+  left: 0;
   display: flex;
   width: 100vw;
   height: calc(100vh - 63px);
+
   opacity: 0;
   visibility: hidden;
   background-color: var(--color-bg-box);
   z-index: -9;
+  pointer-events: none;
+
+  transition: var(--transition-out);
 }
 
 .vestidos-container.activado,
@@ -2610,7 +2631,9 @@ h1 {
   opacity: 1;
   visibility: visible;
   z-index: 9;
-  background-color: blue;
+  pointer-events: auto;
+
+  transition: var(--transition-in);
 }
 
 .vestidos-grid,
@@ -2658,14 +2681,13 @@ h1 {
   display: flex;
   flex-direction: column;
   width: 90%;
-  height: 17rem;
+  height: 27rem;
   margin-top: 10px;
   margin-bottom: 10px;
   background-color: #f8f9fa;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   border-radius: 0 0 6.3px 6.3px;
 }
-
 /*  Backdrop  del Zoom de las img  */
 .backdropZoomImg {
   position: fixed;
@@ -2677,7 +2699,7 @@ h1 {
   height: calc(100vh - 63px);
   opacity: 0;
   visibility: hidden;
-  transition: var(--transition-base);
+  transition: var(--transition-out);
 }
 .backdropZoomImg.activado {
   display: flex;
@@ -2688,6 +2710,8 @@ h1 {
   background-color: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
+  transition: var(--transition-in);
+  cursor: pointer;
   z-index: 999;
 }
 .imgZoomContainer {
@@ -2709,13 +2733,13 @@ h1 {
 
 .imgContainer {
   position: relative;
-  height: 45%;
+  height: 63%;
 }
 .productoItem .imgZoom {
   position: relative;
   width: 100%;
   height: 100%;
-  transition: transform 0.3s ease;
+  transition: var(--transition-in);
   cursor: pointer;
 }
 
@@ -2784,6 +2808,9 @@ h1 {
 }
 /* Descripcion del Producto */
 .descripcionContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   height: 4.33rem;
   margin: 3px;
@@ -2927,7 +2954,7 @@ h1 {
 
   background-color: var(--btn-secondary-bg);
   color: #ffffff;
-  transition: var(--transition-base);
+  transition: var(--transition-in);
   z-index: 1000;
 }
 
@@ -3047,12 +3074,13 @@ h1 {
   height: calc(100vh - 63px);
   opacity: 0;
   visibility: hidden;
-  transition: var(--transition-base);
+  transition: var(--transition-out);
   background-color: var(--btn-primary-bg);
 }
 .favoritos-container.activado {
   opacity: 1;
   visibility: visible;
+  transition: var(--transition-in);
   z-index: 12;
 }
 .favoritos-container h3 {
@@ -3072,6 +3100,7 @@ h1 {
 .favoritos-productos {
   width: 100vw;
   height: 100vh;
+  padding-bottom: 1rem;
 }
 .productoFavoritosContainer {
   display: grid;
@@ -3081,7 +3110,6 @@ h1 {
   height: 81%;
   gap: 3px;
   margin-top: 9px;
-  margin-bottom: 9px;
   overflow-y: auto;
 }
 .productoFavoritos {
@@ -3091,7 +3119,7 @@ h1 {
   width: 90%;
   height: 18rem;
   margin-top: 9px;
-  margin-bottom: 9px;
+  margin-bottom: 1.8rem;
   background-color: #f8f9fa;
 }
 .imgFavoritos {
@@ -3181,17 +3209,21 @@ h1 {
   height: calc(100vh - 63px);
   opacity: 0;
   visibility: hidden;
-  transition: var(--transition-base);
+  transition: var(--transition-out);
   background-color: var(--btn-primary-bg);
 }
 .carrito-container.activado {
   opacity: 1;
   visibility: visible;
   z-index: 12;
+  transition: var(--transition-in);
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 .carrito-container h3 {
   text-align: center;
   padding: 10px;
+  height: 180px;
 }
 
 .carrito-container .wrapper-carrito {
@@ -3303,26 +3335,43 @@ h1 {
   padding: 8px 15px;
   cursor: pointer;
 }
-/*==================*/
-/* Mini Modal 
-====================*/
+
+/* ==================
+   MINI MODAL, MOBILE
+================== */
 
 .mini-modal-carrito-container {
+  display: none;
+  width: 0;
+  height: 0;
   visibility: hidden;
   opacity: 0;
+  overflow: hidden;
 }
+
 .mini-modal-carrito {
   position: absolute;
   top: 0;
-  right: 0px;
+  right: 0;
   display: flex;
   flex-direction: column;
   width: 100%;
+  max-width: 100%;
   height: 100%;
   visibility: hidden;
   opacity: 0;
-  transition: var(--transition-base);
+  overflow: hidden;
+  transition: var(--transition-out);
   background-color: #f8f9fa;
+}
+
+#imgMiniModal {
+  display: block;
+  width: 120px;
+  max-width: 40%;
+  height: 100%;
+  object-fit: cover;
+  flex-shrink: 0;
 }
 /* Carrito Add a Favoritos */
 .carritoAgregarFavorito {
@@ -3461,11 +3510,12 @@ h1 {
   height: 100vh;
   opacity: 0;
   visibility: hidden;
-  transition: var(--transition-base);
+  transition: var(--transition-out);
 }
 .modal-comprar-container.activado {
   opacity: 1;
   visibility: visible;
+  transition: var(--transition-in);
   z-index: 1000;
 }
 /* Exit Modal de Compra  */
@@ -3811,7 +3861,6 @@ h1 {
 #email-paypal,
 .input-paypal-compra-wrapper input {
   width: 100%;
-  padding-left: 58px;
   padding-right: 15px;
   box-sizing: border-box;
 }
@@ -3875,7 +3924,6 @@ h1 {
 
 .form-tarjetas-pago.desactivado {
   display: none;
-  background-color: red;
 }
 .form-paypal-pago.activado {
   display: block;
@@ -4351,14 +4399,15 @@ h1 {
 }
 /* Conteo de Numero */
 .pagina-numero {
+  position: absolute;
+  bottom: 18px;
+  right: 18px;
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
   width: 100%;
   gap: 3px;
   margin-right: 20px;
-  margin-top: 54px;
-  margin-top: 21px;
   font-size: 12px;
   color: #333;
   font-style: italic;
@@ -4600,10 +4649,41 @@ h1 {
   font-size: 0.85rem;
   color: #666;
 }
-
 /*==================================
 Responsive y Media Queries 
 =================================*/
+@media (max-width: 424px) {
+  .productoFavoritos {
+    height: 21rem;
+  }
+  .productoCarrito {
+    height: 21rem;
+  }
+}
+@media (min-width: 425px) {
+  .productoFavoritos {
+    height: 23rem;
+  }
+  .productoCarrito {
+    height: 23rem;
+  }
+  .imgCarrito {
+    width: 100%;
+    height: 50%;
+  }
+}
+
+@media (min-width: 480px) {
+  .productoFavoritosContainer {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .imgFavoritos {
+    height: 54%;
+  }
+  .productoCarritoContainer {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
 /* Tablet */
 @media (min-width: 768px) {
   .title {
@@ -4644,25 +4724,38 @@ Responsive y Media Queries
     MENÚ  CATEGORÍAS
   ===================== */
   .menu-categorias {
-    display: block;
-    top: 57px;
+    display: none;
+    top: 45px;
     width: 100vw;
-    height: 63px;
+    height: 80px;
+    opacity: 0;
+    visibility: hidden;
+    overflow: hidden;
+    padding-top: 7px;
+    background-color: transparent;
+  }
+  .menu-categorias.activado {
+    display: block;
     opacity: 1;
     visibility: visible;
-    background-color: transparent;
-    padding-top: 6px;
+    overflow: visible;
   }
   /*Wrapper de Menu*/
   .menu-categorias-container {
     position: relative;
     top: 0px;
-    display: flex;
+    display: none;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     width: 100vw;
     height: 100%;
+    transition: var(--transition-out);
+    overflow-y: hidden;
+  }
+  .menu-categorias-container.activado {
+    display: flex;
+    transition: var(--transition-in);
   }
   /* Menu Btn Categorias */
   .menu-btn-container {
@@ -4692,7 +4785,6 @@ Responsive y Media Queries
   }
   .menu-btn-container button[data-categoria="categorias-btn-mujer"].activado,
   .menu-btn-container button[data-categoria="categorias-btn-hombre"].activado {
-    color: var(--text-primary);
     background-color: var(--btn-primary-bg);
   }
 
@@ -4701,12 +4793,19 @@ Responsive y Media Queries
   .categorias-menu-lateral-wrapper {
     position: relative;
     display: flex;
+    flex: initial;
+
     justify-content: center;
     align-items: center;
     width: 85vw;
+    overflow-y: hidden;
     min-width: unset;
     max-width: 100%;
     height: 100%;
+    background: transparent;
+  }
+  .categorias-menu-lateral-wrapper ul {
+    width: 100%;
   }
   /**/
   .categoria-mujer-container,
@@ -4753,6 +4852,10 @@ Responsive y Media Queries
   /* ============================= */
   /* === Perfil del Usuario    === */
   /* ============================= */
+
+  .login-container.activado {
+    padding: 0;
+  }
   .perfil-container {
     padding: 0;
   }
@@ -4767,10 +4870,14 @@ Responsive y Media Queries
 
   .perfil-menu {
     width: 240px;
+    height: 100vh;
     align-self: start;
     justify-content: center;
     gap: 24px;
     margin-bottom: 0;
+    padding: 0;
+    overflow-y: hidden;
+    overflow-x: hidden;
     background-color: var(--color-bg-box);
   }
   .perfil-btn {
@@ -4778,10 +4885,8 @@ Responsive y Media Queries
     color: #000;
     border-radius: 0px;
   }
-  .btn-cerrar {
-    width: 99%;
-    background-color: transparent;
-    color: var(--btn-accent-bg);
+  .btn-cerrar-seccion {
+    border-radius: 0;
   }
   .btn-cerrar:hover {
     color: aliceblue;
@@ -4825,6 +4930,7 @@ Responsive y Media Queries
     visibility: visible;
     z-index: -9;
     top: 120px;
+    transition: var(--transition-in);
     background-color: transparent;
   }
   .container-input {
@@ -4903,7 +5009,7 @@ Responsive y Media Queries
   #slider-contenedor {
     display: flex;
     width: 85vw;
-    height: 69vh;
+    height: 45vh;
     justify-content: center;
   }
   .swiper-wrapper {
@@ -4976,14 +5082,6 @@ Responsive y Media Queries
     justify-content: space-around;
   }
 
-  .productoItem {
-    margin-bottom: 33px;
-    max-height: 18rem;
-  }
-  .imgContainer {
-    height: 45%;
-  }
-  /*===*/
   /*===Favoritos Container==*/
 
   .favoritos-container,
@@ -5016,6 +5114,9 @@ Responsive y Media Queries
     align-items: flex-start;
     overflow-y: scroll;
   }
+  .carrito-container h3 {
+    height: 54px;
+  }
   .carrito-productos {
     width: 75vw;
     height: 80vh;
@@ -5041,29 +5142,44 @@ Responsive y Media Queries
   }
   /* Mini Modal de Compra */
   .mini-modal-carrito-container.activado {
+    display: block;
     position: absolute;
     top: 45px;
-    right: 0px;
+    right: 0;
     width: 333px;
-    height: 500px;
+    height: 420px;
     max-height: 420px;
+    transition: var(--transition-in);
     visibility: visible;
     opacity: 1;
+    overflow: visible;
   }
-
   .mini-modal-carrito.activado {
     visibility: visible;
     opacity: 1;
+    z-index: 999;
+    overflow: visible;
+    transition: var(--transition-in);
   }
 
   .mini-modal-carrito.activado::before {
     content: "";
     position: absolute;
     top: -10px;
-    right: 21px;
+    right: 27px;
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
     border-bottom: 10px solid #95a5a6;
+    z-index: 999;
+  }
+  /* Solo la imagen del producto */
+  #imgMiniModal {
+    width: 120px;
+    max-width: 120px;
+    height: 100%;
+    margin-right: 14px;
+    object-fit: cover;
+    flex-shrink: 0;
   }
 
   /*  */
@@ -5104,8 +5220,11 @@ Responsive y Media Queries
   }
 
   .productoMiniModalContainer {
+    display: flex;
+    flex-direction: column;
     width: 100%;
     height: 220px;
+    gap: 9px;
     padding-top: 3.6px;
     padding-top: 3.6px;
     background-color: #95a5a6;
@@ -5118,7 +5237,7 @@ Responsive y Media Queries
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 111px;
+    height: 130px;
     border: 1px solid #bdc3c7;
     background-color: #eff8ff;
   }
@@ -5136,13 +5255,13 @@ Responsive y Media Queries
     justify-content: space-around;
     width: 100%;
     height: 100%;
-    padding: 3.6px;
+    padding: 1px;
   }
   .descripcionMiniModal {
     width: 100%;
-    height: 42px;
-    margin-top: 3.6px;
-    margin-bottom: 3.6px;
+    height: 61px;
+    margin-top: 0px;
+    margin-bottom: 0px;
     text-align: justify;
   }
 
@@ -5281,8 +5400,24 @@ Responsive y Media Queries
   .stats-container {
     grid-template-columns: repeat(3, 1fr);
   }
+
+  /* Mostrar estado de pedido */
+
+  .modal-close-btn {
+    position: fixed;
+    top: 9px;
+    right: 9px;
+    font-size: 2.7rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  .modal-close-btn:hover {
+    transform: rotate(360deg);
+    font-size: 3rem;
+  }
 }
-/* Desktop (desde 992px en adelante) */
+/* Desktop */
 @media (min-width: 992px) {
   /* =====================
     BODY
@@ -5340,7 +5475,7 @@ Responsive y Media Queries
   #slider-contenedor {
     display: flex;
     width: 84vw;
-    height: 81vh;
+    height: 54vh;
     justify-content: center;
   }
   /*====================*/
@@ -5361,13 +5496,7 @@ Responsive y Media Queries
   .accesorios-hombre-grid {
     grid-template-columns: repeat(3, 1fr);
   }
-  .productoItem {
-    max-height: 25rem;
-  }
 
-  .imgContainer {
-    height: 50%;
-  }
   /*============================ */
   /*===Contenedor de Carrito */
   /*============================ */
@@ -5397,6 +5526,6 @@ Responsive y Media Queries
   /*===Contenedor de Carrito */
   /*============================ */
   .mini-modal-carrito.activado::before {
-    right: 33px;
+    right: 39px;
   }
 }

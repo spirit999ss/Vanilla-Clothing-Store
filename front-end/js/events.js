@@ -25,7 +25,9 @@ import {
   carritoLateral,
   header,
   menuBtn,
+  menuBtnContainer,
   menuCategorias,
+  menuCategoriasContainer,
   categoriasMenuLateralWrapper,
   btnCategoriaMujer,
   btnCategoriaHombre,
@@ -46,7 +48,7 @@ import {
   slider,
   sliderContainer,
   btnPrev,
-  btnNext,
+  swiperPagination,
   modalComprarContainer,
   mostrarMensajeVacio,
   favoritosLogo,
@@ -88,10 +90,11 @@ import {
   sincronizarContenedorVacio,
   cerrarZoom,
   detallesCompra,
-  sincronizarBotonCarrito,
   calcularSubtotal,
   renderMiniModalCarrito,
   renderCarrito,
+  sincronizarBotonCarrito,
+  sincronizarBotonFavorito,
   renderizarTarjetas,
   renderHistorialPedidos,
   renderEstadoTabla,
@@ -156,7 +159,7 @@ const tarjetasGuardadasContainer = document.querySelector(
 );
 /* =================================
     Slider 
-   ================================*/
+================================*/
 export function initSliderClicks() {
   const slider = document.querySelector(".swiper");
 
@@ -167,16 +170,27 @@ export function initSliderClicks() {
 
     if (!img) return;
     //Header Visible
-    if (width <= 768) {
+    if (width >= 768) {
       header.classList.remove("desactivado");
+
+      menuCategorias.classList.add("activado");
+      menuCategoriasContainer.classList.add("activado");
+      swiperPaginationClicks();
     }
     //
+
+    sincronizarBotonCarrito();
+    sincronizarBotonFavorito();
     irAlProductoSlider({
       currentTarget: img,
     });
   });
 }
-
+function swiperPaginationClicks() {
+  swiperPagination.addEventListener("click", () => {
+    header.classList.remove("desactivado");
+  });
+}
 /* ==============================
   3. EVENTOS DE NAVEGACIÓN
 ============================== */
@@ -184,6 +198,11 @@ export function initSliderClicks() {
 /* MENÚ CATEGORÍAS */
 menuBtn.addEventListener("click", () => {
   const estaAbierto = menuCategorias.classList.contains("activado");
+  cerrarZoom();
+  //
+  // if (mostrarMensajeVacio.classList.contains("activado")) {
+  //   mostrarMensajeVacio.classList.remove("activado");
+  // }
 
   if (estaAbierto) {
     cerrarCapaLateral();
@@ -192,15 +211,19 @@ menuBtn.addEventListener("click", () => {
 
     // Activar menú
     menuCategorias.classList.add("activado");
+    menuBtnContainer.classList.add("activado");
     categoriasMenuLateralWrapper.classList.add("activado");
     body.style.overflowY = "hidden";
-    const menuBtnContainer = document.querySelector(".menu-btn-container");
-    if (menuBtnContainer) menuBtnContainer.classList.add("activado");
+    if (menuBtnContainer) {
+      menuBtnContainer.classList.add("activado");
+    }
 
     // Limpiar otros contenedores
     containers.forEach((c) => c.classList.remove("activado"));
     favoritosContainer.classList.remove("activado");
     carritoContainer.classList.remove("activado");
+
+    sincronizarContenedorVacio(mostrarMensajeVacio);
   }
   //
 
@@ -209,12 +232,11 @@ menuBtn.addEventListener("click", () => {
   if (!capaLateral) {
     capaLateral = crearCapaLateralConExit(body, () => {
       menuCategorias.classList.remove("activado");
+      menuBtnContainer.classList.remove("activado");
       categoriasMenuLateralWrapper.classList.remove("activado");
       hiddenCategorias();
 
       capaLateral.remove();
-
-      const menuBtnContainer = document.querySelector(".menu-btn-container");
 
       if (menuBtnContainer) {
         menuBtnContainer.classList.remove("activado");
@@ -232,54 +254,108 @@ menuBtn.addEventListener("click", () => {
 /* BUSCADOR */
 btnBuscarContainer.addEventListener("click", () => {
   const buscarContainer = document.querySelector(".buscar-container");
-
+  cerrarZoom();
   // Le quitamos el z-Index de las Categorias
   containers.forEach((c) => c.classList.remove("activado"));
 
   carritoContainer.classList.remove("activado");
   favoritosContainer.classList.remove("activado");
 
+  sincronizarContenedorVacio(mostrarMensajeVacio);
+
   buscarContainer.classList.add("activado");
   body.style.overflowY = "hidden";
 
   if (!buscarContainer.querySelector(".exitContainer")) {
-    const exit = exitGenerico({
-      onClick: () => {
-        // Le add el z-Index de las Categorias
-        containers.forEach((c) => (c.style.zIndex = ""));
-        buscarContainer.classList.remove("activado");
-        hiddenCategorias();
-      },
-      containerClass: "exitBuscarContainer",
-      imgClass: "exitBuscar",
-    });
-    buscarContainer.appendChild(exit);
+    const exitBuscarContainerExiste = document.querySelector(
+      ".exitBuscarContainer",
+    );
+    if (!exitBuscarContainerExiste) {
+      const exit = exitGenerico({
+        onClick: () => {
+          // Le add el z-Index de las Categorias
+          containers.forEach((c) => (c.style.zIndex = ""));
+          buscarContainer.classList.remove("activado");
+          hiddenCategorias();
+          exit.remove();
+        },
+        containerClass: "exitBuscarContainer",
+        imgClass: "exitBuscar",
+      });
+      buscarContainer.appendChild(exit);
+    }
   }
 });
+// =================================
+// BUSCADOR - INPUT
+// =================================
 
-/* BUSCADOR - INPUT */
-inputBuscar.addEventListener("input", () => {
-  renderProductosFiltrados(inputBuscar.value.trim().toLowerCase());
+function ejecutarBusqueda() {
+  const texto = inputBuscar.value.trim().toLowerCase();
+
+  // Si esta vacio, no hace nada
+  if (!texto) {
+    renderProductosFiltrados();
+    return;
+  }
+
+  renderProductosFiltrados(texto);
+}
+
+// Buscar mientras escribe
+inputBuscar.addEventListener("input", ejecutarBusqueda);
+
+// Enter
+inputBuscar.addEventListener("keydown", (event) => {
+  if (event.key !== "Enter") return;
+
+  event.preventDefault();
+
+  const texto = inputBuscar.value.trim().toLowerCase();
+
+  // Si esta vacio, no hace nada
+  if (!texto) {
+    return;
+  }
+
+  activarBusqueda();
 });
-//btn para Buscar
 
-buscarInputBtn.addEventListener("click", () => {
+function activarBusqueda() {
+  cerrarZoom();
+
   const buscarContainer = document.querySelector(".buscar-container");
 
-  // Le quitamos el z-Index de las Categorias
+  // Quitar z-index de las categorias
+  containers.forEach((c) => {
+    c.style.zIndex = "-9";
+  });
 
-  containers.forEach((c) => (c.style.zIndex = "-9"));
-
+  // Desactivar
   carritoContainer.classList.remove("activado");
-
   favoritosContainer.classList.remove("activado");
 
+  // Activar buscador
   buscarContainer.classList.add("activado");
-
   body.style.overflowY = "hidden";
 
-  renderProductosFiltrados(inputBuscar.value.trim().toLowerCase());
+  ejecutarBusqueda();
+
+  inputBuscar.focus();
+}
+
+// Boton buscar
+buscarInputBtn.addEventListener("click", () => {
+  const texto = inputBuscar.value.trim().toLowerCase();
+
+  // Si esta vacio, no hace nada
+  if (!texto) {
+    return;
+  }
+
+  activarBusqueda();
 });
+
 /* ==============================
   4. EVENTOS DE USUARIO
 ============================== */
@@ -367,8 +443,6 @@ formLogIn.addEventListener("submit", function (e) {
   favoritosContainer.style.zIndex = "";
   carritoContainer.style.zIndex = "";
   mostrarMensajeVacio.style.zIndex = "";
-
-  console.log("Usuario logueado correctamente:", state.usuarioActivo);
 });
 //Eventos de Diferentes tipos de Iniciar Seccion
 document
@@ -423,18 +497,17 @@ formRegistro.addEventListener("submit", (e) => {
     !nombre ||
     !username ||
     !genero ||
+    !telefono ||
     !correo ||
     !contraseña ||
     !confirmarContraseña ||
     !direccion
   ) {
-    alert("Por favor, completa todos los campos obligatorios.");
     return;
   }
 
   // Validación de contraseñas
   if (contraseña !== confirmarContraseña) {
-    alert("Las contraseñas no coinciden.");
     return;
   }
 
@@ -450,15 +523,8 @@ formRegistro.addEventListener("submit", (e) => {
     direccion,
   );
 
-  console.log("Usuarios en state:", state.usuarios);
-  console.log("Nuevo usuario registrado con ID:", nuevoId);
-
   // Cerrar modal
   modal.style.display = "none";
-
-  // Limpiar formulario
-
-  alert("Usuario registrado correctamente ✔");
 });
 
 // Función para agregar usuario
@@ -498,17 +564,18 @@ logInLogo.addEventListener("click", () => {
   const nombrePerfilUsario = document.querySelector(".nombre-perfil-usuario");
   aplicarAnimacionLetras(nombrePerfilUsario);
 
-  cerrarPerfilLogin();
+  cerrarZoom();
 
   renderHistorialPedidos();
   renderDashboard();
   renderPerfilUsuario();
   renderizarTarjetas();
 
-  favoritosContainer.style.zIndex = "-9";
-  carritoContainer.style.zIndex = "-9";
+  favoritosContainer.classList.remove("activado");
+  carritoContainer.classList.remove("activado");
+
+  sincronizarContenedorVacio(mostrarMensajeVacio);
   containers.forEach((c) => (c.style.zIndex = "-9"));
-  console.log("Deberia de desaparecer las categorias");
   body.style.overflowY = "hidden";
 
   const capaLateral = document.querySelector(".capaLateral");
@@ -549,7 +616,6 @@ logInLogo.addEventListener("click", () => {
     exitLogIn.addEventListener("click", () => {
       cerrarPerfilLogin();
       exitLogIn.remove();
-      console.log("Perfil cerrado desde exit");
     });
   }
 });
@@ -574,7 +640,7 @@ favoritosLogo.addEventListener("click", () => {
   carritoContainer.classList.remove("activado");
   //
   buscarContainer.classList.remove("activado");
-
+  cerrarZoom();
   // Ocultar mini modal cuando se muestra Favoritos
   if (favoritosContainer.classList.contains("activado")) {
     miniModalCarrito.classList.remove("activado");
@@ -604,7 +670,7 @@ carritoLogo.addEventListener("click", () => {
   detallesCompra();
   sincronizarBotonCarrito();
   sincronizarContenedorVacio();
-
+  cerrarZoom();
   // Ocultar mini modal cuando se muestra el Carrito
   if (carritoContainer.classList.contains("activado")) {
     miniModalCarrito.classList.remove("activado");
@@ -664,7 +730,6 @@ miniModalCarrito.addEventListener("mouseleave", () => {
 /* ELIMINAR TODOS LOS PRODUCTOS */
 eliminarTodoLosProductos.addEventListener("click", () => {
   if (!Array.isArray(carrito) || carrito.length === 0) {
-    alert("No hay nada que eliminar");
     return;
   }
 
@@ -713,19 +778,16 @@ document.getElementById("uploadImage").addEventListener("change", function (e) {
   if (!file) return;
 
   if (!state.usuarioActivo) {
-    alert("Debes iniciar sesión para subir una imagen.");
     return;
   }
 
   // Validacion de tamaño (5MB)
   if (file.size > 5 * 1024 * 1024) {
-    alert("La imagen es muy grande. Máximo 5MB.");
     return;
   }
 
   // Validacion tipo de archivo
   if (!file.type.startsWith("image/")) {
-    alert("Por favor selecciona un archivo de imagen válido.");
     return;
   }
 
@@ -868,33 +930,28 @@ function procesarPagoConTarjeta() {
 
   // ===================== VALIDACIONES =====================
   if (!nombre) {
-    alert("Ingresa el nombre del titular.");
     verificacionTarjeta.nombre?.focus();
     return false;
   }
 
   const numeroSoloDigitos = numeroTarjeta.replace(/\D/g, "");
   if (numeroSoloDigitos.length !== 10) {
-    alert("El número de tarjeta debe tener exactamente 10 dígitos.");
     numeroInput?.focus();
     return false;
   }
 
   if (!/^\d{3,4}$/.test(cvc)) {
-    alert("CVC inválido. Debe tener 3 o 4 dígitos.");
     verificacionTarjeta.cvc?.focus();
     return false;
   }
 
   if (!/^\d{2}\/\d{2}$/.test(fecha)) {
-    alert("Fecha de expiración inválida. Usa formato MM/AA.");
     fechaInput?.focus();
     return false;
   }
 
   const [mes, anio] = fecha.split("/").map(Number);
   if (mes < 1 || mes > 12) {
-    alert("Mes de expiración inválido (1-12).");
     fechaInput?.focus();
     return false;
   }
@@ -906,7 +963,6 @@ function procesarPagoConTarjeta() {
     anio < anioActual ||
     (anio === anioActual && mes < ahora.getMonth() + 1)
   ) {
-    alert("La tarjeta está expirada.");
     fechaInput?.focus();
     return false;
   }
@@ -915,30 +971,25 @@ function procesarPagoConTarjeta() {
 
   // Validar que se haya seleccionado un método de pago
   if (!metodoPagoFinal) {
-    alert(
-      "Por favor selecciona un método de pago (Mastercard, Visa o Paypal).",
-    );
     return false;
   }
 
   // ===================== PROCESAR PAGO =====================
-  console.log("✅ Validaciones pasadas. Procesando pago con:", metodoPagoFinal);
 
   const cliente = state.usuarioActivo;
   if (!cliente) {
-    alert("No hay usuario logueado. Por favor, inicia sesión.");
+    alert(" ¡Hola! Para continuar, necesitas iniciar sesión.");
     return false;
   }
 
   if (carrito.length === 0) {
-    alert("El carrito está vacío");
     return false;
   }
 
-  console.log("Pago simulado exitoso ✔");
-
   // Limpiar facturas anteriores antes de generar nueva
   limpiarFacturasAnteriores();
+
+  document.getElementById("form-tarjetas-pago").reset();
 
   // Generar factura
   const { numeroPedido, totalFinal } = generarFactura(
@@ -983,8 +1034,6 @@ function procesarPagoConTarjeta() {
     })),
   });
 
-  console.log("Este es lo que envio a la tabla", estadosPedidosTabla);
-
   renderEstadoTabla();
   renderDashboard();
   saveToLocalStorage();
@@ -1002,11 +1051,6 @@ function procesarPagoConTarjeta() {
 
   return true;
 }
-console.log(
-  "Estos es Estrado  y Hsitorial 0",
-  estadosPedidosTabla,
-  historialPedidos,
-);
 // Función auxiliar para limpiar facturas anteriores
 function limpiarFacturasAnteriores() {
   document.querySelectorAll(".facturas-modal").forEach((modal) => {
@@ -1035,19 +1079,16 @@ function procesarPagoConPaypal() {
 
   // Validaciones
   if (!titular) {
-    alert("Ingresa el nombre del titular de PayPal.");
     formPaypalPago.querySelector("#titular-paypal-pago")?.focus();
     return false;
   }
 
   if (!email) {
-    alert("Ingresa el correo de PayPal.");
     formPaypalPago.querySelector("#email-paypal")?.focus();
     return false;
   }
 
   if (email !== confirmEmail) {
-    alert("Los correos de PayPal no coinciden.");
     formPaypalPago.querySelector("#confirm-email-paypall")?.focus();
     return false;
   }
@@ -1058,17 +1099,21 @@ function procesarPagoConPaypal() {
   // Validar usuario y carrito
   const cliente = state.usuarioActivo;
   if (!cliente) {
-    alert("No hay usuario logueado. Por favor, inicia sesión.");
+    if (!cliente) {
+      alert(" ¡Hola! Para continuar, necesitas iniciar sesión.");
+      return false;
+    }
     return false;
   }
 
   if (carrito.length === 0) {
-    alert("El carrito está vacío");
     return false;
   }
 
   // Limpiar facturas anteriores
   limpiarFacturasAnteriores();
+
+  document.getElementById("form-paypal-pago").reset();
 
   // Generar factura
   const { numeroPedido, totalFinal } = generarFactura(
@@ -1118,8 +1163,6 @@ function procesarPagoConPaypal() {
     })),
   });
 
-  console.log("Aqui se envia lso datros s a estados", estadosPedidosTabla);
-
   renderEstadoTabla();
   renderDashboard();
   saveToLocalStorage();
@@ -1166,8 +1209,6 @@ export function generarFactura(
   const numeroPedido = pedidoExistente
     ? pedidoExistente.numeroPedido
     : generarNumeroPedido();
-
-  console.log("Pedido:", numeroPedido);
 
   // Subtotal
   const subtotal = pedidoExistente
@@ -1244,22 +1285,73 @@ export function generarFactura(
       }
     }
   }
-
   // ==============================
   // Paginación
   // ==============================
 
-  const productosPrimeraPagina = 1;
-  const productosPorPagina = 15;
+  const productosPrimeraPagina = 6;
+  const productosPaginasIntermedias = 18;
+  const productosUltimaPagina = 12;
   const totalProductos = carrito.length;
 
-  const totalPaginas =
-    totalProductos <= productosPrimeraPagina
-      ? 1
-      : 1 +
-        Math.ceil(
-          (totalProductos - productosPrimeraPagina) / productosPorPagina,
-        );
+  let totalPaginas = 1;
+
+  if (totalProductos > productosPrimeraPagina) {
+    const productosRestantes = totalProductos - productosPrimeraPagina;
+
+    if (productosRestantes <= productosUltimaPagina) {
+      totalPaginas = 2;
+    } else {
+      // Productos que deben ocupar páginas intermedias
+      const productosDespuesDePrimera =
+        productosRestantes - productosUltimaPagina;
+
+      const paginasIntermedias = Math.ceil(
+        productosDespuesDePrimera / productosPaginasIntermedias,
+      );
+
+      totalPaginas = 1 + paginasIntermedias + 1;
+    }
+  }
+
+  // Calcular tamaños reales de cada página
+  // (rellena intermedias lo máximo posible y deja el resto en la última,
+  // evitando última vacía: ej. 13 restantes → 12 intermedia + 1 última)
+  const pageSizes = [];
+
+  if (totalProductos <= productosPrimeraPagina) {
+    pageSizes.push(totalProductos);
+  } else {
+    pageSizes.push(productosPrimeraPagina);
+
+    let remaining = totalProductos - productosPrimeraPagina;
+    const numAfter = totalPaginas - 1;
+
+    if (numAfter === 1) {
+      pageSizes.push(remaining);
+    } else {
+      const numInter = numAfter - 1;
+      const interSizes = [];
+      let tempRemaining = remaining;
+
+      for (let i = 0; i < numInter; i++) {
+        const take = Math.min(productosPaginasIntermedias, tempRemaining);
+        interSizes.push(take);
+        tempRemaining -= take;
+      }
+
+      let lastSize = tempRemaining;
+
+      // Si la última quedaría vacía, movemos 1 producto de la última intermedia
+      if (lastSize === 0 && numInter > 0) {
+        interSizes[numInter - 1] -= 1;
+        lastSize = 1;
+      }
+
+      pageSizes.push(...interSizes);
+      pageSizes.push(lastSize);
+    }
+  }
 
   // ==============================
   // Crear modal
@@ -1282,25 +1374,17 @@ export function generarFactura(
   // ==============================
 
   for (let pagina = 0; pagina < totalPaginas; pagina++) {
-    let inicio;
-    let fin;
-    let productosPagina;
-
-    if (pagina === 0) {
-      inicio = 0;
-      fin = productosPrimeraPagina;
-
-      productosPagina = carrito.slice(inicio, fin);
-    } else {
-      inicio = productosPrimeraPagina + (pagina - 1) * productosPorPagina;
-
-      fin = inicio + productosPorPagina;
-
-      productosPagina = carrito.slice(inicio, fin);
-    }
-
     const esPrimeraPagina = pagina === 0;
     const esUltimaPagina = pagina === totalPaginas - 1;
+
+    // Calcular inicio/fin a partir de los tamaños reales
+    let inicio = 0;
+    for (let i = 0; i < pagina; i++) {
+      inicio += pageSizes[i];
+    }
+    const fin = inicio + pageSizes[pagina];
+
+    const productosPagina = carrito.slice(inicio, fin);
 
     // Clonar template
     const cloneModal = template.content.cloneNode(true);
@@ -1400,16 +1484,17 @@ export function generarFactura(
         const cantidad = Number(p.cantidad || 0);
 
         tr.innerHTML = `
-          <td>${(
-            (p.nombre || p.alt || "Producto") + (p.talla ? " - " + p.talla : "")
-          ).toUpperCase()}</td>
+            <td>${(
+              (p.nombre || p.alt || "Producto") +
+              (p.talla ? " - " + p.talla : "")
+            ).toUpperCase()}</td>
 
-          <td>${cantidad}</td>
+            <td>${cantidad}</td>
 
-          <td>$${precio.toFixed(2)}</td>
+            <td>$${precio.toFixed(2)}</td>
 
-          <td>$${(precio * cantidad).toFixed(2)}</td>
-        `;
+            <td>$${(precio * cantidad).toFixed(2)}</td>
+          `;
 
         tbody.appendChild(tr);
       });
@@ -1517,7 +1602,6 @@ export function generarFactura(
     exitFactura.onclick = cerrarFactura;
   }
 
-  console.log("2");
   // ==============================
   // Botón descargar
   // ==============================
@@ -1541,8 +1625,6 @@ export function generarFactura(
       btnDescargar.onclick = descargarFacturaPDF;
     }
   }
-
-  console.log(`✅ Factura generada con ${totalPaginas} página(s)`);
 
   return {
     numeroPedido,
@@ -1587,7 +1669,6 @@ export async function descargarFacturaPDF() {
   const facturaContainers = document.querySelectorAll(".factura-container");
 
   if (!facturaContainers.length) {
-    alert("No se encontraron facturas para descargar");
     return;
   }
 
@@ -1650,7 +1731,6 @@ export async function descargarFacturaPDF() {
     await html2pdf().set(opt).from(pdfContainer).save();
   } catch (e) {
     console.error("Error al generar PDF:", e);
-    alert("Error al generar el PDF");
   } finally {
     pdfContainer.remove();
   }
@@ -1773,6 +1853,8 @@ function toggleGridLateral(event) {
   // Desactivamos todos los contenedores
   containers.forEach((c) => c.classList.remove("activado"));
 
+  sincronizarBotonCarrito();
+  sincronizarBotonFavorito();
   // Activamos solo el contenedor correspondiente y eliminamos capa lateral
 
   const capaLateral = document.querySelector(".capaLateral");
@@ -1789,6 +1871,10 @@ function toggleGridLateral(event) {
   contenedorActivar.style.zIndex = "9";
 
   menuCategorias.classList.remove("activado");
+  if (width >= 768) {
+    menuCategorias.classList.add("activado");
+    menuCategoriasContainer.classList.add("activado");
+  }
 
   // Eliminamos capa lateral si existe
   if (capaLateral) capaLateral.remove();
@@ -1807,7 +1893,6 @@ formPerfil.addEventListener("submit", (e) => {
   const usuario = state.usuarioActivo;
 
   if (!usuario) {
-    alert("No hay usuario activo para actualizar.");
     return;
   }
 
@@ -1818,9 +1903,6 @@ formPerfil.addEventListener("submit", (e) => {
   usuario.direccion = document.getElementById("direccion-usuario-perfil").value;
 
   document.querySelector(".nombre-perfil-usuario").textContent = usuario.nombre;
-
-  console.log("Usuario actualizado:", usuario);
-  alert("Perfil actualizado correctamente!");
 });
 /*==================== */
 //Cambio de Contraseña
@@ -1835,7 +1917,6 @@ formCambiarContraseña.addEventListener("submit", (e) => {
 
   // Verificar si hay usuario activo
   if (!usuario) {
-    alert("No hay usuario activo para cambiar la contraseña.");
     return;
   }
 
@@ -1852,31 +1933,26 @@ formCambiarContraseña.addEventListener("submit", (e) => {
 
   // Validar que todos los campos estén completos
   if (!contraseñaActual || !nuevaContraseña || !confirmarContraseña) {
-    alert("Por favor, completa todos los campos.");
     return;
   }
 
   // Validar que la contraseña actual sea correcta
   if (contraseñaActual !== usuario.contraseña) {
-    alert("La contraseña actual es incorrecta.");
     return;
   }
 
   // Validar que las nuevas contraseñas coincidan
   if (nuevaContraseña !== confirmarContraseña) {
-    alert("Las nuevas contraseñas no coinciden.");
     return;
   }
 
   // Validar que la nueva contraseña sea diferente a la actual
   if (nuevaContraseña === usuario.contraseña) {
-    alert("La nueva contraseña debe ser diferente a la actual.");
     return;
   }
 
   // Validar longitud mínima de la contraseña
   if (nuevaContraseña.length < 9) {
-    alert("La nueva contraseña debe tener al menos 9 caracteres.");
     return;
   }
 
@@ -1885,14 +1961,6 @@ formCambiarContraseña.addEventListener("submit", (e) => {
 
   // Limpiar el formulario
   formCambiarContraseña.reset();
-  //
-  console.log("Contraseña escrita:", contraseñaActual);
-  console.log("Contraseña guardada:", usuario.contraseña);
-  console.log("¿Son iguales?", contraseñaActual === usuario.contraseña);
-  console.log("Usuario activo:", usuario);
-
-  // Mostrar mensaje de éxito
-  alert("¡Contraseña actualizada correctamente!");
 });
 //Btn De Perfil
 btnsPerfil.forEach((boton) => {
@@ -1927,24 +1995,18 @@ btnsPerfil.forEach((boton) => {
 
     boton.classList.add("activado");
   });
-
   // Hover
   boton.addEventListener("mouseenter", () => {
     btnsPerfil.forEach((btn) => {
-      if (!btn.classList.contains("activado")) {
-        btn.classList.remove("activado");
-      } else {
+      if (btn.classList.contains("activado")) {
         btn.classList.add("suave");
       }
     });
   });
+
   boton.addEventListener("mouseleave", () => {
     btnsPerfil.forEach((btn) => {
-      if (btn.classList.contains("suave")) {
-        btn.classList.add("activado");
-      } else {
-        btn.classList.remove("suave");
-      }
+      btn.classList.remove("suave");
     });
   });
 
@@ -2082,7 +2144,6 @@ btnCerrarSeccion.addEventListener("click", () => {
   }
 
   cerrarPerfilLogin();
-  console.log("Sesión cerrada:", state);
 });
 /* ==============================
   8. EVENTOS LATERALES
@@ -2102,6 +2163,7 @@ logInLateral.addEventListener("click", () => {
   carritoContainer.style.zIndex = "-9";
   containers.forEach((c) => (c.style.zIndex = "-9"));
 
+  cerrarZoom();
   // Manejo según si hay usuario logueado o no
   const usuarioLogueado = state.usuarioActivo;
 
@@ -2216,8 +2278,6 @@ function cerrarPerfilLogin() {
   favoritosContainer.style.zIndex = "";
   carritoContainer.style.zIndex = "";
   containers.forEach((c) => (c.style.zIndex = ""));
-
-  console.log("✅ Perfil cerrado completamente");
 }
 
 /* FAVORITOS LATERAL */

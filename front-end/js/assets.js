@@ -169,4 +169,8 @@ export const assets = {
     src: `${CLOUDINARY_URL}/assets/checkout/expiry-anonymous`,
     alt: "Fecha de expiración",
   },
+  productNotFound: {
+    src: `${CLOUDINARY_URL}/assets/not-found/product-not-found`,
+    alt: "Producto no encontrado",
+  },
 };

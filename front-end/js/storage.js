@@ -75,9 +75,6 @@ export function loadFromLocalStorage() {
     } else {
       state.usuarioActivo = null;
     }
-
-    console.log(" LocalStorage cargado ");
-    console.log("Usuario activo cargado:", state.usuarioActivo);
   } catch (e) {
     console.error("❌ Error cargando localStorage:", e);
   }
@@ -85,5 +82,4 @@ export function loadFromLocalStorage() {
 
 export function clearAllStorage() {
   Object.values(STORAGE_KEYS).forEach((key) => localStorage.removeItem(key));
-  console.log("🗑️ LocalStorage limpiado");
 }

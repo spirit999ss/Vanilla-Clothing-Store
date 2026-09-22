@@ -37,7 +37,10 @@
         </button>
       </div>
 
-      <a class="logo-container" href="index.html">
+      <a
+        class="logo-container"
+        href="https://vanilla-clothing-store-frontend.vercel.app"
+      >
         <img
           src=""
           alt="La Bella y la Bestia - Logo"
@@ -126,7 +129,14 @@
                 </select>
 
                 <label for="telefono">Teléfono</label>
-                <input type="tel" id="telefono" />
+                <input
+                  type="tel"
+                  id="telefono"
+                  name="telefono"
+                  minlength="7"
+                  maxlength="15"
+                  required
+                />
               </fieldset>
 
               <fieldset>
@@ -412,7 +422,7 @@
                             data-asset="cardAnonymous"
                           />
                           <input
-                            type="text"
+                            type="password"
                             id="numero-tarjeta"
                             name="numero-tarjeta"
                             placeholder="Ingresa número o correo"
@@ -428,7 +438,7 @@
                         <div class="">
                           <img src="" alt="" data-asset="cvcAnonymous" />
                           <input
-                            type="text"
+                            type="password"
                             id="expiracion-tarjeta"
                             name="expiracion-tarjeta"
                             maxlength="4"
@@ -1122,7 +1132,7 @@
     <!-- Lo tengo asi para poner hacer pruebas simulando Dashboard /*
     <footer class="site-footer">
       <div class="info-container">
-        <p>&copy; 2025 Tienda de Ropa | Todos los derechos reservados.</p>
+        <p>&copy; 2026 Tienda de Ropa | Todos los derechos reservados.</p>
 
         <nav aria-label="Enlaces del footer">
           <ul>
@@ -1216,7 +1226,7 @@
                         data-asset="cardAnonymous"
                       />
                       <input
-                        type="text"
+                        type="password"
                         id="input-numero-tarjeta-compra"
                         name="numero-tarjeta"
                         maxlength="10"
@@ -1247,7 +1257,7 @@
                       <div class="">
                         <img src="" alt="" data-asset="cvcAnonymous" />
                         <input
-                          type="text"
+                          type="password"
                           id="cvc"
                           name="cvc"
                           maxlength="4"

@@ -26,6 +26,7 @@ import {
   perfilContainer,
   contenedoresPerfil,
   menuCategorias,
+  menuCategoriasContainer,
   categoriasMenuLateralWrapper,
   loginContainer,
   containerInput,
@@ -69,6 +70,9 @@ import {
 //Import Assets
 
 import { assets } from "./assets.js";
+//Import
+
+import { saveToLocalStorage } from "./storage.js";
 /* ==============================
   FUNCIONES DE UTILIDAD GENERAL
 ============================== */
@@ -242,7 +246,6 @@ function populateGrid(gridSelector, items) {
             descripcion: item.descripcion,
             precio: item.precio,
           });
-          console.log("Esto es de Favoritos:", favoritos);
           renderFavoritos();
           sincronizarContenedorVacio();
         }
@@ -364,6 +367,14 @@ function imgZoom(imgElement, initialIndex = 0) {
   imgZoomContainer.appendChild(izquierdaContainer);
   imgZoomContainer.appendChild(derechaContainer);
   backdropZoomImg.appendChild(imgZoomContainer);
+
+  //
+  if (width >= 768) {
+    menuCategorias.classList.remove("activado");
+    menuCategoriasContainer.classList.remove("activado");
+    miniModalCarrito.classList.remove("activado");
+  }
+
   // Listeners para cerrar el Zoom
   zoomImgClone.addEventListener("click", () => {
     cerrarZoom();
@@ -383,6 +394,11 @@ function cerrarZoom() {
 
   if (backdropZoomImg) backdropZoomImg.classList.remove("activado");
   if (productoItem) productoItem.classList.remove("ZoomImg");
+
+  if (width >= 768) {
+    menuCategorias.classList.add("activado");
+    menuCategoriasContainer.classList.add("activado");
+  }
 }
 
 /* ==============================
@@ -419,6 +435,7 @@ function crearBtnProducto(item) {
 
   btnCarrito.addEventListener("click", () => {
     sincronizarBotonCarrito();
+
     //
     const tallaSeleccionada = tallasAComprar.value;
     // Evitar duplicar productos en carrito
@@ -438,7 +455,6 @@ function crearBtnProducto(item) {
         talla: tallaSeleccionada,
         cantidad: 1,
       });
-      console.log("Estos datos los envio a Carrito", carrito);
       sincronizarBotonCarrito();
       sincronizarContenedorVacio();
 
@@ -708,7 +724,7 @@ function eliminarFavorito(idProducto) {
 }
 
 /*Sincronizar Btn de Favorito */
-function sincronizarBotonFavorito() {
+export function sincronizarBotonFavorito() {
   const btnFavorito = document.querySelectorAll(".btnFavorito");
 
   btnFavorito.forEach((btn) => {
@@ -738,7 +754,7 @@ function sincronizarBotonFavorito() {
 }
 
 /*Sincronizar Btn de Carrito */
-function sincronizarBotonCarrito() {
+export function sincronizarBotonCarrito() {
   const btnCarrito = document.querySelectorAll(".btnCarrito");
 
   btnCarrito.forEach((btn) => {
@@ -808,7 +824,6 @@ function renderCarrito() {
   //Contenedor de Producto Item de Carrito
   const productoCarritoContainer = document.createElement("div");
   productoCarritoContainer.classList.add("productoCarritoContainer");
-  console.log("Asi esta Carrito", carrito);
   carrito.forEach((item, index) => {
     // Crear contenedor del producto en carrito
     const productoItem = document.createElement("div");
@@ -836,6 +851,9 @@ function renderCarrito() {
       productoItem.remove();
       sincronizarBotonCarrito();
       sincronizarContenedorVacio();
+      renderCarrito();
+      saveToLocalStorage();
+      actualizarContadorCarrito();
 
       // Sincronizar botón original del producto
       const botonesProducto = document.querySelectorAll(".botonesProducto");
@@ -867,7 +885,6 @@ function renderCarrito() {
       }
 
       detallesCompra();
-      console.log("estos son los datos del carrito", carrito);
     });
 
     // Imagen del producto
@@ -976,6 +993,11 @@ function renderCarrito() {
 function renderMiniModalCarrito() {
   //Contendor principal
   miniModalCarrito.innerHTML = "";
+
+  //
+  miniModalCarrito.classList.add("activado");
+  miniModalCarritoContainer.classList.add("activado");
+
   //exit de Mini Modal
   const exitMiniModal = exitGenerico();
   exitMiniModal.classList.add("exitMiniModal");
@@ -1296,7 +1318,6 @@ function renderModalCompra() {
     contenedorProductos.appendChild(productoModalCompra);
 
     contenedorProductos.append(exitModalCompra);
-    console.log("Hola Mundo");
   });
 
   // Cálculos
@@ -1339,7 +1360,6 @@ function getPedidoTotal(pedido) {
   }
   return 0;
 }
-console.log(historialPedidos);
 /*Render el Historial de Pedidos */
 function renderHistorialPedidos() {
   encabezadoPedidoContainer.innerHTML = "";
@@ -1497,17 +1517,26 @@ populateGrid(".conjuntos-hombre-grid", productosHombre.conjuntos);
 populateGrid(".accesorios-hombre-grid", productosHombre.accesorios);
 
 //
-//Mostramos el Grid Correspodinte
+//Mostramos el Grid Correspodinte deCategorias
 const toggleGrids = document.querySelectorAll(
   ".productos-mujer , .productos-hombre",
 );
 toggleGrids.forEach((e) => {
   e.addEventListener("click", function (event) {
-    toggleGrid.call(this, event);
-    //Header Visible
-    if (width <= 768) {
+    if (width >= 768) {
       header.classList.remove("desactivado");
+      if (backdropZoomImg.classList.contains("activado")) {
+        menuCategorias.classList.remove("activado");
+        menuCategoriasContainer.classList.remove("activado");
+      } else {
+        menuCategorias.classList.add("activado");
+        menuCategoriasContainer.classList.add("activado");
+      }
     }
+    sincronizarBotonCarrito();
+    sincronizarBotonFavorito();
+
+    toggleGrid.call(this, event);
   });
 });
 
@@ -1527,7 +1556,6 @@ export function renderPerfilUsuario() {
   const usuario = state.usuarioActivo;
 
   if (!usuario || typeof usuario !== "object") {
-    console.warn("No hay usuario activo o el dato no es un objeto:", usuario);
     return;
   }
 
@@ -1549,8 +1577,6 @@ export function renderPerfilUsuario() {
     nombreHeader.textContent = usuario.nombre || "Usuario";
     aplicarAnimacionLetras(nombreHeader);
   }
-
-  console.log("Perfil renderizado correctamente:", usuario.nombre);
 }
 
 //Actualizar la Img add del Usuario
@@ -1566,7 +1592,6 @@ export function renderImgUsuario() {
   const usuarioActivo = localStorage.getItem("usuarioActivo");
   // Si el Usuario se Logueo
   if (usuarioActivo) {
-    console.log("El Usuario se Logueo");
   }
 
   // CASO C: Hay usuario logueado y sí tiene foto personalizada
@@ -1740,22 +1765,33 @@ function mostrarModal(contenido) {
     document.body.appendChild(modal);
   }
 
-  modal.innerHTML = `
-    <div class="modal-overlay"></div>
-    <div class="modal-content">
-        <button class="modal-close-btn">✕</button>
-    </div>
-  `;
+  modal.replaceChildren();
 
-  const contentBox = modal.querySelector(".modal-content");
+  const overlay = document.createElement("div");
+  overlay.classList.add("modal-overlay");
+
+  const contentBox = document.createElement("div");
+  contentBox.classList.add("modal-content");
+
+  const closeBtn = document.createElement("button");
+  closeBtn.classList.add("modal-close-btn");
+  closeBtn.textContent = "✕";
+
+  contentBox.appendChild(closeBtn);
   contentBox.appendChild(contenido);
 
-  modal.querySelector(".modal-close-btn").addEventListener("click", () => {
+  modal.appendChild(overlay);
+  modal.appendChild(contentBox);
+  //
+  body.style.overflowY = "hidden";
+
+  closeBtn.addEventListener("click", () => {
     modal.remove();
+    if (!perfilContainer.classList.contains("activado")) {
+      body.style.overflowY = "";
+    }
   });
 }
-//Seguridad Cambiar Contraseña , Verificacion de Pasos y Dispositivos Conectados
-// Mostrar/ocultar seguridad
 
 /* ==============================
   RENDER FACTURA
@@ -1834,7 +1870,6 @@ export function renderizarTarjetas() {
   const template = document.getElementById("tarjeta-template");
   //Si el Usuario no esta Loguiado
   if (!usuarioActivo) {
-    console.warn("No hay usuario activo o no tiene métodos de pago");
     return;
   }
   usuarioActivo.metodosPago.forEach((tarjeta, index) => {
@@ -1907,7 +1942,6 @@ export function renderizarTarjetas() {
     );
 
     btnActualizar.addEventListener("click", () => {
-      console.log(`Actualizar: ${tarjeta.tipo}`);
       const tipoPago = tarjeta.tipo.toLowerCase();
 
       if (tipoPago === "visa" || tipoPago === "mastercard") {
@@ -2059,13 +2093,11 @@ btnGuardarTarjeta.addEventListener("click", (e) => {
 
   // Validar que todos los campos estén completos
   if (!tipo || !numero || !titular || !expiracion) {
-    alert("Por favor completa todos los campos.");
     return;
   }
 
   // Validar longitud del número de tarjeta
   if (numero.length !== 10) {
-    alert("El número de tarjeta debe tener 10 dígitos.");
     return;
   }
 
@@ -2080,7 +2112,6 @@ btnGuardarTarjeta.addEventListener("click", (e) => {
   };
 
   if (!state.usuarioActivo) {
-    alert("No hay usuario activo. Inicia sesión primero.");
     return;
   }
 
@@ -2100,8 +2131,6 @@ btnGuardarTarjeta.addEventListener("click", (e) => {
 
   formTarjeta.reset();
   renderizarTarjetas();
-
-  console.log("✅ Tarjeta guardada:", state.usuarioActivo.metodosPago);
 });
 /* ======================================== */
 /*Guarddar Paypal cuando se ingresa  */
@@ -2117,12 +2146,10 @@ guardarPaypal.addEventListener("click", (e) => {
 
   // Validaciones simples
   if (!titular || !email || !confirm) {
-    alert("Completa todos los campos de PayPal.");
     return;
   }
 
   if (email !== confirm) {
-    alert("Los correos no coinciden.");
     return;
   }
 
@@ -2138,7 +2165,6 @@ guardarPaypal.addEventListener("click", (e) => {
   };
 
   if (!state.usuarioActivo) {
-    alert("No hay usuario activo. Inicia sesión primero.");
     return;
   }
 
@@ -2159,8 +2185,6 @@ guardarPaypal.addEventListener("click", (e) => {
 
   formPaypal.reset();
   renderizarTarjetas();
-
-  console.log("✅ PayPal guardado correctamente:", nuevoPaypal);
 });
 //
 // Mover elemento de búsqueda según el tamaño de pantalla
@@ -2243,12 +2267,21 @@ export function renderPrincipalResize() {
           btn.classList.contains("activado"),
         )
       ) {
-        btnActivoFijo.classList.add("activado");
-        editarPerfil.classList.add("activado");
+        if (state.usuarioActivo == null) {
+          return;
+        } else {
+          btnActivoFijo.classList.add("activado");
+          editarPerfil.classList.add("activado");
+        }
       }
     }
+    menuCategorias.classList.add("activado");
+    menuCategoriasContainer.classList.add("activado");
   } else {
     // ====================== MOBILE ======================
+
+    menuCategorias.classList.remove("activado");
+    menuCategoriasContainer.classList.remove("activado");
     contenedoresPerfil.forEach((c) => {
       if (c.classList.contains("activado")) {
         imgVolver.classList.add("activado");
@@ -2278,7 +2311,6 @@ export function renderPrincipalResize() {
   const algunContainerActivo = Array.from(containers).some((c) =>
     c.classList.contains("activado"),
   );
-
   const algunoActivo =
     algunContainerActivo ||
     menuCategorias?.classList.contains("activado") ||
@@ -2370,7 +2402,20 @@ export function renderProductosFiltrados(valorBusqueda) {
 
   // === RENDERIZAR ===
   if (resultados.length === 0) {
-    contenedor.innerHTML = `<p>No se encontraron productos para "${valorBusqueda}"</p>`;
+    contenedor.innerHTML = `
+    <div class="searchEmpty">
+      <img class="searchEmptyImg"
+        src="${assets.productNotFound.src}"
+        alt="Producto no encontrado"
+      />
+
+      <p>
+        No se encontraron productos para
+        "<strong>${valorBusqueda}</strong>"
+      </p>
+    </div>
+  `;
+
     return;
   }
 
@@ -2406,137 +2451,65 @@ export function renderProductosFiltrados(valorBusqueda) {
     contenedor.appendChild(clone);
   });
 }
-
-//Ir Al Producto Seleccionado
-export function irAlProducto(producto) {
-  console.log("Este es el Producto:", producto);
-
-  const idBuscado = producto.id;
-
-  const imgPrincipal = document.querySelector(
-    `.imgZoom[data-id-producto="${idBuscado}"]`,
-  );
-
-  if (imgPrincipal) {
-    const productoItem = imgPrincipal.closest(".productoItem");
-
-    const gridAbuelo = imgPrincipal.closest(
-      ".vestidos-grid, .blusas-grid, .pantalones-mujer-grid, .faldas-grid, .conjuntos-mujer-grid, .accesorios-mujer-grid, " +
-        ".camisas-grid, .pantalones-hombre-grid, .gorras-grid, .zapatos-grid, .conjuntos-hombre-grid, .accesorios-hombre-grid",
-    );
-
-    const seccionContainer = imgPrincipal.closest(
-      ".vestidos-container, .blusas-container, .pantalones-mujer-container, .faldas-container, .conjuntos-mujer-container, .accesorios-mujer-container, " +
-        ".camisas-container, .pantalones-hombre-container, .gorras-container, .zapatos-container, .conjuntos-hombre-container, .accesorios-hombre-container",
-    );
-
-    console.log("Producto Item:", productoItem);
-    console.log("Grid Abuelo:", gridAbuelo?.className);
-    console.log("Sección Container:", seccionContainer?.className);
-
-    if (seccionContainer) {
-      seccionContainer.classList.add("activado");
-      seccionContainer.style.zIndex = "9";
-
-      const inputBuscar = document.getElementById("inputBuscar");
-      const contenedor = document.getElementById(
-        "contenedor-productos-filtrados",
-      );
-
-      if (inputBuscar) inputBuscar.value = "";
-      if (contenedor) contenedor.innerHTML = "";
-
-      if (typeof buscarContainer !== "undefined") {
-        buscarContainer.classList.remove("activado");
-      }
-
-      console.log(
-        "✅ Se añadió 'activado' a la sección:",
-        seccionContainer.className,
-      );
-    }
-
-    if (productoItem) {
-      productoItem.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      });
-
-      productoItem.style.transition = "all 0.4s ease";
-      productoItem.style.boxShadow = "0 0 0 6px #ff4757";
-      productoItem.style.transform = "scale(1.04)";
-
-      setTimeout(() => {
-        productoItem.style.boxShadow = "";
-        productoItem.style.transform = "";
-      }, 3000);
-    }
-  } else {
-    console.log("❌ No se encontró el producto con ID:", idBuscado);
-  }
-}
-/* =================================
-    Slider Funcion
-   ================================*/
-export function irAlProductoSlider(event) {
-  console.log("🎯 irAlProductoSlider ejecutada");
-
-  const idBuscado = event.currentTarget.dataset.idProducto;
-  console.log("ID del producto desde slider:", idBuscado);
-
+// =================================
+// Ir al producto por ID
+// =================================
+export function irAlProductoPorId(idBuscado) {
   if (!idBuscado) {
-    console.log("❌ No se encontró data-id-producto");
     return;
   }
 
-  // Buscar la imagen principal
+  // Buscar la imagen principal del producto
   const imgPrincipal = document.querySelector(
     `.imgZoom[data-id-producto="${idBuscado}"]`,
   );
 
   if (!imgPrincipal) {
-    console.log("❌ No se encontró .imgZoom con ID:", idBuscado);
     return;
   }
 
+  // Buscar el elemento completo del producto
   const productoItem = imgPrincipal.closest(".productoItem");
 
-  const gridAbuelo = imgPrincipal.closest(
-    ".vestidos-grid, .blusas-grid, .pantalones-mujer-grid, .faldas-grid, .conjuntos-mujer-grid, .accesorios-mujer-grid, " +
-      ".camisas-grid, .pantalones-hombre-grid, .gorras-grid, .zapatos-grid, .conjuntos-hombre-grid, .accesorios-hombre-grid",
-  );
-
+  // Buscar el contenedor de la sección
   const seccionContainer = imgPrincipal.closest(
-    ".vestidos-container, .blusas-container, .pantalones-mujer-container, .faldas-container, .conjuntos-mujer-container, .accesorios-mujer-container, " +
-      ".camisas-container, .pantalones-hombre-container, .gorras-container, .zapatos-container, .conjuntos-hombre-container, .accesorios-hombre-container",
+    ".vestidos-container, .blusas-container, .pantalones-mujer-container, " +
+      ".faldas-container, .conjuntos-mujer-container, .accesorios-mujer-container, " +
+      ".camisas-container, .pantalones-hombre-container, .gorras-container, " +
+      ".zapatos-container, .conjuntos-hombre-container, .accesorios-hombre-container",
   );
 
-  console.log("Producto Item:", productoItem);
-  console.log("Grid Abuelo:", gridAbuelo?.className);
-  console.log("Sección Container:", seccionContainer?.className);
-
-  // === Activar sección (lo que te funciona) ===
+  // =================================
+  // Activar sección
+  // =================================
   if (seccionContainer) {
     seccionContainer.classList.add("activado");
     seccionContainer.style.zIndex = "9";
 
     // Limpiar búsqueda si existe
     const inputBuscar = document.getElementById("inputBuscar");
+
     const contenedor = document.getElementById(
       "contenedor-productos-filtrados",
     );
 
-    if (inputBuscar) inputBuscar.value = "";
-    if (contenedor) contenedor.innerHTML = "";
+    if (inputBuscar) {
+      inputBuscar.value = "";
+    }
 
+    if (contenedor) {
+      contenedor.replaceChildren();
+    }
+
+    // Desactivar contenedor de búsqueda
     if (typeof buscarContainer !== "undefined") {
       buscarContainer.classList.remove("activado");
     }
-
-    console.log("✅ Sección activada:", seccionContainer.className);
   }
 
-  // === Scroll + Highlight ===
+  // =================================
+  // Scroll + Highlight
+  // =================================
   if (productoItem) {
     productoItem.scrollIntoView({
       behavior: "smooth",
@@ -2544,25 +2517,46 @@ export function irAlProductoSlider(event) {
     });
 
     productoItem.style.transition = "all 0.4s ease";
-    productoItem.style.boxShadow = "0 0 0 6px #ff4757";
+    productoItem.style.boxShadow = "0 0 0 4px #5042a3";
     productoItem.style.transform = "scale(1.04)";
 
+    // Quitar resaltado después de 3 segundos
     setTimeout(() => {
       productoItem.style.boxShadow = "";
       productoItem.style.transform = "";
     }, 3000);
-
-    console.log("✅ Scroll y efecto visual aplicados");
-  } else {
-    console.log("⚠️ No se encontró .productoItem");
   }
 }
+
+// =================================
+// Ir al producto seleccionado
+// =================================
+export function irAlProducto(producto) {
+  if (!producto || !producto.id) {
+    return;
+  }
+
+  irAlProductoPorId(producto.id);
+}
+
+// =================================
+// Slider - Ir al producto
+// =================================
+export function irAlProductoSlider(event) {
+  const idBuscado = event.currentTarget.dataset.idProducto;
+
+  if (!idBuscado) {
+    return;
+  }
+
+  irAlProductoPorId(idBuscado);
+}
+
 //
 export {
   sincronizarContenedorVacio,
   cerrarZoom,
   detallesCompra,
-  sincronizarBotonCarrito,
   renderMiniModalCarrito,
   renderFavoritos,
   renderCarrito,
@@ -2734,7 +2728,6 @@ function cambiarEstadoPedido(numeroPedido, nuevoEstado) {
 
   if (nuevoEstado === "entregado") {
     const pedido = estadosPedidosTabla[pedidoIndex];
-    console.log(pedido);
     const pedidoParaHistorial = {
       ...pedido,
       fechaEntrega: new Date().toLocaleDateString(),
@@ -2759,12 +2752,6 @@ function cambiarEstadoPedido(numeroPedido, nuevoEstado) {
     );
   }
 
-  console.log(
-    "Aqui LOL ",
-    estadosPedidosTabla,
-    "y esto es Historial ",
-    historialPedidos,
-  );
   renderDashboard();
 }
 function agregarEventosBotones() {
@@ -2822,8 +2809,6 @@ export async function loadProducts() {
     cacheTime &&
     Date.now() - Number(cacheTime) < CACHE_DURATION
   ) {
-    console.log("✅ Productos cargados desde caché");
-
     products = JSON.parse(cachedProducts);
 
     procesarProductos(products);
@@ -2832,7 +2817,6 @@ export async function loadProducts() {
   }
 
   // Consultar API
-  console.log("🔥 Consultando Firebase");
 
   const response = await fetch(API_URL);
   const data = await response.json();
@@ -2881,7 +2865,4 @@ function procesarProductos(products) {
       dataHombres[producto.category].push(item);
     }
   });
-
-  console.log("Mujeres cargadas:", Object.keys(dataMujeres));
-  console.log("Hombres cargadas:", Object.keys(dataHombres));
 }

@@ -36,7 +36,11 @@ const carritoLateral = document.querySelector(".carrito-lateral");
 
 /** Botón y contenedor del menú hamburguesa */
 const menuBtn = document.querySelector(".menu-btn");
+const menuBtnContainer = document.querySelector(".menu-btn-container");
 const menuCategorias = document.querySelector(".menu-categorias");
+const menuCategoriasContainer = document.querySelector(
+  ".menu-categorias-container",
+);
 const categoriasMenuLateralWrapper = document.querySelector(
   ".categorias-menu-lateral-wrapper",
 );
@@ -121,6 +125,7 @@ const slider = document.getElementById("slider-contenedor");
 const sliderContainer = document.querySelector(".previuw-next-container");
 const btnPrev = document.querySelector(".btn-prev");
 const btnNext = document.querySelector(".btn-next");
+const swiperPagination = document.querySelector(".swiper-pagination");
 
 /* ============================================
    SECCIÓN 8: FAVORITOS / CARRITO / MODALES
@@ -225,7 +230,9 @@ export {
   favoritoLateral,
   carritoLateral,
   menuBtn,
+  menuBtnContainer,
   menuCategorias,
+  menuCategoriasContainer,
   categoriasMenuLateralWrapper,
   btnCategoriaMujer,
   btnCategoriaHombre,
@@ -270,6 +277,7 @@ export {
   sliderContainer,
   btnPrev,
   btnNext,
+  swiperPagination,
 
   // Favoritos / Carrito / Modales
   favoritosLogo,
