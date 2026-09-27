@@ -1,8 +1,8 @@
+import admin from "firebase-admin";
 import { v2 as cloudinary } from "cloudinary";
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
-import admin from "firebase-admin";
 
 dotenv.config();
 
@@ -12,6 +12,8 @@ const allowedOrigins = [
   "http://localhost:5500",
   "http://127.0.0.1:5500",
   "http://localhost:3000",
+  "http://localhost:5173",
+  "http://127.0.0.1:5173",
   process.env.FRONTEND_URL,
 ].filter(Boolean);
 
@@ -365,7 +367,6 @@ app.get("/api/check-firebase", async (req, res) => {
 // =====================================================
 // Productos desde Firestore con URLs generadas
 // =====================================================
-
 app.get("/api/products-with-images", async (req, res) => {
   try {
     const snapshot = await db.collection("products").get();
@@ -397,9 +398,30 @@ app.get("/api/products-with-images", async (req, res) => {
         descripcion: product.descripcion || "",
         gender: product.gender || "",
         category: product.category || "",
-        precio: product.precio || null,
+        precio: product.precio ?? null,
+
         alt: product.image?.alt || product.alt || product.name || "",
+
         image: product.image || null,
+
+        hasSizes: product.hasSizes === true,
+
+        stock: product.hasSizes === false ? (product.stock ?? 0) : null,
+
+        stockBySize:
+          product.hasSizes === true
+            ? {
+                S: product.stockBySize?.S ?? 0,
+                M: product.stockBySize?.M ?? 0,
+                XL: product.stockBySize?.XL ?? 0,
+              }
+            : null,
+
+        isActive: product.isActive !== false,
+
+        createdAt: product.createdAt ?? null,
+        updatedAt: product.updatedAt ?? null,
+
         urls: {
           thumbnailUrl,
           cardUrl,
@@ -417,7 +439,10 @@ app.get("/api/products-with-images", async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      error: error.message,
+      error:
+        error instanceof Error
+          ? error.message
+          : "No se pudieron cargar los productos.",
     });
   }
 });
