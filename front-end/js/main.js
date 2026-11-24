@@ -1,8 +1,7 @@
 // main.js
 
-// Import Assets
 import { assets } from "./assets.js";
-//Selectors
+// DOM selectors
 import {
   width,
   body,
@@ -10,7 +9,7 @@ import {
   menuCategorias,
   miniModalCarritoContainer,
 } from "./selectors.js";
-// Import Render
+// Rendering functions
 import {
   renderCarrito,
   renderEstadoTabla,
@@ -21,7 +20,7 @@ import {
   renderDashboard,
   renderMiniModalCarrito,
 } from "./render.js";
-//Import State
+// Application state
 import {
   state,
   carrito,
@@ -31,15 +30,15 @@ import {
   actualizarContadorPedidos,
 } from "./state.js";
 
-// Import Products
+// Product data
 import { loadProducts, dataMujeres, dataHombres } from "./products.js";
 
-// Import Storage
+// Local persistence
 import { loadFromLocalStorage, saveToLocalStorage } from "./storage.js";
 
-//Import Events
+// Event handlers
 import { initSliderClicks, renderCategoria } from "./events.js";
-/* Inicializar Slider */
+/* Initialize the slider */
 function initSlider() {
   const sliderContainer = document.querySelector(".swiper");
   if (!sliderContainer) return;
@@ -60,7 +59,7 @@ function initSlider() {
   });
 }
 
-/* Cargar assets */
+/* Load assets */
 export function loadAssets() {
   document.querySelectorAll("[data-asset]").forEach((el) => {
     const key = el.dataset.asset;
@@ -72,10 +71,10 @@ export function loadAssets() {
     }
   });
 }
-/* Cargar portadas de categorías */
+/* Load category cover images */
 function loadCategoryImages() {
   setTimeout(() => {
-    //Img Rando
+    // Select a random source for the category cover
     const getMiddleSrc = (arr) => {
       if (!arr?.length) return "";
       return arr[Math.floor(Math.random() * arr.length)]?.src || "";
@@ -105,7 +104,7 @@ function loadCategoryImages() {
     });
   }, 1000);
 }
-/* Slider dinámico */
+/* Dynamic slider */
 function initDynamicSlider() {
   const wrapper = document.querySelector(".swiper-wrapper");
 
@@ -134,7 +133,7 @@ function initDynamicSlider() {
     img.loading = "lazy";
     img.classList.add("slider-producto");
 
-    // Necesario para que irAlProductoSlider encuentre el producto
+    // Required for irAlProductoSlider to identify the product
     img.dataset.idProducto = p.id;
 
     slide.appendChild(img);
@@ -161,7 +160,7 @@ function initDynamicSlider() {
   });
 }
 
-/* Renderizar grids */
+/* Render product grids */
 function renderAllProducts() {
   populateGrid(".vestidos-grid", dataMujeres.vestidos);
   populateGrid(".blusas-grid", dataMujeres.blusas);
@@ -185,7 +184,7 @@ function setupAutoSave() {
   const originalPush = Array.prototype.push;
   const originalSplice = Array.prototype.splice;
 
-  // Carrito y Favoritos (ya lo tenías)
+  // Persist cart and favorites mutations
   carrito.push = function (...items) {
     const result = originalPush.apply(this, items);
     save();
@@ -208,7 +207,6 @@ function setupAutoSave() {
     return result;
   };
 
-  //
   estadosPedidosTabla.push = function (...items) {
     const result = originalPush.apply(this, items);
     save();
@@ -231,38 +229,37 @@ function setupAutoSave() {
     return result;
   };
 }
-/* ==================== INICIALIZACIÓN ==================== */
+/* ==================== INITIALIZATION ==================== */
 async function initApp() {
   await loadProducts();
 
-  //
   if (carrito.length > 0) {
     renderMiniModalCarrito();
   } else {
     miniModalCarritoContainer.style.display = "none";
   }
-  //Cargar Local Storage
+  // Load persisted state
 
   loadFromLocalStorage();
-  // Cargar assets generales
+  // Load shared assets
   loadAssets();
-  //Render dashboard
+  // Render the dashboard
   renderDashboard();
   actualizarContadorPedidos();
-  // Renderizar categorías laterales después de cargar productos
+  // Render side categories after product loading
   renderCategoria("mujer");
   renderCategoria("hombre");
 
-  // Cargar portadas de categorías
+  // Load category cover images
   loadCategoryImages();
 
-  // Crear slider dinámico
+  // Create the dynamic slider
   initDynamicSlider();
 
-  // Activar clicks del slider
+  // Activate slider controls
   initSliderClicks();
 
-  // Renderizar todos los productos en los grids
+  // Render all products in their grids
   renderAllProducts();
 
   renderFavoritos();

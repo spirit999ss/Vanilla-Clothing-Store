@@ -1,18 +1,17 @@
-//Img de App para funcionamiento
+// Application image configuration
 const CLOUD_NAME = "vz7kcusz";
 const CLOUDINARY_URL = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload`;
 
-// Función para obtener imagen redimensionada
+// Returns a resized image URL when dimensions are provided
 export function getResizedImage(assetKey, width = null, height = null) {
   if (!assets[assetKey]) {
-    console.error(`Asset "${assetKey}" no encontrado`);
+    console.error(`Asset "${assetKey}" not found`);
     return "";
   }
 
   let url = assets[assetKey].src;
 
   if (width && height) {
-    // Reemplazar la URL base con parámetros de redimensionamiento
     url = url.replace(
       CLOUDINARY_URL,
       `${CLOUDINARY_URL}/w_${width},h_${height},c_fill`,
@@ -22,7 +21,7 @@ export function getResizedImage(assetKey, width = null, height = null) {
   return url;
 }
 
-// Función para obtener imagen de fallback si la principal falla
+// Returns a fallback image URL for a failed asset
 export function getFallbackImage(assetKey) {
   const fallbacks = {
     brandLogo: `${CLOUDINARY_URL}/assets/branding/fallback-logo`,

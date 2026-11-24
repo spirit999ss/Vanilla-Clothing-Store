@@ -2,7 +2,6 @@
   RENDER
 ============================== */
 
-//Import Selectors
 import {
   body,
   header,
@@ -35,7 +34,6 @@ import {
   iconoLogin,
 } from "./selectors.js";
 
-//Import State
 import {
   historialPedidos,
   estadosPedidosTabla,
@@ -45,10 +43,8 @@ import {
   imgTarjetas,
 } from "./state.js";
 
-//Import Data
 import { dataMujeres, dataHombres } from "./products.js";
 
-//Import utils
 import {
   crearSelectorTallas,
   deleteProducto,
@@ -59,7 +55,6 @@ import {
   crearCapaLateralConExit,
   hiddenCategorias,
 } from "./utils.js";
-//Import Events
 import {
   facturaContainer,
   descargarFacturaPDF,
@@ -67,17 +62,13 @@ import {
   cerrarFactura,
 } from "./events.js";
 
-//Import Assets
 
 import { assets } from "./assets.js";
-//Import
 
 import { saveToLocalStorage } from "./storage.js";
 /* ==============================
   FUNCIONES DE UTILIDAD GENERAL
 ============================== */
-
-/*Favoritos y Carrito Vacío */
 function sincronizarContenedorVacio() {
   const cantidadFavoritos = Array.isArray(favoritos) ? favoritos.length : 0;
   const cantidadCarrito = Array.isArray(carrito) ? carrito.length : 0;
@@ -85,7 +76,6 @@ function sincronizarContenedorVacio() {
   const mensajes = document.querySelectorAll(".mostrar-mensaje-vacio");
 
   mensajes.forEach((mensaje) => {
-    // Si ninguno está abierto, ocultar siempre
     if (
       !favoritosContainer.classList.contains("activado") &&
       !carritoContainer.classList.contains("activado")
@@ -111,11 +101,8 @@ function sincronizarContenedorVacio() {
     }
   });
 }
-
-//Detalles de Compra
 function detallesCompra() {
   const contenedor = document.querySelector(".detalles-compra-container");
-  //
   let subtotal = calcularSubtotal();
 
   contenedor.innerHTML = `
@@ -127,13 +114,10 @@ function detallesCompra() {
     <h5>Aceptamos</h5>
     <div class="metodos-pago"></div>
   `;
-
-  // Botón de pagar
   const btnPagar = document.createElement("button");
   btnPagar.classList.add("btnPagar");
   btnPagar.textContent = "PAGAR AHORA";
   contenedor.appendChild(btnPagar);
-  //
   btnPagar.addEventListener("click", () => {
     comprarProducto();
     renderModalCompra();
@@ -151,8 +135,6 @@ function detallesCompra() {
     pagosDiv.appendChild(img);
   });
 }
-
-/*Calcular Subtotal */
 export function calcularSubtotal() {
   let subtotal = 0;
 
@@ -167,15 +149,10 @@ export function calcularSubtotal() {
 /* ==============================
   FUNCIONES DE MODALES
 ============================== */
-
-//Funcion de Modal de Compra
 function comprarProducto() {
-  //
   modalComprarContainer.classList.add("activado");
 
-  //
   carritoContainer.classList.remove("activado");
-  //
   const exitModalCompra = exitGenerico();
   exitModalCompra.classList.add("exitModalCompra");
   exitModalCompra.addEventListener("click", () => {
@@ -193,21 +170,16 @@ function comprarProducto() {
   FUNCIONES DE RENDERIZADO DE PRODUCTOS
 ============================== */
 
-// Renderizar Categorias
 function populateGrid(gridSelector, items) {
   const grid = document.querySelector(gridSelector);
   if (!grid || !items.length) return;
 
   const fragment = document.createDocumentFragment();
 
-  //Crear backdrop oscuro del Zoom de las img
 
   items.forEach((item) => {
-    //
     const productoItem = document.createElement("div");
     productoItem.classList.add("productoItem");
-
-    // Creamos el Contenedor del Zoom de las img y
     const imgContainer = document.createElement("div");
     imgContainer.classList.add("imgContainer");
 
@@ -221,17 +193,13 @@ function populateGrid(gridSelector, items) {
     img.onclick = function () {
       imgZoom(this);
     };
-
-    // Add a Favoritos
     const btnFavorito = crearBtnfavorito(item.id);
 
     btnFavorito.addEventListener("click", () => {
-      //
       const imgFav = btnFavorito.querySelector("img:not(.imgRellenoFavorito)");
       const imgRellenoFavorito = btnFavorito.querySelector(
         ".imgRellenoFavorito",
       );
-      // Evitar Duplicar productos  en favoritos
       const productoExiste = favoritos.some(
         (producto) => producto.id === item.id,
       );
@@ -252,12 +220,8 @@ function populateGrid(gridSelector, items) {
       } else {
         imgRellenoFavorito.classList.remove("activado");
         imgFav.classList.remove("desactivado");
-        /*Eliminamos el Producto de Favorito cuando se Desmarca */
-        if (productoExiste) {
-          // Buscar el índice del producto
+if (productoExiste) {
           const index = favoritos.findIndex((p) => p.id === item.id);
-
-          // Eliminar del array
           if (index !== -1) {
             favoritos.splice(index, 1);
             renderFavoritos();
@@ -272,12 +236,10 @@ function populateGrid(gridSelector, items) {
     productoItem.appendChild(imgContainer);
 
     fragment.appendChild(productoItem);
-    //Add Btn  Producto:   Favorito,Carrito, Descripcion y Comprar
     const botones = crearBtnProducto(item);
     const descripcionProductos = crearDescripcionProducto(item);
     productoItem.appendChild(descripcionProductos);
     productoItem.appendChild(botones);
-    //
   });
 
   grid.appendChild(fragment);
@@ -287,30 +249,20 @@ function populateGrid(gridSelector, items) {
 /* ==============================
   FUNCIONES DE ZOOM DE IMAGEN
 ============================== */
-
-//Funcion de Zoom de Img
 const backdropZoomImg = document.createElement("div");
 backdropZoomImg.classList.add("backdropZoomImg");
 body.appendChild(backdropZoomImg);
-//
 function imgZoom(imgElement, initialIndex = 0) {
-  //
   const backdropZoomImg = document.querySelector(".backdropZoomImg");
   backdropZoomImg.classList.add("activado");
-
-  //Contenedor de las Img Zoom
   const imgZoomContainer = document.createElement("div");
   imgZoomContainer.classList.add("imgZoomContainer");
-  //
   const productoItem = imgElement.closest(".productoItem");
   const originalSrc = imgElement.src;
   const zoomImgClone = imgElement.cloneNode(true);
   zoomImgClone.classList.add("zoomImgClone");
 
   imgZoomContainer.appendChild(zoomImgClone);
-
-  //
-  // Mover las Imágenes
   const gridContainer = imgElement.closest(
     `.vestidos-grid,
   .blusas-grid,
@@ -325,17 +277,13 @@ function imgZoom(imgElement, initialIndex = 0) {
   .conjuntos-hombre-grid,
   .accesorios-hombre-grid`,
   );
-
-  // Construir array de fuentes de imágenes para la navegación
   const imagenesPrincipales = gridContainer
     ? gridContainer.querySelectorAll(".imgZoom")
     : [];
   const arrayImagenes = Array.from(imagenesPrincipales);
   let currentIndex = isNaN(initialIndex) ? 0 : initialIndex;
   zoomImgClone.src = originalSrc;
-  /* */
-  // Cambiar Izquierda
-  const izquierdaContainer = document.createElement("button");
+const izquierdaContainer = document.createElement("button");
   izquierdaContainer.classList.add("izquierdaContainer");
 
   const imgIzquierda = document.createElement("img");
@@ -343,8 +291,6 @@ function imgZoom(imgElement, initialIndex = 0) {
   imgIzquierda.alt = assets.left.alt;
 
   izquierdaContainer.appendChild(imgIzquierda);
-
-  // Cambiar Derecha
   const derechaContainer = document.createElement("button");
   derechaContainer.classList.add("derechaContainer");
   const imgDerecha = document.createElement("img");
@@ -352,7 +298,6 @@ function imgZoom(imgElement, initialIndex = 0) {
   imgDerecha.alt = assets.right.alt;
 
   derechaContainer.appendChild(imgDerecha);
-  //
   izquierdaContainer.addEventListener("click", () => {
     currentIndex =
       (currentIndex - 1 + arrayImagenes.length) % arrayImagenes.length;
@@ -362,25 +307,20 @@ function imgZoom(imgElement, initialIndex = 0) {
     currentIndex = (currentIndex + 1) % arrayImagenes.length;
     zoomImgClone.src = arrayImagenes[currentIndex].src;
   });
-  //
 
   imgZoomContainer.appendChild(izquierdaContainer);
   imgZoomContainer.appendChild(derechaContainer);
   backdropZoomImg.appendChild(imgZoomContainer);
 
-  //
   if (width >= 768) {
     menuCategorias.classList.remove("activado");
     menuCategoriasContainer.classList.remove("activado");
     miniModalCarrito.classList.remove("activado");
   }
-
-  // Listeners para cerrar el Zoom
   zoomImgClone.addEventListener("click", () => {
     cerrarZoom();
   });
 }
-// Función para cerrar el zoom
 function cerrarZoom() {
   const backdropZoomImg = document.querySelector(".backdropZoomImg");
   const imgZoomContainer = document.querySelector(".imgZoomContainer");
@@ -404,23 +344,15 @@ function cerrarZoom() {
 /* ==============================
   FUNCIONES DE PRODUCTOS Y BOTONES
 ============================== */
-
-/* Function - Btn Favorito,Carrito, Descripcion y Comprar 369*/
 function crearBtnProducto(item) {
-  // Precio a Comprar
   const precioAComprar = document.createElement("p");
   precioAComprar.classList.add("precioAComprar");
   precioAComprar.textContent = `$${item.precio}`;
-
-  // Talla a Comprar
   const selectTallasContainer = document.createElement("div");
   selectTallasContainer.classList.add("selectTallasContainer");
 
   const tallasAComprar = crearSelectorTallas();
   selectTallasContainer.appendChild(tallasAComprar);
-  //
-
-  // Add a Carrito
   const btnCarrito = crearBtnCarrito(item.id);
   btnCarrito.classList.add("btnCarrito");
   btnCarrito.disabled = true;
@@ -436,16 +368,12 @@ function crearBtnProducto(item) {
   btnCarrito.addEventListener("click", () => {
     sincronizarBotonCarrito();
 
-    //
     const tallaSeleccionada = tallasAComprar.value;
-    // Evitar duplicar productos en carrito
     const productoExiste = carrito.some(
       (producto) =>
         producto.id === item.id && producto.talla === tallaSeleccionada,
     );
-    /*Si el producto No Existe */
-
-    if (!productoExiste) {
+if (!productoExiste) {
       carrito.push({
         id: item.id,
         src: item.src,
@@ -471,8 +399,6 @@ function crearBtnProducto(item) {
       mostrarModalAviso();
     }
   });
-
-  // Contenedor de Botones
   const botonesContainer = document.createElement("div");
   botonesContainer.classList.add("botonesProducto");
 
@@ -480,8 +406,6 @@ function crearBtnProducto(item) {
 
   return botonesContainer;
 }
-
-// Contador de Cuantos Productos va a Comprar usando select
 function contadorProducto(productoId, talla, cantidadInicial = 1) {
   const cantidad = Number(cantidadInicial) || 1;
 
@@ -491,15 +415,12 @@ function contadorProducto(productoId, talla, cantidadInicial = 1) {
   const select = document.createElement("select");
   select.classList.add("cantidad-select");
 
-  // Crear opciones
   for (let i = 1; i <= 9; i++) {
     const option = document.createElement("option");
     option.value = String(i);
     option.textContent = i;
     select.appendChild(option);
   }
-
-  // valor requerido  después de que existan las opciones
   select.value = String(cantidad);
 
   select.onchange = async () => {
@@ -530,11 +451,9 @@ function contadorProducto(productoId, talla, cantidadInicial = 1) {
   container.appendChild(select);
   return container;
 }
-//Crear Btn de Favorito
 function crearBtnfavorito(idProducto) {
   const container = document.createElement("div");
   container.classList.add("btnFavoritoContainer");
-  //
   const btnFavorito = document.createElement("button");
   btnFavorito.classList.add("btnFavorito");
   btnFavorito.dataset.idProducto = idProducto;
@@ -544,7 +463,6 @@ function crearBtnfavorito(idProducto) {
   imgFav.src = assets.wishlistOutline.src;
   imgFav.alt = assets.wishlistOutline.alt;
   btnFavorito.appendChild(imgFav);
-  //Le add el relleno
   const imgRellenoFavorito = document.createElement("img");
   imgRellenoFavorito.classList.add("imgRellenoFavorito");
 
@@ -556,15 +474,12 @@ function crearBtnfavorito(idProducto) {
   container.append(btnFavorito);
   return container;
 }
-// Crear Btn Carrito
 function crearBtnCarrito(idProducto) {
   const btnCarrito = document.createElement("button");
   btnCarrito.dataset.idProducto = idProducto;
   btnCarrito.textContent = "Agregar al Carrito";
   return btnCarrito;
 }
-
-//Descripcion
 function crearDescripcionProducto(item) {
   const descripcionContainer = document.createElement("div");
   descripcionContainer.classList.add("descripcionContainer");
@@ -580,12 +495,9 @@ function crearDescripcionProducto(item) {
 /* ==============================
   FUNCIONES DE FAVORITOS
 ============================== */
-
-//Redenrizar favorito
 function renderFavoritos() {
   const contenedor = document.querySelector(".favoritos-productos");
   contenedor.innerHTML = "";
-  //Contenedor del Producto Item de Favorito
   const productoFavoritosContainer = document.createElement("div");
   productoFavoritosContainer.classList.add("productoFavoritosContainer");
 
@@ -595,48 +507,34 @@ function renderFavoritos() {
 
     const detallesProducto = document.createElement("div");
     detallesProducto.classList.add("detallesProducto");
-
-    // Delete botón
     const deleteBtn = deleteProducto();
     deleteBtn.addEventListener("click", () => {
-      //
 
       sincronizarBotonFavorito();
 
       eliminarFavorito(item.id);
-      //
       sincronizarContenedorVacio();
     });
     productoItem.append(deleteBtn);
-
-    // Imagen
     const img = document.createElement("img");
     img.classList.add("imgFavoritos");
     img.src = item.src;
     img.alt = item.alt;
     img.loading = "lazy";
     productoItem.appendChild(img);
-
-    // Descripción
     const descripcion = crearDescripcionProducto(item);
     descripcion.classList.add("descripcionFavoritos");
     productoItem.appendChild(descripcion);
-
-    // Precio
     const btnComprarFavorito = document.createElement("p");
     btnComprarFavorito.textContent = `$${item.precio}`;
     btnComprarFavorito.classList.add("btnComprarFavorito");
     detallesProducto.appendChild(btnComprarFavorito);
-
-    // Tallas Contenedor
     const selectTallasContainer = document.createElement("div");
     selectTallasContainer.classList.add("selectTallasContainer");
 
     const tallas = crearSelectorTallas();
     selectTallasContainer.appendChild(tallas);
     detallesProducto.appendChild(selectTallasContainer);
-
-    // Botón agregar de Favorito al carrito
     const favoritoAgregarCarrito = crearBtnCarrito(item.id);
     favoritoAgregarCarrito.classList.add("favoritoAgregarCarrito");
 
@@ -662,8 +560,7 @@ function renderFavoritos() {
       sincronizarBotonFavorito();
       actualizarContadorCarrito();
       sincronizarBotonCarrito();
-      /*Ocultar el Mini Modal cuando esta en Favorito*/
-      if (favoritosContainer.classList.contains("activado")) {
+if (favoritosContainer.classList.contains("activado")) {
         miniModalCarrito.classList.remove("activado");
         miniModalCarritoContainer.classList.remove("activado");
       }
@@ -673,14 +570,11 @@ function renderFavoritos() {
     productoItem.appendChild(detallesProducto);
 
     productoFavoritosContainer.appendChild(productoItem);
-
-    // Agregar al contenedor del Favoritos
     contenedor.appendChild(productoFavoritosContainer);
   });
 }
 
 function agregarFavoritoAlCarrito(item, tallaSeleccionada) {
-  // Validar si ya existe
   const productoExiste = carrito.some(
     (p) => p.id === item.id && p.talla === tallaSeleccionada,
   );
@@ -688,8 +582,6 @@ function agregarFavoritoAlCarrito(item, tallaSeleccionada) {
     mostrarModalAviso();
     return;
   }
-
-  // Agregar al carrito
   carrito.push({
     id: item.id,
     src: item.src,
@@ -700,30 +592,21 @@ function agregarFavoritoAlCarrito(item, tallaSeleccionada) {
     cantidad: 1,
   });
 
-  // Actualizar UI
   renderCarrito();
   if (width >= 768) renderMiniModalCarrito();
   actualizarContadorCarrito();
 }
 
-//
 function eliminarFavorito(idProducto) {
-  // Encontrar el índice del producto
   const index = favoritos.findIndex((p) => p.id === idProducto);
 
   if (index !== -1) {
-    // Eliminar del array usando splice
     favoritos.splice(index, 1);
 
-    // Renderizar favoritos
     renderFavoritos();
-
-    // Sincronizar el botón
     sincronizarBotonFavorito();
   }
 }
-
-/*Sincronizar Btn de Favorito */
 export function sincronizarBotonFavorito() {
   const btnFavorito = document.querySelectorAll(".btnFavorito");
 
@@ -731,7 +614,6 @@ export function sincronizarBotonFavorito() {
     const idBtn = btn.dataset.idProducto;
     const producto = favoritos.find((p) => p.id === idBtn);
 
-    //
     const imgRelleno = btn.querySelector(".imgRellenoFavorito");
     const imgFav = btn.querySelector(".imgFav");
 
@@ -752,14 +634,11 @@ export function sincronizarBotonFavorito() {
     }
   });
 }
-
-/*Sincronizar Btn de Carrito */
 export function sincronizarBotonCarrito() {
   const btnCarrito = document.querySelectorAll(".btnCarrito");
 
   btnCarrito.forEach((btn) => {
     const idBtn = btn.dataset.idProducto;
-    //
     const contenedorProducto = btn.closest(".botonesProducto");
     const select = contenedorProducto.querySelector("select");
     const tallaSeleccionada = select.value;
@@ -767,8 +646,6 @@ export function sincronizarBotonCarrito() {
     const productoExiste = carrito.some(
       (p) => p.id === idBtn && p.talla === tallaSeleccionada,
     );
-
-    // Cambiar el texto según si está en el carrito o no
     if (productoExiste) {
       btn.textContent = "Producto agregado :)";
       btn.classList.add("activado");
@@ -779,15 +656,12 @@ export function sincronizarBotonCarrito() {
       btn.classList.add("desactivado");
     }
   });
-
-  //Btn del Contenedor de Favoritos
   const favoritoAgregarCarrito = document.querySelectorAll(
     ".favoritoAgregarCarrito",
   );
 
   favoritoAgregarCarrito.forEach((btn) => {
     const idBtn = btn.dataset.idProducto;
-    //
     const contenedorProducto = btn.closest(".detallesProducto");
     const select = contenedorProducto.querySelector("select");
     const tallaSeleccionada = select.value;
@@ -795,8 +669,6 @@ export function sincronizarBotonCarrito() {
     const productoExiste = carrito.some(
       (p) => p.id === idBtn && p.talla === tallaSeleccionada,
     );
-
-    // Cambiar el texto según si está en el carrito o no
     if (productoExiste) {
       btn.textContent = "Producto agregado :)";
       btn.classList.add("activado");
@@ -812,50 +684,37 @@ export function sincronizarBotonCarrito() {
 /* ==============================
   FUNCIONES DE CARRITO
 ============================== */
-
-//Redenrizar Carrito
 function renderCarrito() {
   const contenedor = document.querySelector(".carrito-productos");
 
   contenedor.innerHTML = "";
 
-  //Actualizar contador del carrito
   actualizarContadorCarrito();
-  //Contenedor de Producto Item de Carrito
   const productoCarritoContainer = document.createElement("div");
   productoCarritoContainer.classList.add("productoCarritoContainer");
   carrito.forEach((item, index) => {
-    // Crear contenedor del producto en carrito
     const productoItem = document.createElement("div");
     productoItem.classList.add("productoCarrito");
 
-    // Crear contenedor de detalles del producto
     const detallesProducto = document.createElement("div");
     detallesProducto.classList.add("detallesCarrito");
-
-    //Delete producto Carrito
     const deleteBtn = deleteProducto();
     deleteBtn.classList.add("deleteBtnCarrito");
     productoItem.appendChild(deleteBtn);
 
     deleteBtn.addEventListener("click", () => {
       const idProductoAEliminar = item.id;
-
-      // Eliminar del array del carrito
       const index = carrito.findIndex((p) => p.id === idProductoAEliminar);
 
       if (index !== -1) {
         carrito.splice(index, 1);
       }
-      // Eliminar del DOM
       productoItem.remove();
       sincronizarBotonCarrito();
       sincronizarContenedorVacio();
       renderCarrito();
       saveToLocalStorage();
       actualizarContadorCarrito();
-
-      // Sincronizar botón original del producto
       const botonesProducto = document.querySelectorAll(".botonesProducto");
       botonesProducto.forEach((element) => {
         const btnCarrito = element.querySelector(".btnCarrito");
@@ -868,7 +727,6 @@ function renderCarrito() {
           const imgRellenoCarrito =
             btnCarrito.querySelector(".imgRellenoCarrito");
 
-          //
           if (imgCarrito) imgCarrito.classList.remove("desactivado");
           if (imgRellenoCarrito) imgRellenoCarrito.classList.remove("activado");
         }
@@ -876,7 +734,6 @@ function renderCarrito() {
       sincronizarBotonCarrito();
       renderCarrito();
       renderFavoritos();
-      //
       if (
         (width >= 768 && favoritosContainer.classList.contains("activado")) ||
         carritoContainer.classList.contains("activado")
@@ -886,32 +743,21 @@ function renderCarrito() {
 
       detallesCompra();
     });
-
-    // Imagen del producto
     const img = document.createElement("img");
     img.classList.add("imgCarrito");
     img.src = item.src;
     img.alt = item.alt;
     img.loading = "lazy";
     productoItem.appendChild(img);
-
-    // Descripción del Producto Carrito
     const descripcion = crearDescripcionProducto(item);
     detallesProducto.appendChild(descripcion);
     descripcion.classList.add("descripcionCarrito");
-
-    /*Contenedor de Precio , Talla y Cantidad  */
-    const infoCompraCarrito = document.createElement("div");
+const infoCompraCarrito = document.createElement("div");
     infoCompraCarrito.classList.add("infoCompraCarrito");
-
-    // Precio
     const precioProducto = document.createElement("p");
     precioProducto.textContent = `$${item.precio}`;
-
-    // Talla seleccionada
     const tallaSeleccionada = document.createElement("p");
     tallaSeleccionada.textContent = `Talla: ${item.talla}`;
-    // Selector de cantidad
     const cantidadContenedor = contadorProducto(
       item.id,
       item.talla,
@@ -925,9 +771,7 @@ function renderCarrito() {
     );
 
     detallesProducto.appendChild(infoCompraCarrito);
-    /* */
-    //Add a Favoritos desde Carrito
-    const carritoAgregarFavorito = document.createElement("div");
+const carritoAgregarFavorito = document.createElement("div");
     carritoAgregarFavorito.classList.add("carritoAgregarFavorito");
     const btnFavorito = document.createElement("span");
     btnFavorito.textContent = "Agregar a Favoritos";
@@ -938,12 +782,10 @@ function renderCarrito() {
       const productoExiste = favoritos.some(
         (producto) => producto.id === item.id,
       );
-      //
       if (productoExiste) {
         mostrarModalAviso();
         return;
       }
-      //
       if (!productoExiste) {
         favoritos.push({
           id: item.id,
@@ -953,16 +795,11 @@ function renderCarrito() {
           precio: item.precio,
         });
 
-        //
         const idProductoAEliminar = item.id;
-
-        // Eliminar del array de carrito
         const index = carrito.findIndex((p) => p.id === idProductoAEliminar);
         if (index !== -1) {
           carrito.splice(index, 1);
         }
-
-        // Eliminar del DOM
         productoItem.remove();
         detallesCompra();
       }
@@ -973,13 +810,9 @@ function renderCarrito() {
       sincronizarBotonCarrito();
       sincronizarContenedorVacio();
     });
-
-    // Agregar detalles al producto
     productoItem.appendChild(detallesProducto);
 
     productoCarritoContainer.appendChild(productoItem);
-
-    // Agregar al contenedor del carrito
     contenedor.appendChild(productoCarritoContainer);
     detallesCompra();
   });
@@ -988,25 +821,17 @@ function renderCarrito() {
 /* ==============================
   FUNCIONES DE MINI MODAL CARRITO
 ============================== */
-
-//Redenrizar Mini Modal de Carrito
 function renderMiniModalCarrito() {
-  //Contendor principal
   miniModalCarrito.innerHTML = "";
 
-  //
   miniModalCarrito.classList.add("activado");
   miniModalCarritoContainer.classList.add("activado");
-
-  //exit de Mini Modal
   const exitMiniModal = exitGenerico();
   exitMiniModal.classList.add("exitMiniModal");
   exitMiniModal.addEventListener("click", () => {
     miniModalCarrito.classList.remove("activado");
     miniModalCarritoContainer.classList.remove("activado");
   });
-
-  //Contenedor del Titulo y el contador de Articulo
   const tituloMiniModalContainer = document.createElement("div");
   tituloMiniModalContainer.classList.add("tituloMiniModalContainer");
   const h3MiniModal = document.createElement("h3");
@@ -1019,49 +844,35 @@ function renderMiniModalCarrito() {
 
   const cantidad = Array.isArray(carrito) ? carrito.length : 0;
   contadorArticulosMiniModal.textContent = cantidad;
-  ///
   contadorArticulosMiniModal.textContent = `${cantidad} ${cantidad === 1 ? "artículo" : "artículos"}`;
-  //
   tituloMiniModalContainer.appendChild(contadorArticulosMiniModal);
 
   miniModalCarrito.appendChild(tituloMiniModalContainer);
-
-  //Alert de que solo se va a estar los articulos x 1 Hora
   const avisoDelTiempoArticuloContainer = document.createElement("div");
 
   avisoDelTiempoArticuloContainer.classList.add(
     "avisoDelTiempoArticuloContainer",
   );
   const aviso = document.createElement("p");
-  aviso.textContent = " Solo Vamos a Guardar tus Productos  por 1 hora :)";
-  //
+  aviso.textContent = "Solo guardaremos tus productos durante 1 hora :)";
   avisoDelTiempoArticuloContainer.appendChild(aviso);
   miniModalCarrito.appendChild(avisoDelTiempoArticuloContainer);
 
-  // Crear contenedor del producto en mini modal
   const productoMiniModalContainer = document.createElement("div");
   productoMiniModalContainer.classList.add("productoMiniModalContainer");
-
-  // Mostrar productos del carrito en el mini modal
   carrito.forEach((item) => {
     const productoItemMiniModal = document.createElement("div");
     productoItemMiniModal.classList.add("productoItemMiniModal");
-    //Eliminar Producto de MinModal
     const deleteProductoMiniModal = deleteProducto();
     deleteProductoMiniModal.classList.add("deleteProductoMiniModal");
     deleteProductoMiniModal.addEventListener("click", () => {
       const idProductoAEliminar = item.id;
-
-      // Eliminar del array del carrito
       const index = carrito.findIndex((p) => p.id === idProductoAEliminar);
 
       if (index !== -1) {
         carrito.splice(index, 1);
       }
-      // Eliminar del DOM
       productoItemMiniModal.remove();
-
-      // Sincronizar botón original del producto
       const botonesProducto = document.querySelectorAll(".botonesProducto");
       botonesProducto.forEach((element) => {
         const btnCarrito = element.querySelector(".btnCarrito");
@@ -1074,74 +885,54 @@ function renderMiniModalCarrito() {
           const imgRellenoCarrito =
             btnCarrito.querySelector(".imgRellenoCarrito");
 
-          //
           if (imgCarrito) imgCarrito.classList.remove("desactivado");
           if (imgRellenoCarrito) imgRellenoCarrito.classList.remove("activado");
         }
       });
       sincronizarBotonCarrito();
       renderCarrito();
-      //
       if (width >= 768) {
         renderMiniModalCarrito();
       }
       sincronizarBotonCarrito();
       detallesCompra();
     });
-
-    //Detalles del Producto -Mini Modal
     const detallesMiniModal = document.createElement("detallesMiniModal");
     detallesMiniModal.classList.add("detallesMiniModal");
-
-    // Imagen
     const img = document.createElement("img");
     img.id = "imgMiniModal";
     img.src = item.src;
     img.alt = item.alt;
     img.loading = "lazy";
     productoItemMiniModal.appendChild(img);
-
-    // Precio
     const precio = document.createElement("p");
     precio.textContent = `$${item.precio}`;
     precio.classList.add("precioMiniModal");
     detallesMiniModal.appendChild(precio);
-
-    // Descripción
     const descripcion = crearDescripcionProducto(item);
     descripcion.classList.add("descripcionMiniModal");
     detallesMiniModal.appendChild(descripcion);
 
-    //
     const tallaSeleccionada = document.createElement("p");
 
     tallaSeleccionada.classList.add("tallaCarrito");
     detallesMiniModal.appendChild(tallaSeleccionada);
-
-    //Cantidad de Producto Mini Modal
     const cantidadProductoMiniModal = document.createElement("span");
     cantidadProductoMiniModal.classList.add("cantidadProductoMiniModal");
 
     const cantidad = Array.isArray(carrito) ? carrito.length : 0;
     cantidadProductoMiniModal.textContent = cantidad;
-    // Cantidad del Producto
     cantidadProductoMiniModal.textContent = `Cantidad: ${cantidad}`;
-
-    //Concatenar
     tallaSeleccionada.innerHTML = `Talla: ${item.talla} <span style="margin-left:18px;">Cantidad: ${item.cantidad}</span>`;
 
-    //
     detallesMiniModal.appendChild(deleteProductoMiniModal);
     productoItemMiniModal.append(detallesMiniModal);
     productoMiniModalContainer.appendChild(productoItemMiniModal);
 
     miniModalCarrito.append(productoMiniModalContainer);
   });
-  //Subtotal del Mini Modal
   const subtotalContainer = document.createElement("div");
   subtotalContainer.classList.add("subtotalContainer");
-
-  // Agregar total del carrito de Mini Modal
   const totalPrecio = document.createElement("span");
   let subtotal = calcularSubtotal();
 
@@ -1152,14 +943,11 @@ function renderMiniModalCarrito() {
 
   miniModalCarrito.append(subtotalContainer);
   totalPrecio.classList.add("totalPrecioMiniModal");
-
-  // Btnl del Mini Modal de Compra
   const btnMiniModalContainer = document.createElement("div");
   btnMiniModalContainer.classList.add("btnMiniModalContainer");
 
   const btnVerCarrito = document.createElement("button");
   btnVerCarrito.textContent = "Ver Carrito";
-  //
   btnVerCarrito.addEventListener("click", () => {
     carritoContainer.classList.add("activado");
     miniModalCarrito.classList.remove("activado");
@@ -1167,32 +955,28 @@ function renderMiniModalCarrito() {
 
   const btnComprarMiniModalCarrito = document.createElement("button");
   btnComprarMiniModalCarrito.textContent = "Pagar Ahora";
-  //
   btnComprarMiniModalCarrito.addEventListener("click", () => {
     renderModalCompra();
     comprarProducto();
   });
 
-  //
   btnMiniModalContainer.append(btnVerCarrito);
   btnMiniModalContainer.append(btnComprarMiniModalCarrito);
   miniModalCarrito.append(btnMiniModalContainer);
-
-  //Envios y Pedidios
   const envioYPedidosContainer = document.createElement("div");
   envioYPedidosContainer.classList.add("envioYPedidosContainer");
 
   const envioYPedidos = document.createElement("h3");
-  envioYPedidos.textContent = "Envio y Devoluciones Gratis";
+  envioYPedidos.textContent = "Envío y devoluciones gratis";
 
   envioYPedidosContainer.append(envioYPedidos);
 
   const masInf = document.createElement("p");
-  masInf.textContent = "Mas Informacion ";
+  masInf.textContent = "Más información";
 
   const linkAqui = document.createElement("a");
   linkAqui.href = "#";
-  linkAqui.textContent = "aqui";
+  linkAqui.textContent = "aquí";
   masInf.append(linkAqui);
 
   envioYPedidosContainer.append(masInf);
@@ -1203,24 +987,16 @@ function renderMiniModalCarrito() {
 /* ==============================
   FUNCIONES DE MODAL DE COMPRA
 ============================== */
-
-//Redenrizar Modal de Compra
 function renderModalCompra() {
-  // Contenedor principal de productos
   const contenedorProductos = document.querySelector(".productos-modal-compra");
-  //Exit Modal de Compra
   const exitModalCompra = exitGenerico();
   exitModalCompra.classList.add("exitModalCompra");
-
-  // Totales
   const subtotalSpan = document.getElementById("subtotal");
   const descuentoSpan = document.getElementById("descuento");
   const ivaSpan = document.getElementById("iva");
   const totalSpan = document.getElementById("total");
 
-  // Limpiar contenido anterior
   contenedorProductos.innerHTML = "";
-  // Contador de artículos
   const tituloH3 = document.querySelector(
     ".productos-modal-compra-container h3",
   );
@@ -1234,25 +1010,19 @@ function renderModalCompra() {
 
   tituloH3.firstChild.textContent = cantidad === 1 ? "Producto " : "Productos ";
 
-  // Renderizar productos
   carrito.forEach((item) => {
     const productoModalCompra = document.createElement("div");
     productoModalCompra.classList.add("productoModalCompra");
-    //Delete Producto del Modal de Compra
     const deleteModalCompra = deleteProducto();
     deleteModalCompra.classList.add("deleteModalCompra");
     deleteModalCompra.addEventListener("click", () => {
       const idProductoAEliminar = item.id;
-      // Eliminar del array del carrito
       const index = carrito.findIndex((p) => p.id === idProductoAEliminar);
 
       if (index !== -1) {
         carrito.splice(index, 1);
       }
-      // Eliminar del DOM
       productoModalCompra.remove();
-
-      // Sincronizar botón original del producto
       const botonesProducto = document.querySelectorAll(".botonesProducto");
       botonesProducto.forEach((element) => {
         const btnCarrito = element.querySelector(".btnCarrito");
@@ -1265,7 +1035,6 @@ function renderModalCompra() {
           const imgRellenoCarrito =
             btnCarrito.querySelector(".imgRellenoCarrito");
 
-          //
           if (imgCarrito) imgCarrito.classList.remove("desactivado");
           if (imgRellenoCarrito) imgRellenoCarrito.classList.remove("activado");
         }
@@ -1279,35 +1048,22 @@ function renderModalCompra() {
     });
 
     productoModalCompra.appendChild(deleteModalCompra);
-
-    // Imagen
     const img = document.createElement("img");
     img.src = item.src;
     img.alt = item.alt;
     img.loading = "lazy";
     img.classList.add("imgModalCompra");
-
-    // Detalles
     const detalles = document.createElement("div");
     detalles.classList.add("detallesModalCompra");
-
-    // Descripción
     const descripcion = crearDescripcionProducto(item);
     descripcion.classList.add("descripcionModalCompra");
-
-    /*Contenedor de Precio , Talla y Cantidad  */
-    const infoCompra = document.createElement("div");
+const infoCompra = document.createElement("div");
     infoCompra.classList.add("infoCompraModalCompra");
-    // Precio
     const precio = document.createElement("p");
     precio.textContent = `$${item.precio}`;
     precio.classList.add("precioModalCompra");
-
-    // Talla
     const talla = document.createElement("p");
     talla.textContent = `Talla: ${item.talla}`;
-
-    //Cantidad
     const cantidad = document.createElement("p");
     cantidad.textContent = `Cantidad: ${item.cantidad} `;
 
@@ -1319,23 +1075,15 @@ function renderModalCompra() {
 
     contenedorProductos.append(exitModalCompra);
   });
-
-  // Cálculos
   const subtotal = calcularSubtotal();
   let descuento = 9.36;
   let iva = 0.15;
-  //
-
-  //Para que Muestre solo 0
   if (cantidad === 0) {
     descuento = 0;
     iva = 0;
-    //
   }
 
   const total = subtotal - descuento + iva;
-
-  // Mostrar totales
   subtotalSpan.textContent = `$${subtotal.toFixed(2)}`;
   descuentoSpan.textContent = `$${descuento.toFixed(2)}`;
   ivaSpan.textContent = `$${iva.toFixed(2)}`;
@@ -1360,7 +1108,6 @@ function getPedidoTotal(pedido) {
   }
   return 0;
 }
-/*Render el Historial de Pedidos */
 function renderHistorialPedidos() {
   encabezadoPedidoContainer.innerHTML = "";
   historialPedidosContainer.innerHTML = "";
@@ -1430,7 +1177,6 @@ function renderHistorialPedidos() {
     });
   });
 }
-// Función para generar talla y Cantidad aleatoria
 function tallaRandom() {
   const tallas = ["S", "M", "XL"];
   const indice = Math.floor(Math.random() * tallas.length);
@@ -1449,7 +1195,6 @@ function fechaRandom() {
 
   return fecha.toLocaleDateString();
 }
-// Llamamos a la función
 renderHistorialPedidos();
 
 /* ==============================
@@ -1473,21 +1218,15 @@ const productosHombre = {
   conjuntos: [],
   accesorios: [],
 };
-// Para hacer el Z-Indez
 const containersTienda = document.querySelectorAll(
   ".vestidos-container, .blusas-container, .pantalones-mujer-container, .faldas-container, .conjuntos-mujer-container, .accesorios-mujer-container, .camisas-container, .pantalones-hombre-container, .gorras-container, .zapatos-container, .conjuntos-hombre-container, .accesorios-hombre-container",
 );
-//Cargar data en productos
-
-// Mujer
 productosMujer.vestidos = dataMujeres.vestidos;
 productosMujer.blusas = dataMujeres.blusas;
 productosMujer.pantalones = dataMujeres.pantalones;
 productosMujer.faldas = dataMujeres.faldas;
 productosMujer.conjuntos = dataMujeres.conjuntos;
 productosMujer.accesorios = dataMujeres.accesorios;
-
-// Hombre
 productosHombre.camisas = dataHombres.camisas;
 productosHombre.pantalones = dataHombres.pantalones;
 productosHombre.gorras = dataHombres.gorras;
@@ -1495,9 +1234,7 @@ productosHombre.zapatos = dataHombres.zapatos;
 productosHombre.conjuntos = dataHombres.conjuntos;
 productosHombre.accesorios = dataHombres.accesorios;
 
-//
 
-//
 
 populateGrid(".vestidos-grid", productosMujer.vestidos);
 populateGrid(".blusas-grid", productosMujer.blusas);
@@ -1515,9 +1252,6 @@ populateGrid(".gorras-grid", productosHombre.gorras);
 populateGrid(".zapatos-grid", productosHombre.zapatos);
 populateGrid(".conjuntos-hombre-grid", productosHombre.conjuntos);
 populateGrid(".accesorios-hombre-grid", productosHombre.accesorios);
-
-//
-//Mostramos el Grid Correspodinte deCategorias
 const toggleGrids = document.querySelectorAll(
   ".productos-mujer , .productos-hombre",
 );
@@ -1540,8 +1274,6 @@ toggleGrids.forEach((e) => {
   });
 });
 
-//Producto Grid Visible
-
 function toggleGrid() {
   const containers = this.querySelectorAll(
     ".vestidos-container, .blusas-container, .pantalones-mujer-container, .faldas-container, .conjuntos-mujer-container, .accesorios-mujer-container, .camisas-container, .pantalones-hombre-container, .gorras-container, .zapatos-container, .conjuntos-hombre-container, .accesorios-hombre-container",
@@ -1551,7 +1283,6 @@ function toggleGrid() {
     body.style.overflowY = "hidden";
   });
 }
-/*Render Perfil del Usuario */
 export function renderPerfilUsuario() {
   const usuario = state.usuarioActivo;
 
@@ -1571,7 +1302,6 @@ export function renderPerfilUsuario() {
   if (telefono) telefono.value = usuario.telefono || "";
   if (correo) correo.value = usuario.correo || "";
   if (direccion) direccion.value = usuario.direccion || "";
-  //
 
   if (nombreHeader) {
     nombreHeader.textContent = usuario.nombre || "Usuario";
@@ -1579,22 +1309,15 @@ export function renderPerfilUsuario() {
   }
 }
 
-//Actualizar la Img add del Usuario
 export function renderImgUsuario() {
   const logInLogo = document.querySelector(".log-in-logo");
-
-  // Limpiamos el contenido del botón
   logInLogo.innerHTML = "";
 
   const img = document.createElement("img");
-  //
 
   const usuarioActivo = localStorage.getItem("usuarioActivo");
-  // Si el Usuario se Logueo
   if (usuarioActivo) {
   }
-
-  // CASO C: Hay usuario logueado y sí tiene foto personalizada
   else {
     img.src = state.usuarioActivo.imagen;
     img.alt = state.usuarioActivo.nombre;
@@ -1603,17 +1326,11 @@ export function renderImgUsuario() {
 
   logInLogo.appendChild(img);
 }
-
-// Función para animar las letras en hover
 export function aplicarAnimacionLetras(elemento) {
   const texto = elemento.textContent.trim();
-
-  // Si el texto está vacío, no hacer nada
   if (!texto) return;
 
   elemento.innerHTML = "";
-
-  // Dividir el texto en caracteres
   const caracteres = texto.split("");
 
   caracteres.forEach((char, index) => {
@@ -1625,8 +1342,6 @@ export function aplicarAnimacionLetras(elemento) {
 
     elemento.appendChild(span);
   });
-
-  // Eventos de hover
   elemento.addEventListener("mouseenter", function () {
     this.classList.add("letras-activas");
   });
@@ -1652,8 +1367,6 @@ function renderEstadoTabla() {
 
     const celdaFecha = document.createElement("td");
     celdaFecha.textContent = pedido.fecha;
-
-    // Total
     const totalNum = (function (p) {
       if (!p) return 0;
       const raw = p.totalFinal ?? p.total ?? 0;
@@ -1693,34 +1406,27 @@ function renderEstadoTabla() {
   });
 }
 renderEstadoTabla();
-//Render Pedidos
 
 function renderPedidoDetalle(pedido) {
   const template = document.getElementById("pedido-detalle-template");
   if (!template) {
-    console.error("Template #pedido-detalle-template no encontrado");
+    console.error("Order detail template #pedido-detalle-template was not found");
     return;
   }
-
-  // Clonamos el template
   const clone = template.content.cloneNode(true);
-
-  // ====================== HEADER ======================
   const header = clone.querySelector(".pedido-detalle-header");
   header.innerHTML = `
         <h2>Pedido #${pedido.numeroPedido}</h2>
         <p><strong>Cliente:</strong> ${pedido.usuario}</p>
         <p><strong>Fecha:</strong> ${pedido.fecha}</p>
     `;
-
-  // ====================== INFO ======================
   const info = clone.querySelector(".pedido-detalle-info");
 
   const totalPedido = parseFloat(pedido.totalFinal || pedido.total || 0);
 
   info.innerHTML = `
     <div class="info-item">
-        <strong>Estado:</strong> 
+        <strong>Estado:</strong>
         <span class="estado-${pedido.estado}">${pedido.estado.toUpperCase()}</span>
     </div>
     <div class="info-item">
@@ -1730,8 +1436,6 @@ function renderPedidoDetalle(pedido) {
         <strong>Total:</strong> $${totalPedido.toFixed(2)}
     </div>
 `;
-
-  // ====================== PRODUCTOS ======================
   const productosContainer = clone.querySelector(".pedido-detalle-productos");
   productosContainer.innerHTML = `<h3>Productos (${pedido.productos.length})</h3>`;
 
@@ -1751,8 +1455,6 @@ function renderPedidoDetalle(pedido) {
 
     productosContainer.appendChild(productoDiv);
   });
-
-  // ====================== MOSTRAR ======================
   mostrarModal(clone);
 }
 function mostrarModal(contenido) {
@@ -1782,7 +1484,6 @@ function mostrarModal(contenido) {
 
   modal.appendChild(overlay);
   modal.appendChild(contentBox);
-  //
   body.style.overflowY = "hidden";
 
   closeBtn.addEventListener("click", () => {
@@ -1796,8 +1497,6 @@ function mostrarModal(contenido) {
 /* ==============================
   RENDER FACTURA
 ============================== */
-
-/*Renderizar Factura */
 function renderFacturaPedido(pedido) {
   if (!pedido) return;
 
@@ -1815,7 +1514,6 @@ function renderFacturaPedido(pedido) {
   );
 }
 
-//Renderizar Tarjetas Guardadas
 function crearTarjeta(tarjeta) {
   const template = document.getElementById("tarjeta-template");
   const clone = template.content.cloneNode(true);
@@ -1825,12 +1523,8 @@ function crearTarjeta(tarjeta) {
   const numeroText = clone.querySelector(".tarjeta-numero");
   const titularText = clone.querySelector(".tarjeta-titular");
   const fechaText = clone.querySelector(".tarjeta-fecha");
-
-  // Imagen
   imgTarjeta.src = imgTarjetas[tarjeta.imagen] || imgTarjetas.visa;
   imgTarjeta.alt = tarjeta.tipo;
-
-  // Tipo
   tipoText.textContent =
     tarjeta.tipo === "Visa"
       ? "Credit Card"
@@ -1845,15 +1539,11 @@ function crearTarjeta(tarjeta) {
   return clone.querySelector(".tarjeta-guardada");
 }
 
-// Renderizar tarjetas Guardadas
 export function renderizarTarjetas() {
   const container = document.querySelector(".tarjeta-guardada-container");
   if (!container) return;
 
   container.innerHTML = "";
-
-  //
-  //Mostramos un mensaje si no hay Tarjetas Guardadas
   const usuarioActivo = state.usuarioActivo;
   btnsPerfil.forEach((btn) => {
     const target = btn.dataset.target;
@@ -1865,18 +1555,14 @@ export function renderizarTarjetas() {
     }
   });
 
-  //
 
   const template = document.getElementById("tarjeta-template");
-  //Si el Usuario no esta Loguiado
   if (!usuarioActivo) {
     return;
   }
   usuarioActivo.metodosPago.forEach((tarjeta, index) => {
     const tarjetaElement = template.content.cloneNode(true);
     const esPaypal = tarjeta.tipo.toLowerCase() === "paypal";
-
-    // === TIPO ===
     let tipoTitulo = "";
     switch (tarjeta.tipo.toLowerCase()) {
       case "visa":
@@ -1895,8 +1581,6 @@ export function renderizarTarjetas() {
     tarjetaElement.querySelector(".tarjeta-tipo").textContent = tipoTitulo;
     tarjetaElement.querySelector(".tarjeta-titular").textContent =
       tarjeta.titular || "";
-
-    // === EXPIRACIÓN ===
     const expiracionContainer = tarjetaElement.querySelector(".expiracion");
     if (esPaypal) {
       if (expiracionContainer) expiracionContainer.style.display = "none";
@@ -1905,14 +1589,10 @@ export function renderizarTarjetas() {
       tarjetaElement.querySelector(".tarjeta-fecha").textContent =
         tarjeta.expiracion || "N/A";
     }
-
-    // === IMAGEN ===
     if (tarjeta.imagen && imgTarjetas[tarjeta.imagen]) {
       tarjetaElement.querySelector(".tarjeta-logo").src =
         imgTarjetas[tarjeta.imagen];
     }
-
-    // === NÚMERO / EMAIL ===
     const numeroElement = tarjetaElement.querySelector(".tarjeta-numero");
     if (esPaypal) {
       const email = tarjeta.numero || tarjeta.email;
@@ -1932,8 +1612,6 @@ export function renderizarTarjetas() {
         numeroElement.textContent = "—";
       }
     }
-
-    // === BOTONES ===
     const btnActualizar = tarjetaElement.querySelector(
       ".btn-actualizar-tarjetas-guardadas",
     );
@@ -1946,31 +1624,22 @@ export function renderizarTarjetas() {
 
       if (tipoPago === "visa" || tipoPago === "mastercard") {
         limpiarForm(formPaypal);
-        // Mostrar formulario de tarjeta, ocultar PayPal
         formTarjeta.classList.remove("desactivado");
         formPaypal.classList.remove("activado");
 
-        // Actualizar botones
         btnVisaMastercard.classList.add("activado");
         btnPaypal.classList.remove("activado");
       } else if (tipoPago === "paypal") {
         limpiarForm(formTarjeta);
-        // Mostrar formulario de PayPal, ocultar tarjeta
         formTarjeta.classList.add("desactivado");
         formPaypal.classList.add("activado");
 
-        // Actualizar botones
         btnPaypal.classList.add("activado");
         btnVisaMastercard.classList.remove("activado");
       }
-
-      //  Eliminar tarjeta del array
       state.usuarioActivo.metodosPago.splice(index, 1);
 
-      //  Actualizar el form con los datos de la tarjeta
       actualizarForm(tarjeta);
-      //
-      //
       const username = state.usuarioActivo.username;
       Object.keys(state.usuarios).forEach((key) => {
         if (state.usuarios[key].username === username) {
@@ -1999,7 +1668,6 @@ export function renderizarTarjetas() {
     container.appendChild(tarjetaElement);
   });
 }
-//
 
 export function mostrarMensajeSinTarjetas() {
   const container = document.querySelector(".tarjeta-guardada-container");
@@ -2010,7 +1678,6 @@ export function mostrarMensajeSinTarjetas() {
 
   const metodosPago = usuario.metodosPago;
 
-  // limpiar antes de renderizar mensaje
   container.innerHTML = "";
 
   if (!metodosPago || metodosPago.length === 0) {
@@ -2021,9 +1688,6 @@ export function mostrarMensajeSinTarjetas() {
     container.appendChild(mensaje);
   }
 }
-/* */
-// ==================== CAMBIAR ICONO SEGÚN SELECT ====================
-
 const selectTipoTarjeta = document.getElementById("tipo-tarjeta");
 const imgTipoVisaMastercard = document.querySelector(
   ".img-tipo-visa-mastercard",
@@ -2032,15 +1696,12 @@ selectTipoTarjeta?.addEventListener("change", () => {
   const metodoSeleccionado = selectTipoTarjeta.value;
 
   if (metodoSeleccionado === "Visa") {
-    // Cambiamos la imagen al logo de Visa
     imgTipoVisaMastercard.src = assets.visa.src;
   } else if (metodoSeleccionado === "Mastercard") {
-    // Cambiamos la imagen al logo de Mastercard
     imgTipoVisaMastercard.src = assets.mastercard.src;
   }
 });
 
-// Actualizar la Tarjeta - Función para rellenar el form según tipo de tarjeta
 function limpiarForm(form) {
   form.reset();
 }
@@ -2055,10 +1716,7 @@ function actualizarForm(tarjeta) {
 
   if (!form) return;
 
-  // Limpiar form
   limpiarForm(form);
-
-  // Rellenar campos según tarjeta
   if (tarjeta.tipo === "Visa" || tarjeta.tipo === "Mastercard") {
     form.querySelector("#tipo-tarjeta").value = tarjeta.tipo;
     form.querySelector("#numero-tarjeta").value = tarjeta.numero;
@@ -2076,11 +1734,6 @@ function actualizarForm(tarjeta) {
     );
   }
 }
-
-///
-/* ======================================== */
-/* Guardar Tarjeta Cuando se ingrese una Nueva tarjeta */
-/* ======================================== */
 const btnGuardarTarjeta = document.getElementById("guardar-tarjeta");
 
 btnGuardarTarjeta.addEventListener("click", (e) => {
@@ -2090,13 +1743,9 @@ btnGuardarTarjeta.addEventListener("click", (e) => {
   const numero = document.getElementById("numero-tarjeta").value.trim();
   const titular = document.getElementById("titular-tarjeta").value.trim();
   const expiracion = document.getElementById("expiracion-tarjeta").value.trim();
-
-  // Validar que todos los campos estén completos
   if (!tipo || !numero || !titular || !expiracion) {
     return;
   }
-
-  // Validar longitud del número de tarjeta
   if (numero.length !== 10) {
     return;
   }
@@ -2121,7 +1770,6 @@ btnGuardarTarjeta.addEventListener("click", (e) => {
 
   state.usuarioActivo.metodosPago.push(nuevaTarjeta);
 
-  // Actualizar el usuario dentro de state.usuarios
   const usernameActivo = state.usuarioActivo.username;
   Object.keys(state.usuarios).forEach((key) => {
     if (state.usuarios[key].username === usernameActivo) {
@@ -2132,9 +1780,7 @@ btnGuardarTarjeta.addEventListener("click", (e) => {
   formTarjeta.reset();
   renderizarTarjetas();
 });
-/* ======================================== */
-/*Guarddar Paypal cuando se ingresa  */
-/* ======================================== */ const guardarPaypal =
+const guardarPaypal =
   document.getElementById("guardar-paypal");
 
 guardarPaypal.addEventListener("click", (e) => {
@@ -2143,8 +1789,6 @@ guardarPaypal.addEventListener("click", (e) => {
   const titular = document.getElementById("titular-paypal").value.trim();
   const email = document.getElementById("email-paypal").value.trim();
   const confirm = document.getElementById("confirm-email-paypal").value.trim();
-
-  // Validaciones simples
   if (!titular || !email || !confirm) {
     return;
   }
@@ -2153,7 +1797,6 @@ guardarPaypal.addEventListener("click", (e) => {
     return;
   }
 
-  // Crear objeto PayPal
   const nuevoPaypal = {
     id: `p${Date.now()}`,
     tipo: "paypal",
@@ -2167,15 +1810,12 @@ guardarPaypal.addEventListener("click", (e) => {
   if (!state.usuarioActivo) {
     return;
   }
-
-  // Inicializar métodos de pago si no existen
   if (!state.usuarioActivo.metodosPago) {
     state.usuarioActivo.metodosPago = [];
   }
 
   state.usuarioActivo.metodosPago.push(nuevoPaypal);
 
-  // Actualizar también en state.usuarios
   const username = state.usuarioActivo.username;
   Object.values(state.usuarios).forEach((usuario) => {
     if (usuario.username === username) {
@@ -2186,12 +1826,9 @@ guardarPaypal.addEventListener("click", (e) => {
   formPaypal.reset();
   renderizarTarjetas();
 });
-//
-// Mover elemento de búsqueda según el tamaño de pantalla
 
 function moverBuscar() {
   const width = window.innerWidth;
-  //Esta aqui xq necesita mover segun el width para poder que sirva
 
   const containerInput = document.querySelector(".container-input");
   const buscarContainer = document.querySelector(".buscar-container");
@@ -2214,7 +1851,6 @@ function moverBuscar() {
     btnBuscarContainer.style.display = "block";
   }
 }
-// function MENÚ CATEGORÍAS
 function moverBtnCategorias() {
   const btnContainer = document.querySelector(".menu-btn-container");
   const categoriasContainer = document.querySelector(
@@ -2224,24 +1860,17 @@ function moverBtnCategorias() {
   if (width >= 768) {
     header.appendChild(btnContainer);
 
-    //
   } else {
     categoriasContainer.appendChild(btnContainer);
   }
 }
 moverBtnCategorias();
-//
-//escuchar el Cambio de Tamaño de la Pantalla
 export function renderPrincipalResize() {
   moverBtnCategorias();
   sincronizarContenedorVacio();
   moverBuscar();
 
   const facturaModal = document.querySelector(".facturas-modal");
-  /*
-  if (facturaModal?.classList.contains("activado")) {
-    facturaModal.style.padding = width >= 344 ? "24px" : "0px";
-  }*/
   if (window.innerWidth <= 366) {
     document
       .querySelectorAll(".fecha-expiracion-container label")
@@ -2251,7 +1880,6 @@ export function renderPrincipalResize() {
   }
 
   if (width >= 768) {
-    // ====================== DESKTOP ======================
     if (loginContainer.classList.contains("activado")) {
       contenedoresPerfil.forEach((c) => {
         if (c.classList.contains("activado")) {
@@ -2259,7 +1887,6 @@ export function renderPrincipalResize() {
           body.style.overflowY = "hidden";
         }
       });
-      //
       if (
         contenedoresPerfil.length > 0 &&
         btnsPerfil.length > 0 &&
@@ -2278,7 +1905,6 @@ export function renderPrincipalResize() {
     menuCategorias.classList.add("activado");
     menuCategoriasContainer.classList.add("activado");
   } else {
-    // ====================== MOBILE ======================
 
     menuCategorias.classList.remove("activado");
     menuCategoriasContainer.classList.remove("activado");
@@ -2297,7 +1923,6 @@ export function renderPrincipalResize() {
       loginContainer.classList.remove("activado");
     }
   }
-  //
   if (
     !menuCategorias ||
     !containers ||
@@ -2324,10 +1949,9 @@ export function renderPrincipalResize() {
 renderPrincipalResize();
 window.addEventListener("resize", renderPrincipalResize);
 
-//
 export function calcularAnchoCapaLateral(wrapperElement) {
   if (!wrapperElement) {
-    console.error("Elemento wrapper no proporcionado");
+    console.error("Wrapper element was not provided");
     return { capaWidth: 0, windowWidth: 0, wrapperWidth: 0 };
   }
 
@@ -2342,7 +1966,6 @@ export function calcularAnchoCapaLateral(wrapperElement) {
     wrapperWidth,
   };
 }
-//Render Productos Filtrados
 export function renderProductosFiltrados(valorBusqueda) {
   const contenedor = document.getElementById("contenedor-productos-filtrados");
   if (!contenedor) return;
@@ -2358,8 +1981,6 @@ export function renderProductosFiltrados(valorBusqueda) {
   let resultados = [];
   let buscarMujeres = true;
   let buscarHombres = true;
-
-  // Detectar género
   if (termino.includes("mujer") || termino.includes("mujeres")) {
     buscarHombres = false;
   } else if (
@@ -2369,19 +1990,13 @@ export function renderProductosFiltrados(valorBusqueda) {
   ) {
     buscarMujeres = false;
   }
-
-  // Función auxiliar para buscar
   const buscarEnCatalogo = (catalogo) => {
     Object.keys(catalogo).forEach((categoria) => {
       const productos = catalogo[categoria];
-
-      // Buscar por nombre de categoría
       if (categoria.toLowerCase().includes(termino)) {
         resultados = resultados.concat(productos);
         return;
       }
-
-      // Buscar dentro de productos (alt y descripcion)
       const encontrados = productos.filter((producto) => {
         const altMatch =
           producto.alt && producto.alt.toLowerCase().includes(termino);
@@ -2399,8 +2014,6 @@ export function renderProductosFiltrados(valorBusqueda) {
 
   if (buscarMujeres) buscarEnCatalogo(dataMujeres);
   if (buscarHombres) buscarEnCatalogo(dataHombres);
-
-  // === RENDERIZAR ===
   if (resultados.length === 0) {
     contenedor.innerHTML = `
     <div class="searchEmpty">
@@ -2423,43 +2036,27 @@ export function renderProductosFiltrados(valorBusqueda) {
 
   resultados.forEach((producto) => {
     const clone = template.content.cloneNode(true);
-
-    // Imagen
     const img = clone.querySelector(".producto-filtrado-img");
     img.src = producto.src;
     img.alt = producto.alt;
-
-    // Título
     const titulo = clone.querySelector(".producto-filtrado-titulo");
     titulo.textContent = producto.alt.toUpperCase();
-
-    // Descripción
     const descripcion = clone.querySelector(".producto-filtrado-descripcion");
     descripcion.textContent = producto.descripcion;
-
-    // Precio
     const precio = clone.querySelector(".producto-filtrado-precio");
     precio.textContent = `$${producto.precio.toFixed(2)}`;
-    //
 
     const card = clone.querySelector(".producto-filtrado-card");
-    // Actualiza el evento click dentro de renderProductosFiltrados
     card.addEventListener("click", () => {
       irAlProducto(producto);
     });
-    //
     contenedor.appendChild(clone);
   });
 }
-// =================================
-// Ir al producto por ID
-// =================================
 export function irAlProductoPorId(idBuscado) {
   if (!idBuscado) {
     return;
   }
-
-  // Buscar la imagen principal del producto
   const imgPrincipal = document.querySelector(
     `.imgZoom[data-id-producto="${idBuscado}"]`,
   );
@@ -2467,26 +2064,17 @@ export function irAlProductoPorId(idBuscado) {
   if (!imgPrincipal) {
     return;
   }
-
-  // Buscar el elemento completo del producto
   const productoItem = imgPrincipal.closest(".productoItem");
-
-  // Buscar el contenedor de la sección
   const seccionContainer = imgPrincipal.closest(
     ".vestidos-container, .blusas-container, .pantalones-mujer-container, " +
       ".faldas-container, .conjuntos-mujer-container, .accesorios-mujer-container, " +
       ".camisas-container, .pantalones-hombre-container, .gorras-container, " +
       ".zapatos-container, .conjuntos-hombre-container, .accesorios-hombre-container",
   );
-
-  // =================================
-  // Activar sección
-  // =================================
   if (seccionContainer) {
     seccionContainer.classList.add("activado");
     seccionContainer.style.zIndex = "9";
 
-    // Limpiar búsqueda si existe
     const inputBuscar = document.getElementById("inputBuscar");
 
     const contenedor = document.getElementById(
@@ -2500,16 +2088,10 @@ export function irAlProductoPorId(idBuscado) {
     if (contenedor) {
       contenedor.replaceChildren();
     }
-
-    // Desactivar contenedor de búsqueda
     if (typeof buscarContainer !== "undefined") {
       buscarContainer.classList.remove("activado");
     }
   }
-
-  // =================================
-  // Scroll + Highlight
-  // =================================
   if (productoItem) {
     productoItem.scrollIntoView({
       behavior: "smooth",
@@ -2519,18 +2101,12 @@ export function irAlProductoPorId(idBuscado) {
     productoItem.style.transition = "all 0.4s ease";
     productoItem.style.boxShadow = "0 0 0 4px #5042a3";
     productoItem.style.transform = "scale(1.04)";
-
-    // Quitar resaltado después de 3 segundos
     setTimeout(() => {
       productoItem.style.boxShadow = "";
       productoItem.style.transform = "";
     }, 3000);
   }
 }
-
-// =================================
-// Ir al producto seleccionado
-// =================================
 export function irAlProducto(producto) {
   if (!producto || !producto.id) {
     return;
@@ -2538,10 +2114,6 @@ export function irAlProducto(producto) {
 
   irAlProductoPorId(producto.id);
 }
-
-// =================================
-// Slider - Ir al producto
-// =================================
 export function irAlProductoSlider(event) {
   const idBuscado = event.currentTarget.dataset.idProducto;
 
@@ -2552,7 +2124,6 @@ export function irAlProductoSlider(event) {
   irAlProductoPorId(idBuscado);
 }
 
-//
 export {
   sincronizarContenedorVacio,
   cerrarZoom,
@@ -2563,11 +2134,6 @@ export {
   renderHistorialPedidos,
   renderEstadoTabla,
 };
-
-/*=========================== */
-/*======Dashboard========= */
-/*=========================== */
-
 export function renderDashboard() {
   const dashboardBody = document.getElementById("dashboard-body");
   if (!dashboardBody) return;
@@ -2583,8 +2149,6 @@ export function renderDashboard() {
 
     const tdNumero = createCell(`<strong>#${pedido.numeroPedido}</strong>`);
     const tdCliente = createCell(pedido.usuario);
-
-    // Columna Productos + Botón Ver
     const tdProductos = document.createElement("td");
     const cantidad = pedido.productos?.length || 0;
 
@@ -2610,8 +2174,6 @@ export function renderDashboard() {
         ${pedido.estado.toUpperCase()}
       </span>
     `);
-
-    // Columna Acciones
     const tdAcciones = document.createElement("td");
     tdAcciones.classList.add("acciones-estado");
 
@@ -2619,16 +2181,16 @@ export function renderDashboard() {
 
     if (pedido.estado === "confirmado") {
       botonesAccionesHTML = `
-        <button class="btn-estado btn-enviado" 
-                data-estado="enviado" 
+        <button class="btn-estado btn-enviado"
+                data-estado="enviado"
                 data-id="${pedido.numeroPedido}">
           🚚 Enviar
         </button>
       `;
     } else if (pedido.estado === "enviado") {
       botonesAccionesHTML = `
-        <button class="btn-estado btn-entregado" 
-                data-estado="entregado" 
+        <button class="btn-estado btn-entregado"
+                data-estado="entregado"
                 data-id="${pedido.numeroPedido}">
           ✅ Entregar
         </button>
@@ -2657,14 +2219,11 @@ export function renderDashboard() {
 
   agregarEventosBotones();
 }
-
-// Función auxiliar
 function createCell(content) {
   const td = document.createElement("td");
   td.innerHTML = content;
   return td;
 }
-//
 function calcularEstadisticas() {
   const totalPedidos = estadosPedidosTabla.length + historialPedidos.length;
   const pedidosProceso = estadosPedidosTabla.length;
@@ -2672,26 +2231,19 @@ function calcularEstadisticas() {
   const hoy = new Date();
   const hoyStr = hoy.toLocaleDateString("es-ES");
 
-  //
   const calcularIngresos = (filtro) => {
     const todosLosPedidos = [...estadosPedidosTabla, ...historialPedidos];
     return todosLosPedidos
       .filter(filtro)
       .reduce((sum, p) => sum + parseFloat(p.totalFinal || p.total || 0), 0);
   };
-
-  // Ingresos Hoy
   const ingresosHoy = calcularIngresos((p) => p.fecha === hoyStr);
-
-  // Ingresos Semana
   const inicioSemana = new Date(hoy);
   inicioSemana.setDate(hoy.getDate() - 7);
   const ingresosSemana = calcularIngresos((p) => {
     const fechaPedido = new Date(p.fecha.split("/").reverse().join("-"));
     return !isNaN(fechaPedido.getTime()) && fechaPedido >= inicioSemana;
   });
-
-  // Ingresos Año
   const ingresosAño = calcularIngresos((p) => {
     const fechaPedido = new Date(p.fecha.split("/").reverse().join("-"));
     return (
@@ -2699,13 +2251,11 @@ function calcularEstadisticas() {
       fechaPedido.getFullYear() === hoy.getFullYear()
     );
   });
-  // Tasa de completados
   const tasaCompletados =
     totalPedidos > 0
       ? Math.round((historialPedidos.length / totalPedidos) * 100)
       : 0;
 
-  // Actualizar DOM
   document.getElementById("total-pedidos").textContent = totalPedidos;
   document.getElementById("pedidos-proceso").textContent = pedidosProceso;
   document.getElementById("ingresos-hoy").textContent =
@@ -2792,15 +2342,13 @@ function getEstadoTexto(estado) {
       return estado;
   }
 }
-//
 export { populateGrid };
 
 export async function loadProducts() {
+  // Keep the existing five-minute cache used by the frontend.
   const CACHE_KEY = "products_cache";
   const CACHE_TIME_KEY = "products_cache_time";
   const CACHE_DURATION = 5 * 60 * 1000;
-
-  // Revisar caché
   const cachedProducts = localStorage.getItem(CACHE_KEY);
   const cacheTime = localStorage.getItem(CACHE_TIME_KEY);
 
@@ -2811,31 +2359,26 @@ export async function loadProducts() {
   ) {
     products = JSON.parse(cachedProducts);
 
-    procesarProductos(products);
+    processProducts(products);
 
     return products;
   }
-
-  // Consultar API
 
   const response = await fetch(API_URL);
   const data = await response.json();
 
   products = data.products || [];
-
-  // Guardar en caché
   localStorage.setItem(CACHE_KEY, JSON.stringify(products));
   localStorage.setItem(CACHE_TIME_KEY, Date.now());
 
-  procesarProductos(products);
+  processProducts(products);
 
   return products;
 }
 
-function procesarProductos(products) {
+function processProducts(products) {
   const CLOUD_NAME = "vz7kcusz";
 
-  // Limpiar arrays para evitar duplicados
   Object.keys(dataMujeres).forEach((key) => {
     dataMujeres[key] = [];
   });

@@ -3,9 +3,9 @@
    ============================================ */
 
 /**
- * Módulo: utils.js
- * Descripción: Funciones de utilidad general reutilizables
- * Exporta: exitGenerico, crearSelectorTallas, hiddenCategorias,
+ * Module: utils.js
+ * Description: Reusable general-purpose utility functions.
+ * Exports: exitGenerico, crearSelectorTallas, hiddenCategorias,
  *          deleteProducto, actualizarContadorCarrito,
  *          mostrarActualizarCarrito, mostrarModalAviso,
  *          abrirCapaLateral, cerrarCapaLateral, crearCapaLateralConExit
@@ -35,21 +35,19 @@ import {
 } from "./selectors.js";
 
 import { carrito } from "./state.js";
-//Import Assets
 import { assets } from "./assets.js";
-//Import Render
 import { renderMiniModalCarrito } from "./render.js";
 /* ============================================
-   SECCIÓN 1: FUNCIONES DE UTILIDAD GENERAL
+   SECTION 1: GENERAL UTILITY FUNCTIONS
    ============================================ */
 
 /**
- * Crea un botón de salida genérico con imagen
- * @param {Object} options - Opciones de configuración
- * @param {Function} options.onClick - Callback al hacer click
- * @param {string} options.containerClass - Clase CSS del contenedor
- * @param {string} options.imgClass - Clase CSS de la imagen
- * @returns {HTMLElement} Elemento contenedor del botón exit
+ * Creates a generic image-based exit button.
+ * @param {Object} options - Configuration options
+ * @param {Function} options.onClick - Click callback
+ * @param {string} options.containerClass - Container CSS class
+ * @param {string} options.imgClass - Image CSS class
+ * @returns {HTMLElement} Exit button container
  */
 function exitGenerico({ onClick, containerClass = "", imgClass = "" } = {}) {
   const exitContainer = document.createElement("div");
@@ -70,8 +68,8 @@ function exitGenerico({ onClick, containerClass = "", imgClass = "" } = {}) {
 }
 
 /**
- * Crea el botón de eliminar producto
- * @returns {HTMLElement} Contenedor del botón delete
+ * Creates the product removal button.
+ * @returns {HTMLElement} Delete button container
  */
 function deleteProducto() {
   const deleteProductos = document.createElement("span");
@@ -87,8 +85,8 @@ function deleteProducto() {
 }
 
 /**
- * Oculta las categorías si ninguna está activa
- * Restaura el overflow del body
+ * Hides categories when none is active.
+ * Restores the document body overflow.
  */
 function hiddenCategorias() {
   const categoriasContainers = document.querySelectorAll(
@@ -108,8 +106,8 @@ function hiddenCategorias() {
 }
 
 /**
- * Crea un selector de tallas (S, M, XL)
- * @returns {HTMLElement} Elemento select con opciones de talla
+ * Creates a size selector (S, M, XL).
+ * @returns {HTMLElement} Select element with size options
  */
 function crearSelectorTallas() {
   const tallas = ["S", "M", "XL"];
@@ -135,18 +133,18 @@ function crearSelectorTallas() {
 }
 
 /* ============================================
-   SECCIÓN 2: CONTADOR DEL CARRITO
+   SECTION 2: CART COUNTER
    ============================================ */
 
 /**
- * Actualiza el contador visual del carrito
- * Muestra/oculta el mini modal según haya productos
+ * Updates the visible cart counter.
+ * Shows or hides the mini-modal according to cart contents.
  */
 function actualizarContadorCarrito() {
   if (!contadorCirculo || !spanContador) {
     return;
   }
-  //Que no aparezca si esta Abierto esos container
+  // Keep the counter hidden while these containers are open.
   if (width >= 768) {
     if (
       perfilContainer.classList.contains("activado") ||
@@ -174,11 +172,11 @@ function actualizarContadorCarrito() {
   }
 }
 /* ============================================
-   SECCIÓN 3: FUNCIONES DE INTERACCIÓN
+   SECTION 3: INTERACTION FUNCTIONS
    ============================================ */
 
 /**
- * Verifica y marca el método de pago seleccionado
+ * Verifies and marks the selected payment method.
  */
 function verificarTarjeta() {
   const botonesPago = document.querySelectorAll(".btnPago");
@@ -189,15 +187,14 @@ function verificarTarjeta() {
     });
   });
 }
-// Inicializar
 verificarTarjeta();
 
-/** Última posición de scroll para header hidden */
+/** Last scroll position used to hide the header */
 let ultimaPosicion = 0;
 
 /**
- * Oculta/muestra el header al hacer scroll
- * Solo cuando no hay modales abiertos
+ * Hides or shows the header while scrolling.
+ * Only when no modals are open.
  */
 function headerHidden() {
   if (
@@ -228,7 +225,7 @@ function headerHidden() {
 window.addEventListener("scroll", headerHidden);
 
 /**
- * Muestra modal de aviso cuando se intenta agregar producto duplicado
+ * Shows a warning modal when a duplicate product is added.
  */
 function mostrarModalAviso() {
   const noAgregarDosVecesContainer = document.createElement("div");
@@ -247,12 +244,12 @@ function mostrarModalAviso() {
 }
 
 /**
- * Muestra modal de confirmación para actualizar cantidad
- * @param {number} cantidadActual - Cantidad actual en carrito
- * @param {number} nuevaCantidad - Nueva cantidad seleccionada
- * @returns {Promise<boolean>} true si confirma, false si cancela
+ * Shows a confirmation modal for quantity updates.
+ * @param {number} currentQuantity - Current cart quantity
+ * @param {number} newQuantity - Newly selected quantity
+ * @returns {Promise<boolean>} True when confirmed, false when cancelled
  */
-function mostrarActualizarCarrito(cantidadActual, nuevaCantidad) {
+function mostrarActualizarCarrito(currentQuantity, newQuantity) {
   return new Promise((resolve) => {
     const overlay = document.createElement("div");
     overlay.classList.add("overlayActualizar");
@@ -262,7 +259,7 @@ function mostrarActualizarCarrito(cantidadActual, nuevaCantidad) {
     actualizarCarrito.classList.add("actualizarCarrito");
 
     const contenido = document.createElement("p");
-    contenido.textContent = `¿Quieres actualizar la Cantidad de este Producto en el carrito de ${cantidadActual} a ${nuevaCantidad}?`;
+    contenido.textContent = `¿Quieres actualizar la cantidad de este producto en el carrito de ${currentQuantity} a ${newQuantity}?`;
 
     const btnActualizar = document.createElement("button");
     btnActualizar.textContent = "Actualizar";
@@ -292,14 +289,14 @@ function mostrarActualizarCarrito(cantidadActual, nuevaCantidad) {
 }
 
 /* ============================================
-   SECCIÓN 4: CAPA LATERAL (BACKDROP)
+   SECTION 4: SIDE BACKDROP
    ============================================ */
 
-/** Referencia global a la capa lateral actual */
+/** Global reference to the current side backdrop */
 let capaLateralActual = null;
 
 /**
- * Abre la capa lateral (backdrop oscuro)
+ * Opens the side backdrop.
  */
 export function abrirCapaLateral() {
   if (!capaLateralActual) {
@@ -309,7 +306,7 @@ export function abrirCapaLateral() {
 }
 
 /**
- * Cierra la capa lateral y limpia estados
+ * Closes the side backdrop and clears its state.
  */
 export function cerrarCapaLateral() {
   menuCategorias.classList.remove("activado");
@@ -327,10 +324,10 @@ export function cerrarCapaLateral() {
 }
 
 /**
- * Crea el elemento de capa lateral con botón de salida
- * @param {HTMLElement} body - Elemento body del documento
- * @param {Function} onClose - Callback al cerrar
- * @returns {HTMLElement} Elemento capa lateral creado
+ * Creates the side-backdrop element with an exit button.
+ * @param {HTMLElement} body - Document body element
+ * @param {Function} onClose - Close callback
+ * @returns {HTMLElement} Created side-backdrop element
  */
 export function crearCapaLateralConExit(body, onClose) {
   let capaLateral = document.querySelector(".capaLateral");

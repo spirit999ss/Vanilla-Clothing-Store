@@ -1,40 +1,40 @@
 /* ============================================
-   SELECTORS - REFERENCIAS DOM
+   SELECTORS - DOM REFERENCES
    ============================================ */
 
 /**
- * Módulo: selectors.js
- * Descripción: Centraliza todas las referencias a elementos del DOM
- * Exporta: Variables con referencias a elementos HTML
+ * Module: selectors.js
+ * Description: Centralizes all DOM element references.
+ * Exports: Variables that reference HTML elements
  */
 
 /* ============================================
-   SECCIÓN 1: VARIABLES GLOBALES
+   SECTION 1: GLOBAL VARIABLES
    ============================================ */
 
-/** Ancho de ventana dinámico */
+/** Dynamically updated window width */
 export let width = window.innerWidth;
 
-/** Actualizar ancho en resize */
+/** Update the width on resize */
 window.addEventListener("resize", () => {
   width = window.innerWidth;
 });
 
-/** Referencia al body */
+/** Body element reference */
 const body = document.body;
 
 /* ============================================
-   SECCIÓN 2: HEADER / NAVEGACIÓN
+   SECTION 2: HEADER / NAVIGATION
    ============================================ */
 
-/** Header principal */
+/** Main header */
 const header = document.querySelector(".header");
 
-/** Accesos del menú lateral */
+/** Side-menu access points */
 const favoritoLateral = document.querySelector(".favorito-lateral");
 const carritoLateral = document.querySelector(".carrito-lateral");
 
-/** Botón y contenedor del menú hamburguesa */
+/** Hamburger menu button and container */
 const menuBtn = document.querySelector(".menu-btn");
 const menuBtnContainer = document.querySelector(".menu-btn-container");
 const menuCategorias = document.querySelector(".menu-categorias");
@@ -45,7 +45,7 @@ const categoriasMenuLateralWrapper = document.querySelector(
   ".categorias-menu-lateral-wrapper",
 );
 
-/** Botones de toggle de categorías */
+/** Category toggle buttons */
 const btnCategoriaMujer = document.querySelector(
   'button[data-categoria="categorias-btn-mujer"]',
 );
@@ -53,15 +53,15 @@ const btnCategoriaHombre = document.querySelector(
   'button[data-categoria="categorias-btn-hombre"]',
 );
 
-/** Contenedores de toggle */
+/** Toggle containers */
 const toggleBtnMujer = document.querySelector(".categoria-mujer-container");
 const toggleBtnHombre = document.querySelector(".categoria-hombre-container");
 
 /* ============================================
-   SECCIÓN 3: AUTENTICACIÓN / LOGIN
+   SECTION 3: AUTHENTICATION / LOGIN
    ============================================ */
 
-/** Contenedor y elementos del login */
+/** Login container and elements */
 const loginContainer = document.querySelector(".login-container");
 const logInLogo = document.querySelector(".log-in-logo");
 const logInLateral = document.querySelector(".log-in-lateral");
@@ -70,10 +70,10 @@ const opcionesLoginContainer = document.querySelector(
 );
 const iconoLogin = document.getElementById("icono-login");
 /* ============================================
-   SECCIÓN 4: BUSCADOR
+   SECTION 4: SEARCH
    ============================================ */
 
-/** Contenedores y elementos de búsqueda */
+/** Search containers and elements */
 const containerInput = document.querySelector(".container-input");
 const buscarContainer = document.querySelector(".buscar-container");
 const buscarWrapper = document.querySelector(".buscar-wrapper");
@@ -81,12 +81,12 @@ const buscarInputContainer = document.querySelector(".buscar-input-btn");
 const buscarBtnContainer = document.querySelector(".buscar-btn-container");
 const btnBuscarContainer = document.querySelector(".buscar-btn-container");
 
-/** Input y botón de búsqueda */
+/** Search input and button */
 const inputBuscar = document.getElementById("buscar-input");
 const buscarInputBtn = document.querySelector(".buscar-input-btn");
 
 /* ============================================
-   SECCIÓN 5: PRODUCTOS MUJER (GRIDS)
+   SECTION 5: WOMEN'S PRODUCTS (GRIDS)
    ============================================ */
 
 const vestidosMujerContainer = document.querySelector(".vestidos-grid");
@@ -101,7 +101,7 @@ const accesoriosMujerContainer = document.querySelector(
 );
 
 /* ============================================
-   SECCIÓN 6: PRODUCTOS HOMBRE (GRIDS)
+   SECTION 6: MEN'S PRODUCTS (GRIDS)
    ============================================ */
 
 const camisasHombreContainer = document.querySelector(".camisas-grid");
@@ -118,7 +118,7 @@ const accesoriosHombreContainer = document.querySelector(
 );
 
 /* ============================================
-   SECCIÓN 7: SLIDER
+   SECTION 7: SLIDER
    ============================================ */
 
 const slider = document.getElementById("slider-contenedor");
@@ -128,40 +128,40 @@ const btnNext = document.querySelector(".btn-next");
 const swiperPagination = document.querySelector(".swiper-pagination");
 
 /* ============================================
-   SECCIÓN 8: FAVORITOS / CARRITO / MODALES
+   SECTION 8: FAVORITES / CART / MODALS
    ============================================ */
 
-/** Favoritos */
+/** Favorites */
 const favoritosLogo = document.querySelector(".favoritos-logo");
 const favoritosContainer = document.querySelector(".favoritos-container");
 
-/** Carrito */
+/** Cart */
 const carritoLogo = document.querySelector(".carrito-logo");
 const carritoContainer = document.querySelector(".carrito-container");
 
-/** Contador del carrito */
+/** Cart counter */
 const contadorCirculo = document.querySelector(".contador-add-carrito");
 const spanContador = document.querySelector(".span-contador");
 
-/** Mini modal del carrito */
+/** Cart mini-modal */
 const miniModalCarritoContainer = document.querySelector(
   ".mini-modal-carrito-container",
 );
 const miniModalCarrito = document.querySelector(".mini-modal-carrito");
 
-/** Modal de compra */
+/** Purchase modal */
 const modalComprarContainer = document.querySelector(
   ".modal-comprar-container",
 );
 
-/** Mensaje de carrito/favoritos vacío */
+/** Empty cart/favorites message */
 const mostrarMensajeVacio = document.querySelector(".mostrar-mensaje-vacio");
 
 /* ============================================
-   SECCIÓN 9: PERFIL / PEDIDOS / FACTURA
+   SECTION 9: PROFILE / ORDERS / INVOICE
    ============================================ */
 
-/** Perfil de usuario */
+/** User profile */
 const perfilContainer = document.querySelector(".perfil-container");
 const contenedoresPerfil = document.querySelectorAll(".perfil-contenido");
 const btnsPerfil = document.querySelectorAll(".perfil-btn");
@@ -169,13 +169,13 @@ const editarPerfil = document.querySelector(".editar-perfil");
 const btnActivoFijo = document.querySelector(".btn-activo-fijo");
 const imgVolver = document.querySelector(".img-volver");
 
-/** Métodos de pago */
+/** Payment methods */
 const btnVisaMastercard = document.querySelector(".btn-add-visa-mastercard");
 const btnPaypal = document.querySelector(".btn-add-paypal");
 const formTarjeta = document.querySelector(".form-tarjeta");
 const formPaypal = document.querySelector(".form-paypal");
 
-/** Historial de pedidos */
+/** Order history */
 const btnHistorial = document.querySelector(".btn-historial");
 const historialPedidosContainer = document.querySelector(
   ".historial-pedidos-container",
@@ -184,33 +184,33 @@ const encabezadoPedidoContainer = document.querySelector(
   ".encabezado-pedido-container",
 );
 
-/** Tabla de estados */
+/** Status table */
 const btnTablaPedido = document.querySelector(".btn-tabla-pedido");
 const tablaEstadosPedidosContainer = document.querySelector(
   ".tabla-estados-pedidos-container",
 );
 
-/** Tarjetas guardadas */
+/** Saved cards */
 const btnVerTarjetas = document.querySelector(".btn-ver-tarjetas");
 const tarjetasGuardadasContainer = document.querySelector(
   ".tarjeta-guardada-container",
 );
 
-/** Factura */
+/** Invoice */
 const btnDescargarFactura = document.querySelector(".btn-descargar-factura");
 
 /* ============================================
-   SECCIÓN 10: PAGO
+   SECTION 10: PAYMENT
    ============================================ */
 
 const btnTarjetasPago = document.getElementById("btn-tarjetas-pago");
 const btnPaypalPago = document.getElementById("btn-paypal-pago");
 
 /* ============================================
-   SECCIÓN 11: CONTENEDORES LATERALES
+   SECTION 11: SIDE CONTAINERS
    ============================================ */
 
-/** Todos los contenedores de categorías */
+/** All category containers */
 const containers = document.querySelectorAll(
   ".vestidos-container, .blusas-container, .pantalones-mujer-container, " +
     ".faldas-container, .conjuntos-mujer-container, .accesorios-mujer-container, " +
@@ -219,7 +219,7 @@ const containers = document.querySelectorAll(
 );
 
 /* ============================================
-   EXPORTACIONES
+   EXPORTS
    ============================================ */
 export {
   // Global
@@ -246,7 +246,7 @@ export {
   opcionesLoginContainer,
   iconoLogin,
 
-  // Buscador
+  // Search
   buscarContainer,
   btnBuscarContainer,
   containerInput,
@@ -256,7 +256,7 @@ export {
   inputBuscar,
   buscarInputBtn,
 
-  // Productos Mujer
+  // Women's products
   vestidosMujerContainer,
   blusasMujerContainer,
   pantalonesMujerContainer,
@@ -264,7 +264,7 @@ export {
   conjuntosMujerContainer,
   accesoriosMujerContainer,
 
-  // Productos Hombre
+  // Men's products
   camisasHombreContainer,
   pantalonesHombreContainer,
   gorrasHombreContainer,
@@ -279,7 +279,7 @@ export {
   btnNext,
   swiperPagination,
 
-  // Favoritos / Carrito / Modales
+  // Favorites / Cart / Modals
   favoritosLogo,
   favoritosContainer,
   carritoLogo,
@@ -291,7 +291,7 @@ export {
   modalComprarContainer,
   mostrarMensajeVacio,
 
-  // Perfil / Pedidos / Factura
+  // Profile / Orders / Invoice
   perfilContainer,
   contenedoresPerfil,
   btnsPerfil,
@@ -309,7 +309,7 @@ export {
   tablaEstadosPedidosContainer,
   btnDescargarFactura,
 
-  // Pago
+  // Payment
   btnTarjetasPago,
   btnPaypalPago,
 

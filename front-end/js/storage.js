@@ -15,6 +15,7 @@ const STORAGE_KEYS = {
   usuarioActivo: "tienda_usuario_activo",
 };
 export function saveToLocalStorage() {
+  // Persist application state through the existing localStorage contract.
   try {
     localStorage.setItem(STORAGE_KEYS.carrito, JSON.stringify(carrito));
     localStorage.setItem(STORAGE_KEYS.favoritos, JSON.stringify(favoritos));
@@ -36,11 +37,11 @@ export function saveToLocalStorage() {
       localStorage.removeItem(STORAGE_KEYS.usuarioActivo);
     }
   } catch (e) {
-    console.error("❌ Error guardando en localStorage:", e);
+    console.error("Error saving to localStorage:", e);
   }
 }
-//
 export function loadFromLocalStorage() {
+  // Restore application state while preserving existing localStorage keys.
   try {
     const carritoGuardado = localStorage.getItem(STORAGE_KEYS.carrito);
     const favoritosGuardados = localStorage.getItem(STORAGE_KEYS.favoritos);
@@ -76,7 +77,7 @@ export function loadFromLocalStorage() {
       state.usuarioActivo = null;
     }
   } catch (e) {
-    console.error("❌ Error cargando localStorage:", e);
+    console.error("Error loading from localStorage:", e);
   }
 }
 

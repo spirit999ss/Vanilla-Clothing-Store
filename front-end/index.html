@@ -10,22 +10,20 @@
       href="https://res.cloudinary.com/vz7kcusz/image/upload/v1783886627/brand-favicon_fff3nw.png"
       type="image/png"
     />
-    <!-- Slider -->
+
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
     />
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <!-- Para hacer Factura -->
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   </head>
 
   <body>
-    <!-- ============================
-              HEADER 
-    ============================ -->
+
     <header class="header">
-      <!-- Btn Menú Categorías -->
+
       <div class="menu-category-container">
         <button class="menu-btn" aria-label="Abrir menú de categorías">
           <img
@@ -50,7 +48,6 @@
         />
       </a>
 
-      <!--  MODAL DE LOGIN -->
       <div class="login-container" hidden>
         <img
           src=""
@@ -59,7 +56,7 @@
           class="logo-marca"
           data-asset="brandLogo"
         />
-        <!-- Log In del Usuario -->
+
         <form class="login-form">
           <h2 class="title-login">Iniciar Sesión</h2>
 
@@ -93,7 +90,7 @@
             <a href="#" id="btn-crear-cuenta">Crear cuenta</a>
           </p>
         </form>
-        <!-- Modal de Registro -->
+
         <div id="modal-registro" class="modal-registro">
           <div class="modal-contenido">
             <span class="cerrar-modal">&times;</span>
@@ -116,7 +113,7 @@
                 <input
                   type="text"
                   id="username"
-                  placeholder="Elige un username único"
+                  placeholder="Elige un nombre de usuario único"
                   required
                 />
 
@@ -191,7 +188,7 @@
           </div>
         </div>
 
-        <!-- Opciones de login social -->
+
         <section class="opciones-login-container">
           <div class="title-opciones-login">
             <span></span>
@@ -222,9 +219,9 @@
             </button>
           </div>
         </section>
-        <!-- Perfil del Usuario -->
+
         <div class="perfil-container">
-          <!-- Imagen del Usuario -->
+
           <div class="perfil-header">
             <div class="user-image-container">
               <div class="image-wrapper">
@@ -242,7 +239,7 @@
                 </div>
               </div>
 
-              <!-- Input para subir img-->
+
               <input
                 type="file"
                 id="uploadImage"
@@ -255,7 +252,7 @@
           </div>
 
           <div class="perfil-menu">
-            <!-- Editar Perfil -->
+
             <div class="perfil-item">
               <button
                 class="perfil-btn btn-activo-fijo"
@@ -273,7 +270,7 @@
                   <fieldset>
                     <legend>Información Personal</legend>
 
-                    <!-- Nombre -->
+
                     <label for="nombre-usuario-perfil">
                       Nombre:
                       <input
@@ -285,7 +282,7 @@
                       />
                     </label>
 
-                    <!-- Género -->
+
                     <label for="genero-usuario-perfil">
                       Género:
                       <select
@@ -301,19 +298,19 @@
                       </select>
                     </label>
 
-                    <!-- Teléfono -->
+
                     <label for="telefono-usuario-perfil">
                       Teléfono:
                       <input type="text" id="telefono-usuario-perfil" />
                     </label>
 
-                    <!-- Correo -->
+
                     <label for="correo-usuario-perfil">
                       Correo:
                       <input type="email" id="correo-usuario-perfil" />
                     </label>
 
-                    <!-- Dirección -->
+
                     <label for="direccion-usuario-perfil">
                       Dirección:
                       <input
@@ -324,7 +321,7 @@
                       />
                     </label>
 
-                    <!-- Botón submit real del form -->
+
                     <button type="submit" class="btn-editar-perfil">
                       Guardar Cambios
                     </button>
@@ -332,18 +329,18 @@
                 </form>
               </div>
             </div>
-            <!-- Métodos de Pago -->
+
             <div class="perfil-item">
               <button class="perfil-btn" data-target="metodosPago">
                 Métodos de Pago
               </button>
 
-              <!-- Perfil Contenido -->
+
               <div class="perfil-contenido" id="metodosPago">
                 <div class="perfil-tarjeta">
                   <h3>Tarjeta Guardada</h3>
                   <div class="tarjeta-guardada-container"></div>
-                  <!-- Template para renderizar la tarjeta dinámicamente -->
+
                   <template id="tarjeta-template">
                     <div class="tarjeta-guardada">
                       <div class="tarjeta-header">
@@ -352,12 +349,12 @@
 
                         <div class="btn-tarjetas-guardadas-container">
                           <button class="btn-actualizar-tarjetas-guardadas">
-                            <img src="" alt="edit-tarjeta" data-asset="edit" />
+                            <img src="" alt="Editar tarjeta" data-asset="edit" />
                           </button>
                           <button class="btn-eliminar-tarjetas-guardadas">
                             <img
                               src=""
-                              alt="delete-tarjeta"
+                              alt="Eliminar tarjeta"
                               data-asset="delete"
                             />
                           </button>
@@ -376,10 +373,10 @@
                       </div>
                     </div>
                   </template>
-                  <!-- Input para Actualizar o Add Nueva Tarjeta -->
+
                   <section class="agregar-tarjeta">
                     <h3>Agregar / Actualizar Forma de Pago</h3>
-                    <!-- Btn de los tipos de tarjetas -->
+
                     <div class="botones-tipo-pago">
                       <button class="btn-add-visa-mastercard" type="button">
                         <img src="" alt="Visa" data-asset="visa" />
@@ -391,7 +388,7 @@
                       </button>
                     </div>
 
-                    <!-- Form de Visa y Mastercard -->
+
                     <form class="form-tarjeta" id="form-tarjeta">
                       <fieldset>
                         <legend>Tarjeta de crédito</legend>
@@ -453,7 +450,7 @@
                       </fieldset>
                     </form>
 
-                    <!-- Form de Paypal -->
+
                     <form class="form-paypal" id="form-paypal">
                       <fieldset>
                         <legend>PayPal</legend>
@@ -507,7 +504,7 @@
               </div>
             </div>
 
-            <!-- Mis Pedidos -->
+
             <div class="perfil-item">
               <button class="perfil-btn" data-target="misPedidos">
                 Mis Pedidos
@@ -541,7 +538,7 @@
 
                   <div class="encabezado-facturas-container"></div>
                   <div class="facturas-container"></div>
-                  <!-- Template: Detalle del Pedido -->
+
                   <template id="pedido-detalle-template">
                     <div class="pedido-detalle-container">
                       <div class="pedido-detalle-header"></div>
@@ -553,7 +550,7 @@
                     <div class="facturas-modal">
                       <section class="factura-container">
                         <div class="factura-wrapper" data-pagina="1">
-                          <!-- HEADER (aparece en todas las páginas pero con datos diferentes) -->
+
                           <div class="factura-header">
                             <img
                               src=""
@@ -579,7 +576,7 @@
                             </div>
                           </div>
 
-                          <!-- Datos de la factura (solo primera página) -->
+
                           <div class="datos-factura pagina-1-only">
                             <h2>Factura</h2>
                             <p>
@@ -596,7 +593,7 @@
                             </p>
                           </div>
 
-                          <!-- Destinatario  -->
+
                           <div class="destinatario pagina-1-only">
                             <h3>Destinatario</h3>
                             <p>
@@ -617,7 +614,7 @@
                             </p>
                           </div>
 
-                          <!-- Tabla de productos -->
+
                           <table class="tabla-factura">
                             <thead>
                               <tr>
@@ -630,7 +627,7 @@
                             <tbody class="factura-productos"></tbody>
                           </table>
 
-                          <!-- Totales (solo última página) -->
+
                           <div class="totales-factura ultima-pagina-only">
                             <p>
                               Subtotal: <span class="factura-subtotal"></span>
@@ -644,7 +641,7 @@
                             </p>
                           </div>
 
-                          <!-- Detalles de pago  -->
+
                           <div class="detalles-pago ultima-pagina-only">
                             <h3>Detalles del Pago</h3>
                             <p>
@@ -657,7 +654,7 @@
                             </p>
                           </div>
 
-                          <!-- Número de página  -->
+
                           <div class="pagina-numero">
                             Página <span class="num-pagina-actual"></span> de
                             <span class="total-paginas"></span>
@@ -665,23 +662,23 @@
                         </div>
                       </section>
 
-                      <!-- Btn exit Factura  -->
+
                       <div class="exit-factura">
-                        <img src="" alt="Exit Factura" data-asset="exit" />
+                        <img src="" alt="Cerrar factura" data-asset="exit" />
                       </div>
                     </div>
                   </template>
                 </ul>
               </div>
             </div>
-            <!-- Seguridad -->
+
             <div class="perfil-item">
-              <!-- Botón para abrir seguridad -->
+
               <button class="perfil-btn" data-target="seguridad">
                 Seguridad
               </button>
 
-              <!-- Modal de Seguridad -->
+
               <div class="perfil-contenido" id="seguridad">
                 <div class="seguridad-header">
                   <h2>Configuración de Seguridad</h2>
@@ -742,37 +739,37 @@
               </div>
             </div>
 
-            <!-- Cerrar Sesión -->
+
             <div class="perfil-item">
               <button class="btn-cerrar-seccion">Cerrar Sesión</button>
             </div>
-            <!-- Exit de Contenedor activo Perfil del Usuario-->
+
             <img src="" class="img-volver" data-asset="back" />
           </div>
         </div>
       </div>
-      <!-- Btn Descargar Factura -->
+
       <div class="btn-descargar-factura-container">
         <button class="btn-descargar-factura">Descargar Factura</button>
       </div>
 
-      <!--MENÚ  CATEGORÍAS-->
-      <nav class="menu-categorias" aria-label="Menu Categorias">
-        <!-- Wrapper de Menu  -->
+
+      <nav class="menu-categorias" aria-label="Menú de categorías">
+
         <div class="menu-categorias-container">
-          <!-- Menu Btn Categorias -->
+
           <div class="menu-btn-container">
             <button data-categoria="categorias-btn-mujer">Mujer</button>
             <button data-categoria="categorias-btn-hombre">Hombre</button>
           </div>
-          <!-- Menu Categorias Mujer-Hombre -->
+
           <div class="categorias-menu-lateral-wrapper">
             <ul>
-              <!--  Menu Categoría Mujer -->
+
               <li>
                 <div class="categoria-mujer-container" data-template="mujer">
                   <template>
-                    <!-- Productos del Menu Mujer-->
+
                     <div class="producto-mujer-menu">
                       <h3></h3>
                       <img loading="lazy" alt="" />
@@ -780,11 +777,11 @@
                   </template>
                 </div>
               </li>
-              <!-- Menu Categoría  Hombre -->
+
               <li>
                 <div class="categoria-hombre-container" data-template="hombre">
                   <template>
-                    <!-- Productos del Menu Hombre -->
+
                     <div class="producto-hombre-menu">
                       <h3></h3>
                       <img loading="lazy" alt="" />
@@ -794,8 +791,8 @@
               </li>
             </ul>
           </div>
-          <!---->
-          <!--MENÚ LATERAL DE USUARIO -->
+
+
           <aside class="user-lateral">
             <ul>
               <li>
@@ -827,7 +824,7 @@
           </aside>
         </div>
       </nav>
-      <!--BARRA DE BÚSQUEDA-->
+
       <div class="buscar-container">
         <div class="buscar-wrapper">
           <input
@@ -840,11 +837,11 @@
             <img src="" alt="Buscar Producto" data-asset="search" />
           </button>
         </div>
-        <!-- Produtos Filtrados -->
+
         <div id="contenedor-productos-filtrados">
           <div class="mensaje-busqueda">Hola</div>
         </div>
-        <!-- Template para mostrar los Productos Buscados -->
+
         <template id="producto-filtrado-template">
           <div class="producto-filtrado-card">
             <img class="producto-filtrado-img" />
@@ -860,9 +857,9 @@
       </div>
       <div class="container-input"></div>
 
-      <!-- ACCIONES DE USUARIO -->
+
       <div class="user-container">
-        <!-- Buscar Header -->
+
         <button class="buscar-btn-container">
           <img
             class="buscar"
@@ -873,7 +870,7 @@
           />
         </button>
 
-        <!-- Login -->
+
 
         <button class="log-in-logo">
           <img
@@ -884,7 +881,7 @@
           />
         </button>
 
-        <!-- Favoritos -->
+
 
         <div class="favoritos-wrapper">
           <button class="favoritos-logo">
@@ -897,35 +894,33 @@
           </button>
         </div>
 
-        <!-- Carrito -->
+
 
         <div class="carrito-wrapper">
           <button class="carrito-logo">
             <img src="" alt="Carrito" loading="lazy" data-asset="cart" />
-            <!-- Contador de Carrito -->
+
             <span class="contador-add-carrito"
               ><span class="span-contador">0</span></span
             >
           </button>
         </div>
-        <!-- Mini Modal de Compra -->
+
         <div class="mini-modal-carrito-container">
           <div class="mini-modal-carrito"></div>
         </div>
       </div>
     </header>
 
-    <!-- ============================
-    CONTENIDO PRINCIPAL
-    ============================ -->
+
     <main>
-      <!-- Contenedores  Favorito y Carrito -->
+
       <div class="favoritos-container">
         <h3>Favoritos</h3>
         <div class="wrapper-favoritos">
           <div class="favoritos-productos"></div>
         </div>
-        <!-- Favoritos Vacio Contenedor -->
+
         <div class="mostrar-mensaje-vacio" hidden></div>
       </div>
       <div class="carrito-container">
@@ -934,10 +929,10 @@
           <div class="carrito-productos"></div>
           <div class="detalles-compra-container"></div>
         </div>
-        <!-- Carrito Vacio Contenedor -->
+
         <div class="mostrar-mensaje-vacio" hidden></div>
       </div>
-      <!-- SLIDER DE IMAGENES -->
+
 
       <section id="slider-contenedor">
         <div class="swiper">
@@ -951,13 +946,13 @@
         </div>
       </section>
 
-      <!-- Title de la Pagina  -->
+
       <div class="title">
         <h1>La Bella y la Bestia Moda para Él & Ella</h1>
       </div>
-      <!--===Categorías Hombre y Mujer===-->
+
       <div class="categorias-wrapper">
-        <!--===Categorías Mujer===-->
+
         <section id="categoria-mujer">
           <h2>Categorías Mujer</h2>
           <div class="productos-mujer-container">
@@ -1011,7 +1006,7 @@
           </div>
         </section>
 
-        <!--===Categorías Hombre===-->
+
         <section id="categoria-hombre">
           <h2>Categorías Hombre</h2>
           <div class="productos-hombre-container">
@@ -1067,14 +1062,14 @@
       </div>
     </main>
 
-    <!-- Dashboard simple para pruebas -->
+
     <div id="dashboard-container" class="dashboard-container">
-      <!--Estadísticas -->
+
       <div class="dashboard-header">
         <h2>📊 Panel de Gestión de Pedidos</h2>
       </div>
 
-      <!-- Tarjetas de estadísticas -->
+
       <div class="stats-container">
         <div class="stat-card">
           <div class="stat-label">Total Pedidos</div>
@@ -1107,7 +1102,7 @@
         </div>
       </div>
 
-      <!-- Tabla principal -->
+
       <div class="dashboard-table">
         <table>
           <thead>
@@ -1125,30 +1120,12 @@
         </table>
       </div>
     </div>
-    <!-- ============================
-                FOOTER
-    ============================ -->
 
-    <!-- Lo tengo asi para poner hacer pruebas simulando Dashboard /*
-    <footer class="site-footer">
-      <div class="info-container">
-        <p>&copy; 2026 Tienda de Ropa | Todos los derechos reservados.</p>
 
-        <nav aria-label="Enlaces del footer">
-          <ul>
-            <li><a href="#privacidad">Política de Privacidad</a></li>
-            <li><a href="#contacto">Contacto</a></li>
-            <li><a href="#envios">Envíos</a></li>
-          </ul>
-        </nav>
-      </div>
-    </footer>
-    */ -->
-    <!--MODAL DE COMPRA -->
     <div class="modal-comprar-container" hidden>
       <div class="modal-comprar-container-wrapper">
         <div>
-          <!-- Productos a Comprar -->
+
           <div class="productos-modal-compra-container">
             <h3>Producto <span>( 0 )</span></h3>
             <div class="eliminarTodoLosProductosContainer">
@@ -1158,7 +1135,7 @@
             </div>
             <div class="productos-modal-compra"></div>
           </div>
-          <!-- Detalles de la Compra -->
+
           <div class="detalles-compra">
             <h3>Proceso de Compra</h3>
 
@@ -1172,10 +1149,10 @@
             </div>
           </div>
         </div>
-        <!-- Flujo de compra -->
+
         <div class="proceso-compra-container">
           <div class="centrar-contenido-compra">
-            <!-- Formulario de tarjeta -->
+
             <div>
               <div class="tarjeta-aceptadas">
                 <h3>Aceptamos</h3>
@@ -1214,7 +1191,7 @@
                     </div>
                   </label>
 
-                  <!-- Numero de Tarjeta -->
+
                   <label class="input-numero-tarjeta-compra">
                     Número de tarjeta
                     <div class="input-tarjetas-compra-wrapper">
@@ -1235,7 +1212,7 @@
                     </div>
                   </label>
 
-                  <!-- Expiración -->
+
                   <div class="fecha-expiracion-container">
                     <label>
                       Fecha de expiración
@@ -1251,7 +1228,7 @@
                       </div>
                     </label>
 
-                    <!-- CVC -->
+
                     <label for="cvc">
                       CVC
                       <div class="">
@@ -1267,11 +1244,11 @@
                     </label>
                   </div>
 
-                  <!-- Botón pagar -->
+
                   <button id="btn-tarjetas-pago" type="submit">Pagar</button>
                 </fieldset>
               </form>
-              <!--  -->
+
               <form class="form-paypal-pago" id="form-paypal-pago" hidden>
                 <fieldset>
                   <legend>PayPal</legend>

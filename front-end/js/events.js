@@ -1,155 +1,134 @@
 /* ==============================
    EVENTS
 ============================== */
-
-/* ==============================
-  1. IMPORTS
-============================== */
-/*Import Main*/
-import { loadAssets } from "./main.js";
-/* Import Utils */
 import {
-  exitGenerico,
-  hiddenCategorias,
-  deleteProducto,
-  crearCapaLateralConExit,
   abrirCapaLateral,
   cerrarCapaLateral,
+  crearCapaLateralConExit,
+  deleteProducto,
+  exitGenerico,
+  hiddenCategorias,
 } from "./utils.js";
-
-/* Import SELECTORES DOM */
 import {
-  width,
+  accesoriosHombreContainer,
+  accesoriosMujerContainer,
+  blusasMujerContainer,
   body,
-  favoritoLateral,
+  btnActivoFijo,
+  btnBuscarContainer,
+  btnCategoriaHombre,
+  btnCategoriaMujer,
+  btnDescargarFactura,
+  btnHistorial,
+  btnPaypal,
+  btnPrev,
+  btnTablaPedido,
+  btnTarjetasPago,
+  btnVisaMastercard,
+  btnsPerfil,
+  buscarContainer,
+  buscarInputBtn,
+  camisasHombreContainer,
+  carritoContainer,
   carritoLateral,
+  carritoLogo,
+  categoriasMenuLateralWrapper,
+  conjuntosHombreContainer,
+  conjuntosMujerContainer,
+  containers,
+  contenedoresPerfil,
+  editarPerfil,
+  encabezadoPedidoContainer,
+  faldasMujerContainer,
+  favoritoLateral,
+  favoritosContainer,
+  favoritosLogo,
+  formPaypal,
+  formTarjeta,
+  gorrasHombreContainer,
   header,
+  iconoLogin,
+  imgVolver,
+  inputBuscar,
+  logInLateral,
+  logInLogo,
+  loginContainer,
   menuBtn,
   menuBtnContainer,
   menuCategorias,
   menuCategoriasContainer,
-  categoriasMenuLateralWrapper,
-  btnCategoriaMujer,
-  btnCategoriaHombre,
-  toggleBtnMujer,
-  toggleBtnHombre,
-  vestidosMujerContainer,
-  blusasMujerContainer,
-  pantalonesMujerContainer,
-  faldasMujerContainer,
-  conjuntosMujerContainer,
-  accesoriosMujerContainer,
-  camisasHombreContainer,
-  pantalonesHombreContainer,
-  gorrasHombreContainer,
-  zapatosHombreContainer,
-  conjuntosHombreContainer,
-  accesoriosHombreContainer,
-  slider,
-  sliderContainer,
-  btnPrev,
-  swiperPagination,
-  modalComprarContainer,
-  mostrarMensajeVacio,
-  favoritosLogo,
-  favoritosContainer,
-  carritoLogo,
-  carritoContainer,
-  loginContainer,
-  opcionesLoginContainer,
-  iconoLogin,
-  perfilContainer,
-  inputBuscar,
-  buscarInputBtn,
-  btnBuscarContainer,
-  buscarContainer,
-  logInLogo,
-  logInLateral,
-  btnDescargarFactura,
-  btnHistorial,
-  btnTablaPedido,
-  btnsPerfil,
-  imgVolver,
-  contenedoresPerfil,
-  encabezadoPedidoContainer,
   miniModalCarrito,
   miniModalCarritoContainer,
-  btnTarjetasPago,
+  modalComprarContainer,
+  mostrarMensajeVacio,
+  opcionesLoginContainer,
+  pantalonesHombreContainer,
+  pantalonesMujerContainer,
+  perfilContainer,
+  slider,
+  sliderContainer,
+  swiperPagination,
   tablaEstadosPedidosContainer,
-  containers,
-  editarPerfil,
-  btnActivoFijo,
-  btnVisaMastercard,
-  btnPaypal,
-  formTarjeta,
-  formPaypal,
+  toggleBtnHombre,
+  toggleBtnMujer,
+  vestidosMujerContainer,
+  width,
+  zapatosHombreContainer,
 } from "./selectors.js";
-
-/* Import Render */
 import {
-  sincronizarContenedorVacio,
+  aplicarAnimacionLetras,
+  calcularAnchoCapaLateral,
+  calcularSubtotal,
   cerrarZoom,
   detallesCompra,
-  calcularSubtotal,
-  renderMiniModalCarrito,
+  irAlProductoSlider,
+  mostrarMensajeSinTarjetas,
   renderCarrito,
+  renderDashboard,
+  renderEstadoTabla,
+  renderHistorialPedidos,
+  renderImgUsuario,
+  renderMiniModalCarrito,
+  renderPerfilUsuario,
+  renderPrincipalResize,
+  renderProductosFiltrados,
+  renderizarTarjetas,
   sincronizarBotonCarrito,
   sincronizarBotonFavorito,
-  renderizarTarjetas,
-  renderHistorialPedidos,
-  renderEstadoTabla,
-  renderDashboard,
-  renderPerfilUsuario,
-  aplicarAnimacionLetras,
-  renderProductosFiltrados,
-  renderPrincipalResize,
-  calcularAnchoCapaLateral,
-  mostrarMensajeSinTarjetas,
-  renderImgUsuario,
-  irAlProductoSlider,
+  sincronizarContenedorVacio,
 } from "./render.js";
-
-/* Import State */
 import {
   carrito,
-  state,
-  historialPedidos,
   estadosPedidosTabla,
   generarNumeroPedido,
+  historialPedidos,
+  state,
 } from "./state.js";
+import { categorias, dataHombres, dataMujeres } from "./products.js";
 
-/* Import Products*/
-import { categorias, dataMujeres, dataHombres } from "./products.js";
-
-//Import storage
-import { saveToLocalStorage } from "./storage.js";
 import { assets } from "./assets.js";
+/* ==============================
+  1. IMPORTS
+============================== */
+import { loadAssets } from "./main.js";
+import { saveToLocalStorage } from "./storage.js";
+
 /* ==============================
   2. VARIABLES GLOBALES
 ============================== */
-
-// Variables para login
 const formLogIn = document.querySelector(".login-form");
 const mensaje = document.getElementById("mensajeLogin");
 
 const logoMarca = document.querySelector(".logo-marca");
-
-// Datos de usuario
 const nombreUsuario = "Messi Ronaldo";
 const correoUsuario = "messironaldo33663@gmail.com";
 const dineroGastado = 3600.0;
 let pedidosRealizados = 0;
-
-// Containers de tienda
 const containersTienda = document.querySelectorAll(
   ".vestidos-container, .blusas-container, .pantalones-mujer-container, .faldas-container, .conjuntos-mujer-container, .accesorios-mujer-container, .camisas-container, .pantalones-hombre-container, .gorras-container, .zapatos-container, .conjuntos-hombre-container, .accesorios-hombre-container",
 );
-
-// Template factura
 const template = document.querySelector("#factura-template");
 export let facturaContainer = null;
-
-// Otros elementos
 const eliminarTodoLosProductos = document.querySelector(
   ".eliminarTodoLosProductosContainer",
 );
@@ -158,7 +137,7 @@ const tarjetasGuardadasContainer = document.querySelector(
   ".tarjeta-guardada-container",
 );
 /* =================================
-    Slider 
+    Slider
 ================================*/
 export function initSliderClicks() {
   const slider = document.querySelector(".swiper");
@@ -169,7 +148,6 @@ export function initSliderClicks() {
     const img = e.target.closest(".slider-producto");
 
     if (!img) return;
-    //Header Visible
     if (width >= 768) {
       header.classList.remove("desactivado");
 
@@ -177,7 +155,6 @@ export function initSliderClicks() {
       menuCategoriasContainer.classList.add("activado");
       swiperPaginationClicks();
     }
-    //
 
     sincronizarBotonCarrito();
     sincronizarBotonFavorito();
@@ -194,22 +171,15 @@ function swiperPaginationClicks() {
 /* ==============================
   3. EVENTOS DE NAVEGACIÓN
 ============================== */
-
-/* MENÚ CATEGORÍAS */
 menuBtn.addEventListener("click", () => {
   const estaAbierto = menuCategorias.classList.contains("activado");
   cerrarZoom();
-  //
-  // if (mostrarMensajeVacio.classList.contains("activado")) {
-  //   mostrarMensajeVacio.classList.remove("activado");
-  // }
 
   if (estaAbierto) {
     cerrarCapaLateral();
   } else {
     abrirCapaLateral();
 
-    // Activar menú
     menuCategorias.classList.add("activado");
     menuBtnContainer.classList.add("activado");
     categoriasMenuLateralWrapper.classList.add("activado");
@@ -218,14 +188,12 @@ menuBtn.addEventListener("click", () => {
       menuBtnContainer.classList.add("activado");
     }
 
-    // Limpiar otros contenedores
     containers.forEach((c) => c.classList.remove("activado"));
     favoritosContainer.classList.remove("activado");
     carritoContainer.classList.remove("activado");
 
     sincronizarContenedorVacio(mostrarMensajeVacio);
   }
-  //
 
   let capaLateral = document.querySelector(".capaLateral");
 
@@ -250,12 +218,9 @@ menuBtn.addEventListener("click", () => {
     capaLateral.style.width = `${anchoCapaLateral.capaWidth}px`;
   }
 });
-
-/* BUSCADOR */
 btnBuscarContainer.addEventListener("click", () => {
   const buscarContainer = document.querySelector(".buscar-container");
   cerrarZoom();
-  // Le quitamos el z-Index de las Categorias
   containers.forEach((c) => c.classList.remove("activado"));
 
   carritoContainer.classList.remove("activado");
@@ -273,7 +238,6 @@ btnBuscarContainer.addEventListener("click", () => {
     if (!exitBuscarContainerExiste) {
       const exit = exitGenerico({
         onClick: () => {
-          // Le add el z-Index de las Categorias
           containers.forEach((c) => (c.style.zIndex = ""));
           buscarContainer.classList.remove("activado");
           hiddenCategorias();
@@ -286,14 +250,9 @@ btnBuscarContainer.addEventListener("click", () => {
     }
   }
 });
-// =================================
-// BUSCADOR - INPUT
-// =================================
 
 function ejecutarBusqueda() {
   const texto = inputBuscar.value.trim().toLowerCase();
-
-  // Si esta vacio, no hace nada
   if (!texto) {
     renderProductosFiltrados();
     return;
@@ -301,19 +260,13 @@ function ejecutarBusqueda() {
 
   renderProductosFiltrados(texto);
 }
-
-// Buscar mientras escribe
 inputBuscar.addEventListener("input", ejecutarBusqueda);
-
-// Enter
 inputBuscar.addEventListener("keydown", (event) => {
   if (event.key !== "Enter") return;
 
   event.preventDefault();
 
   const texto = inputBuscar.value.trim().toLowerCase();
-
-  // Si esta vacio, no hace nada
   if (!texto) {
     return;
   }
@@ -325,17 +278,12 @@ function activarBusqueda() {
   cerrarZoom();
 
   const buscarContainer = document.querySelector(".buscar-container");
-
-  // Quitar z-index de las categorias
   containers.forEach((c) => {
     c.style.zIndex = "-9";
   });
-
-  // Desactivar
   carritoContainer.classList.remove("activado");
   favoritosContainer.classList.remove("activado");
 
-  // Activar buscador
   buscarContainer.classList.add("activado");
   body.style.overflowY = "hidden";
 
@@ -343,12 +291,8 @@ function activarBusqueda() {
 
   inputBuscar.focus();
 }
-
-// Boton buscar
 buscarInputBtn.addEventListener("click", () => {
   const texto = inputBuscar.value.trim().toLowerCase();
-
-  // Si esta vacio, no hace nada
   if (!texto) {
     return;
   }
@@ -359,7 +303,6 @@ buscarInputBtn.addEventListener("click", () => {
 /* ==============================
   4. EVENTOS DE USUARIO
 ============================== */
-/* LOGIN - FORMULARIO */
 formLogIn.addEventListener("submit", function (e) {
   e.preventDefault();
 
@@ -381,12 +324,8 @@ formLogIn.addEventListener("submit", function (e) {
     mensaje.style.color = "red";
     return;
   }
-
-  // LOGIN EXITOSO
   state.usuarioActivo = usuarioEncontrado;
   saveToLocalStorage();
-
-  // Guardar imagen del usuario
   if (usuarioEncontrado.imagen) {
     iconoLogin.style.display = "none";
 
@@ -394,18 +333,13 @@ formLogIn.addEventListener("submit", function (e) {
     userlogInActivo.src = usuarioEncontrado.imagen;
     userlogInActivo.alt = "Usuario logueado";
     userlogInActivo.classList.add("userlogInActivo");
-
-    // Evitar duplicados de imagen
     logInLogo
       .querySelectorAll(".userlogInActivo")
       .forEach((img) => img.remove());
     logInLogo.append(userlogInActivo);
   }
-
-  // === LIMPIAR ANTES DE ABRIR ===
   cerrarPerfilLogin();
 
-  // Activar perfil según tamaño de pantalla
   if (width >= 768) {
     perfilContainer.classList.add("activado");
     editarPerfil.classList.add("activado");
@@ -419,24 +353,19 @@ formLogIn.addEventListener("submit", function (e) {
   }
 
   body.style.overflowY = "hidden";
-  //
 
   formLogIn.classList.add("desactivado");
   opcionesLoginContainer.classList.add("desactivado");
   sincronizarLogoMarca();
 
-  // Renderizar contenido del perfil
   renderPerfilUsuario();
   renderHistorialPedidos();
   renderDashboard();
   renderizarTarjetas();
 
-  // Limpiar formulario
   formLogIn.reset();
-  // Z-index
 
   containers.forEach((c) => (c.style.zIndex = "-9"));
-  //
   favoritosContainer.classList.remove("activado");
   carritoContainer.classList.remove("activado");
   mostrarMensajeVacio.classList.remove("activado");
@@ -444,12 +373,9 @@ formLogIn.addEventListener("submit", function (e) {
   carritoContainer.style.zIndex = "";
   mostrarMensajeVacio.style.zIndex = "";
 });
-//Eventos de Diferentes tipos de Iniciar Seccion
 document
   .querySelectorAll(".opcion-caja")
   .forEach((t) => t.addEventListener("click", () => alert("Próximamente :)")));
-/* */
-// Abrir modal
 const btnCrearCuenta = document.getElementById("btn-crear-cuenta");
 const modal = document.getElementById("modal-registro");
 const cerrarModal = document.querySelector(".cerrar-modal");
@@ -458,27 +384,17 @@ btnCrearCuenta.addEventListener("click", (e) => {
   e.preventDefault();
   modal.style.display = "flex";
 });
-
-// Cerrar modal
 cerrarModal.addEventListener("click", () => {
   modal.style.display = "none";
 });
-
-// Cerrar al hacer clic fuera del contenido
 modal.addEventListener("click", (e) => {
   if (e.target === modal) {
     modal.style.display = "none";
   }
 });
-
-// Manejar envío del formulario
 const formRegistro = document.querySelector(".modal-registro");
-
-// Formulario de registro
 formRegistro.addEventListener("submit", (e) => {
   e.preventDefault();
-
-  // Obtener valores
   const nombre = document.getElementById("nombre").value.trim();
   const username = document.getElementById("username").value.trim();
   const genero = document.getElementById("genero").value;
@@ -491,8 +407,6 @@ formRegistro.addEventListener("submit", (e) => {
     .getElementById("registro-confirmar-contraseña")
     .value.trim();
   const direccion = document.getElementById("direccion").value.trim();
-
-  // Validación básica
   if (
     !nombre ||
     !username ||
@@ -505,13 +419,10 @@ formRegistro.addEventListener("submit", (e) => {
   ) {
     return;
   }
-
-  // Validación de contraseñas
   if (contraseña !== confirmarContraseña) {
     return;
   }
 
-  // Crear usuario
   const nuevoId = agregarUsuario(
     state,
     nombre,
@@ -522,12 +433,8 @@ formRegistro.addEventListener("submit", (e) => {
     contraseña,
     direccion,
   );
-
-  // Cerrar modal
   modal.style.display = "none";
 });
-
-// Función para agregar usuario
 function agregarUsuario(
   state,
   nombre,
@@ -556,11 +463,7 @@ function agregarUsuario(
 
   return nuevoId;
 }
-
-/* */
-/* LOGIN - HEADER */
 logInLogo.addEventListener("click", () => {
-  // ====================== PERFIL / LOGIN ======================
   const nombrePerfilUsario = document.querySelector(".nombre-perfil-usuario");
   aplicarAnimacionLetras(nombrePerfilUsario);
 
@@ -583,10 +486,8 @@ logInLogo.addEventListener("click", () => {
     capaLateral.remove();
     menuCategorias.classList.remove("activado");
   }
-  //Abrir los contenedores Principales
 
   loginContainer.classList.add("activado");
-  //Verificar si esta Loguiado
   const usuarioLogueado = state.usuarioActivo;
   if (usuarioLogueado) {
     if (width >= 768) {
@@ -604,9 +505,7 @@ logInLogo.addEventListener("click", () => {
     sincronizarLogoMarca();
     perfilContainer.classList.remove("activado");
   }
-
-  /* ====================== EXIT LOGIN ====================== */
-  const exitLogInExiste = document.querySelector(".exitLogIn");
+const exitLogInExiste = document.querySelector(".exitLogIn");
 
   if (!exitLogInExiste) {
     const exitLogIn = exitGenerico();
@@ -633,21 +532,16 @@ function sincronizarLogoMarca() {
 /* ==============================
   5. EVENTOS DE TIENDA
 ============================== */
-
-/* FAVORITOS */
 favoritosLogo.addEventListener("click", () => {
   favoritosContainer.classList.toggle("activado");
   carritoContainer.classList.remove("activado");
-  //
   buscarContainer.classList.remove("activado");
   cerrarZoom();
-  // Ocultar mini modal cuando se muestra Favoritos
   if (favoritosContainer.classList.contains("activado")) {
     miniModalCarrito.classList.remove("activado");
     miniModalCarritoContainer.classList.remove("activado");
     body.style.overflowY = "hidden";
   } else {
-    //Devolver el Scroll
     const algunoActivado = [...containers].some((container) =>
       container.classList.contains("activado"),
     );
@@ -659,25 +553,20 @@ favoritosLogo.addEventListener("click", () => {
 
   sincronizarContenedorVacio();
 });
-
-/* CARRITO */
 carritoLogo.addEventListener("click", () => {
   carritoContainer.classList.toggle("activado");
   favoritosContainer.classList.remove("activado");
-  //
   buscarContainer.classList.remove("activado");
 
   detallesCompra();
   sincronizarBotonCarrito();
   sincronizarContenedorVacio();
   cerrarZoom();
-  // Ocultar mini modal cuando se muestra el Carrito
   if (carritoContainer.classList.contains("activado")) {
     miniModalCarrito.classList.remove("activado");
     miniModalCarritoContainer.classList.remove("activado");
     body.style.overflowY = "hidden";
   } else {
-    //Devolver el Scroll
     const algunoActivado = [...containers].some((container) =>
       container.classList.contains("activado"),
     );
@@ -687,8 +576,6 @@ carritoLogo.addEventListener("click", () => {
     }
   }
 });
-
-/* MINI-MODAL CARRITO  */
 carritoLogo.addEventListener("mouseenter", () => {
   if (!carritoContainer.classList.contains("activado")) {
     const cantidad = Array.isArray(carrito) ? carrito.length : 0;
@@ -697,9 +584,7 @@ carritoLogo.addEventListener("mouseenter", () => {
       miniModalCarritoContainer.classList.add("activado");
     }
   }
-
-  /* Ocultar el Mini Modal cuando esta en Favorito y carrito */
-  if (
+if (
     favoritosContainer.classList.contains("activado") ||
     carritoContainer.classList.contains("activado")
   ) {
@@ -715,9 +600,7 @@ miniModalCarrito.addEventListener("mouseleave", () => {
       miniModalCarrito.classList.remove("activado");
       miniModalCarritoContainer.classList.remove("activado");
     }
-
-    /* Ocultar el Mini Modal cuando esta en Favorito y carrito */
-    if (
+if (
       favoritosContainer.classList.contains("activado") ||
       carritoContainer.classList.contains("activado")
     ) {
@@ -726,14 +609,11 @@ miniModalCarrito.addEventListener("mouseleave", () => {
     }
   }
 });
-
-/* ELIMINAR TODOS LOS PRODUCTOS */
 eliminarTodoLosProductos.addEventListener("click", () => {
   if (!Array.isArray(carrito) || carrito.length === 0) {
     return;
   }
 
-  // Crear modal de confirmación
   const modalConfirm = document.createElement("div");
   modalConfirm.classList.add("eliminarProductosConfirmar");
   const modalContent = document.createElement("div");
@@ -746,8 +626,6 @@ eliminarTodoLosProductos.addEventListener("click", () => {
   btnNo.textContent = "No";
 
   modalContent.appendChild(mensaje);
-
-  // Si confirma "Sí"
   btnSi.addEventListener("click", () => {
     carrito.length = 0;
     renderModalCompra();
@@ -761,18 +639,13 @@ eliminarTodoLosProductos.addEventListener("click", () => {
     renderModalCompra();
     sincronizarBotonCarrito();
   });
-
-  // Si cancela "No"
   btnNo.addEventListener("click", () => {
     document.body.removeChild(modalConfirm);
   });
-
-  // Agregar elementos al modal
   modalContent.append(mensaje, btnSi, btnNo);
   modalConfirm.append(modalContent);
   document.body.appendChild(modalConfirm);
 });
-//Cambio de img del Usuario
 document.getElementById("uploadImage").addEventListener("change", function (e) {
   const file = e.target.files[0];
   if (!file) return;
@@ -780,13 +653,9 @@ document.getElementById("uploadImage").addEventListener("change", function (e) {
   if (!state.usuarioActivo) {
     return;
   }
-
-  // Validacion de tamaño (5MB)
   if (file.size > 5 * 1024 * 1024) {
     return;
   }
-
-  // Validacion tipo de archivo
   if (!file.type.startsWith("image/")) {
     return;
   }
@@ -796,10 +665,8 @@ document.getElementById("uploadImage").addEventListener("change", function (e) {
   reader.onload = function (event) {
     const nuevaImagen = event.target.result;
 
-    // Actualizar usuario activo
     state.usuarioActivo.imagen = nuevaImagen;
 
-    // Actualizar State
     const usuarioKey = Object.keys(state.usuarios).find(
       (key) => state.usuarios[key].username === state.usuarioActivo.username,
     );
@@ -808,13 +675,11 @@ document.getElementById("uploadImage").addEventListener("change", function (e) {
       state.usuarios[usuarioKey].imagen = nuevaImagen;
     }
 
-    // Actualizar la imagen en el perfil
     const imagenUsuario = document.getElementById("imagenUsuario");
     if (imagenUsuario) {
       imagenUsuario.src = nuevaImagen;
     }
 
-    // Actualizar  la imagen del btn de login
     const imgLoginHeader = document.querySelector(".userlogInActivo");
     if (imgLoginHeader) {
       imgLoginHeader.src = nuevaImagen;
@@ -823,39 +688,27 @@ document.getElementById("uploadImage").addEventListener("change", function (e) {
 
   reader.readAsDataURL(file);
 
-  // Limpiar input
   e.target.value = "";
 });
-/*===============================================================*/
-/* ==============Simulacion de Comprobar Tarjeta ============== */
-/*===============================================================*/
 const verificacionTarjeta = document.querySelector(".form-tarjetas-pago");
 
 let metodoPago = "";
-
-// Selección de botones
 const btnFormaPagoVisa = document.querySelector(".btn-forma-pago-visa");
 const btnFormaPagoMastercard = document.querySelector(
   ".btn-forma-pago-mastercard",
 );
 const btnFormaPagoPaypal = document.querySelector(".btn-forma-pago-paypal");
-
-// Icono dentro del input
 const imgTarjetaIcon = document.getElementById("img-tarjeta-icon");
 const imgPaypalIcon = document.getElementById("img-paypal-icon");
 const imgPaypalIconConfirmar = document.getElementById(
   "img-paypal-icon-confirmar",
 );
-
-// Función para cambiar la imagen de la tarjeta
 export function actualizarIconoTarjeta(metodo) {
   const imgTarjetas = {
     Visa: assets.visa.src,
     Mastercard: assets.mastercard.src,
     Paypal: assets.paypal.src,
   };
-
-  // Ocultar
   imgTarjetaIcon?.classList.remove("imgInputTarjetaActiva");
   imgPaypalIcon?.classList.remove("imgInputTarjetaActiva");
   imgPaypalIconConfirmar?.classList.remove("imgInputTarjetaActiva");
@@ -881,12 +734,8 @@ function activarBoton(boton) {
 
   boton.classList.add("activado");
 }
-
-// Formularios
 const formTarjetasPago = document.querySelector(".form-tarjetas-pago");
 const formPaypalPago = document.querySelector(".form-paypal-pago");
-
-// Eventos
 btnFormaPagoVisa.addEventListener("click", () => {
   activarBoton(btnFormaPagoVisa);
   metodoPago = "Visa";
@@ -913,10 +762,8 @@ btnFormaPagoPaypal.addEventListener("click", () => {
   formTarjetasPago.classList.add("desactivado");
   formPaypalPago.classList.add("activado");
 });
-
-// ==================== FUNCIÓN DE PROCESAMIENTO ====================
 function procesarPagoConTarjeta() {
-  // Obtener datos del formulario
+  // Payment data is validated locally; no payment provider call is made.
   const nombre = verificacionTarjeta.nombre?.value.trim() || "";
   const numeroInput = verificacionTarjeta.querySelector(
     "#input-numero-tarjeta-compra",
@@ -927,8 +774,6 @@ function procesarPagoConTarjeta() {
     ".fecha-expiracion-container input",
   );
   const fecha = fechaInput ? fechaInput.value.trim() : "";
-
-  // ===================== VALIDACIONES =====================
   if (!nombre) {
     verificacionTarjeta.nombre?.focus();
     return false;
@@ -955,8 +800,6 @@ function procesarPagoConTarjeta() {
     fechaInput?.focus();
     return false;
   }
-
-  // Validar fecha no vencida
   const ahora = new Date();
   const anioActual = ahora.getFullYear() % 100;
   if (
@@ -968,13 +811,9 @@ function procesarPagoConTarjeta() {
   }
 
   const metodoPagoFinal = metodoPago;
-
-  // Validar que se haya seleccionado un método de pago
   if (!metodoPagoFinal) {
     return false;
   }
-
-  // ===================== PROCESAR PAGO =====================
 
   const cliente = state.usuarioActivo;
   if (!cliente) {
@@ -986,24 +825,17 @@ function procesarPagoConTarjeta() {
     return false;
   }
 
-  // Limpiar facturas anteriores antes de generar nueva
   limpiarFacturasAnteriores();
 
   document.getElementById("form-tarjetas-pago").reset();
-
-  // Generar factura
   const { numeroPedido, totalFinal } = generarFactura(
     cliente,
     carrito,
     numeroTarjeta,
     metodoPagoFinal,
   );
-
-  // Obtener solamente los últimos 4 dígitos
   const numeroTarjetaLimpio = numeroTarjeta.replace(/\D/g, "");
   const tarjetaUltimos4 = numeroTarjetaLimpio.slice(-4);
-
-  // Add al estado de Pedidos de la tabla
   estadosPedidosTabla.push({
     numeroPedido: numeroPedido,
     fecha: new Date().toLocaleDateString("es-ES"),
@@ -1011,14 +843,10 @@ function procesarPagoConTarjeta() {
 
     total: parseFloat(totalFinal.toFixed(2)),
     totalFinal: parseFloat(totalFinal.toFixed(2)),
-
-    // Datos del cliente
     usuario: cliente.nombre,
     direccion: cliente.direccion || "",
     correo: cliente.correo || "",
     telefono: cliente.telefono || "",
-
-    // Datos del pago
     metodoPago: metodoPagoFinal,
     tarjetaUltimos4: tarjetaUltimos4,
 
@@ -1037,27 +865,19 @@ function procesarPagoConTarjeta() {
   renderEstadoTabla();
   renderDashboard();
   saveToLocalStorage();
-
-  // ===================== CONFIGURACIÓN DE EVENTOS =====================
-  // Configurar render principal
   renderPrincipalResize();
 
-  // Limpiar carrito
   carrito.length = 0;
-
-  // Para Actualizar el Local Storage
   saveToLocalStorage();
   loadAssets();
 
   return true;
 }
-// Función auxiliar para limpiar facturas anteriores
 function limpiarFacturasAnteriores() {
   document.querySelectorAll(".facturas-modal").forEach((modal) => {
     modal.remove();
   });
 }
-// ==================== SUBMIT DEL FORMULARIO ====================
 verificacionTarjeta.addEventListener("submit", (e) => {
   e.preventDefault();
 
@@ -1067,17 +887,13 @@ verificacionTarjeta.addEventListener("submit", (e) => {
     modalComprarContainer.classList.remove("activado");
   }
 });
-/*Pago con Paypal */
 function procesarPagoConPaypal() {
-  // Obtener datos del formulario de PayPal
   const titular =
     formPaypalPago.querySelector("#titular-paypal-pago")?.value.trim() || "";
   const email =
     formPaypalPago.querySelector("#email-paypal")?.value.trim() || "";
   const confirmEmail =
     formPaypalPago.querySelector("#confirm-email-paypall")?.value.trim() || "";
-
-  // Validaciones
   if (!titular) {
     formPaypalPago.querySelector("#titular-paypal-pago")?.focus();
     return false;
@@ -1092,11 +908,7 @@ function procesarPagoConPaypal() {
     formPaypalPago.querySelector("#confirm-email-paypall")?.focus();
     return false;
   }
-
-  // Snapshot del método de pago
   const metodoPagoFinal = "Paypal";
-
-  // Validar usuario y carrito
   const cliente = state.usuarioActivo;
   if (!cliente) {
     if (!cliente) {
@@ -1110,20 +922,15 @@ function procesarPagoConPaypal() {
     return false;
   }
 
-  // Limpiar facturas anteriores
   limpiarFacturasAnteriores();
 
   document.getElementById("form-paypal-pago").reset();
-
-  // Generar factura
   const { numeroPedido, totalFinal } = generarFactura(
     cliente,
     carrito,
     email,
     metodoPagoFinal,
   );
-
-  // Enmascarar correo de PayPal
   const partesEmail = email.split("@");
   const usuarioEmail = partesEmail[0];
   const dominioEmail = partesEmail[1] || "";
@@ -1132,8 +939,6 @@ function procesarPagoConPaypal() {
     usuarioEmail.length > 3
       ? `${usuarioEmail.slice(0, 3)}****@${dominioEmail}`
       : `${usuarioEmail}****@${dominioEmail}`;
-
-  // Guardar en tabla
   estadosPedidosTabla.push({
     numeroPedido,
     fecha: new Date().toLocaleDateString("es-ES"),
@@ -1141,14 +946,10 @@ function procesarPagoConPaypal() {
 
     total: parseFloat(totalFinal.toFixed(2)),
     totalFinal: parseFloat(totalFinal.toFixed(2)),
-
-    // Datos del cliente
     usuario: cliente.nombre,
     direccion: cliente.direccion || "",
     correo: cliente.correo || "",
     telefono: cliente.telefono || "",
-
-    // Datos del pago
     metodoPago: metodoPagoFinal,
     cuentaPaypal: cuentaPaypal,
 
@@ -1166,21 +967,14 @@ function procesarPagoConPaypal() {
   renderEstadoTabla();
   renderDashboard();
   saveToLocalStorage();
-
-  // Configurar render principal
   renderPrincipalResize();
 
-  // Limpiar carrito
   carrito.length = 0;
-
-  // Para Actualizar el Local Storage
   saveToLocalStorage();
   loadAssets();
 
   return true;
 }
-
-// Evento submit de PayPal
 formPaypalPago.addEventListener("submit", (e) => {
   e.preventDefault();
 
@@ -1190,8 +984,6 @@ formPaypalPago.addEventListener("submit", (e) => {
     modalComprarContainer.classList.remove("activado");
   }
 });
-
-// Función de Generar Factura
 export function generarFactura(
   cliente,
   carrito,
@@ -1200,35 +992,23 @@ export function generarFactura(
   pedidoExistente = null,
 ) {
   if (!carrito || carrito.length === 0) {
-    console.warn("El carrito está vacío.");
+    console.warn("The cart is empty.");
     return;
   }
-
-  // Si existe un pedido del historial, usamos sus datos.
-  // Si no, generamos los datos para una compra nueva.
   const numeroPedido = pedidoExistente
     ? pedidoExistente.numeroPedido
     : generarNumeroPedido();
-
-  // Subtotal
   const subtotal = pedidoExistente
     ? pedidoExistente.productos.reduce(
         (total, p) => total + Number(p.precio || 0) * Number(p.cantidad || 0),
         0,
       )
     : calcularSubtotal();
-
-  // Descuento e IVA
   const descuento = carrito.length > 0 ? 9.36 : 0;
   const iva = subtotal * 0.15;
-
-  // Si viene del historial, usamos el total guardado.
-  // Si es una compra nueva, lo calculamos.
   const totalFinal = pedidoExistente
     ? Number(pedidoExistente.totalFinal ?? pedidoExistente.total ?? 0)
     : subtotal + iva - descuento;
-
-  // Fecha
   const fechaFactura = pedidoExistente
     ? pedidoExistente.fecha
     : new Date().toLocaleDateString();
@@ -1236,30 +1016,21 @@ export function generarFactura(
   const template = document.getElementById("factura-template");
 
   if (!template) {
-    console.error("❌ No se encontró el template #factura-template");
+    console.error("Invoice template #factura-template was not found");
 
     return {
       numeroPedido,
       totalFinal,
     };
   }
-
-  // Eliminar facturas anteriores
   document.querySelectorAll(".facturas-modal").forEach((el) => el.remove());
-
-  // ==============================
-  // Máscara del método de pago
-  // ==============================
 
   let valorMostrado = "";
 
   if (metodoPago && metodoPago.toLowerCase() === "paypal") {
-    // Si estamos viendo un pedido existente,
-    // usamos el valor que ya fue guardado.
     if (pedidoExistente?.cuentaPaypal) {
       valorMostrado = pedidoExistente.cuentaPaypal;
     } else {
-      // Compra nueva: usamos el email recibido.
       const email = (numeroInputUsuario || "").trim();
 
       if (email.includes("@")) {
@@ -1272,12 +1043,9 @@ export function generarFactura(
       }
     }
   } else {
-    // Si es una tarjeta y estamos viendo un pedido existente,
-    // usamos los últimos 4 que ya guardamos.
     if (pedidoExistente?.tarjetaUltimos4) {
       valorMostrado = `******${pedidoExistente.tarjetaUltimos4}`;
     } else {
-      // Compra nueva: obtenemos los últimos 4 del input.
       const soloNumeros = (numeroInputUsuario || "").replace(/\D/g, "");
 
       if (soloNumeros.length >= 4) {
@@ -1285,9 +1053,6 @@ export function generarFactura(
       }
     }
   }
-  // ==============================
-  // Paginación
-  // ==============================
 
   const productosPrimeraPagina = 6;
   const productosPaginasIntermedias = 18;
@@ -1302,7 +1067,6 @@ export function generarFactura(
     if (productosRestantes <= productosUltimaPagina) {
       totalPaginas = 2;
     } else {
-      // Productos que deben ocupar páginas intermedias
       const productosDespuesDePrimera =
         productosRestantes - productosUltimaPagina;
 
@@ -1313,10 +1077,6 @@ export function generarFactura(
       totalPaginas = 1 + paginasIntermedias + 1;
     }
   }
-
-  // Calcular tamaños reales de cada página
-  // (rellena intermedias lo máximo posible y deja el resto en la última,
-  // evitando última vacía: ej. 13 restantes → 12 intermedia + 1 última)
   const pageSizes = [];
 
   if (totalProductos <= productosPrimeraPagina) {
@@ -1341,8 +1101,6 @@ export function generarFactura(
       }
 
       let lastSize = tempRemaining;
-
-      // Si la última quedaría vacía, movemos 1 producto de la última intermedia
       if (lastSize === 0 && numInter > 0) {
         interSizes[numInter - 1] -= 1;
         lastSize = 1;
@@ -1352,10 +1110,6 @@ export function generarFactura(
       pageSizes.push(lastSize);
     }
   }
-
-  // ==============================
-  // Crear modal
-  // ==============================
 
   const modalContainer = document.createElement("div");
 
@@ -1369,15 +1123,9 @@ export function generarFactura(
     modalContainer.classList.add("multi-pagina");
   }
 
-  // ==============================
-  // Crear páginas
-  // ==============================
-
   for (let pagina = 0; pagina < totalPaginas; pagina++) {
     const esPrimeraPagina = pagina === 0;
     const esUltimaPagina = pagina === totalPaginas - 1;
-
-    // Calcular inicio/fin a partir de los tamaños reales
     let inicio = 0;
     for (let i = 0; i < pagina; i++) {
       inicio += pageSizes[i];
@@ -1385,8 +1133,6 @@ export function generarFactura(
     const fin = inicio + pageSizes[pagina];
 
     const productosPagina = carrito.slice(inicio, fin);
-
-    // Clonar template
     const cloneModal = template.content.cloneNode(true);
 
     const facturaContainer = cloneModal.querySelector(".factura-container");
@@ -1399,10 +1145,6 @@ export function generarFactura(
       continue;
     }
 
-    // ==============================
-    // Datos de página
-    // ==============================
-
     facturaWrapper.setAttribute("data-pagina", pagina + 1);
 
     facturaWrapper.setAttribute("data-total-paginas", totalPaginas);
@@ -1410,10 +1152,6 @@ export function generarFactura(
     if (esUltimaPagina) {
       facturaWrapper.setAttribute("data-es-ultima", "true");
     }
-
-    // ==============================
-    // Primera página
-    // ==============================
 
     if (esPrimeraPagina) {
       const facturaPedidoEl = facturaWrapper.querySelector(".factura-pedido");
@@ -1435,8 +1173,6 @@ export function generarFactura(
 
         facturaTotalEl.classList.add("precioFinalPortada");
       }
-
-      // Cliente
       const clienteNombreEl = facturaWrapper.querySelector(".cliente-nombre");
 
       const clienteDireccionEl =
@@ -1468,10 +1204,6 @@ export function generarFactura(
       }
     }
 
-    // ==============================
-    // Productos
-    // ==============================
-
     const tbody = facturaWrapper.querySelector(".factura-productos");
 
     if (tbody) {
@@ -1499,10 +1231,6 @@ export function generarFactura(
         tbody.appendChild(tr);
       });
     }
-
-    // ==============================
-    // Última página
-    // ==============================
 
     if (esUltimaPagina) {
       const subtotalEl = facturaWrapper.querySelector(".factura-subtotal");
@@ -1542,10 +1270,6 @@ export function generarFactura(
       }
     }
 
-    // ==============================
-    // Numeración de páginas
-    // ==============================
-
     const paginaNumero = facturaWrapper.querySelector(".pagina-numero");
 
     if (paginaNumero) {
@@ -1562,35 +1286,19 @@ export function generarFactura(
       }
     }
 
-    // ==============================
-    // Mostrar solo en última página
-    // ==============================
-
     const ultimaOnly = facturaWrapper.querySelectorAll(".ultima-pagina-only");
 
     ultimaOnly.forEach((el) => {
       el.style.display = esUltimaPagina ? "" : "none";
     });
-
-    // Agregar factura
     modalContainer.appendChild(facturaContainer);
-
-    // Agregar botón salir solo en primera página
     if (pagina === 0 && exitFacturaTemplate) {
       modalContainer.appendChild(exitFacturaTemplate);
     }
   }
 
-  // ==============================
-  // Agregar al DOM
-  // ==============================
-
   document.body.appendChild(modalContainer);
   loadAssets();
-
-  // ==============================
-  // Botón cerrar
-  // ==============================
 
   const exitFactura = modalContainer.querySelector(".exit-factura");
 
@@ -1601,10 +1309,6 @@ export function generarFactura(
 
     exitFactura.onclick = cerrarFactura;
   }
-
-  // ==============================
-  // Botón descargar
-  // ==============================
 
   const btnDescargarContainer = document.querySelector(
     ".btn-descargar-factura-container",
@@ -1631,8 +1335,6 @@ export function generarFactura(
     totalFinal,
   };
 }
-
-///
 export function cerrarFactura() {
   renderCarrito();
   renderMiniModalCarrito();
@@ -1662,9 +1364,6 @@ export function cerrarFactura() {
     body.style.overflowY = "";
   }
 }
-//
-
-/*DESCARGAR FACTURA */
 export async function descargarFacturaPDF() {
   const facturaContainers = document.querySelectorAll(".factura-container");
 
@@ -1674,13 +1373,10 @@ export async function descargarFacturaPDF() {
 
   const pdfContainer = document.createElement("div");
   pdfContainer.className = "pdf-temp-container";
-  /*.style.padding = "20px";*/
-  pdfContainer.style.background = "#fff";
+pdfContainer.style.background = "#fff";
 
   facturaContainers.forEach((container, index) => {
     const clone = container.cloneNode(true);
-
-    // Asegurar visibilidad correcta en PDF
     const wrapper = clone.querySelector(".factura-wrapper");
     if (wrapper) {
       const isLastPage = index === facturaContainers.length - 1;
@@ -1700,8 +1396,6 @@ export async function descargarFacturaPDF() {
 
     pdfContainer.appendChild(clone);
   });
-
-  // Agregar temporalmente
   document.body.appendChild(pdfContainer);
 
   await new Promise((resolve) => setTimeout(resolve, 400));
@@ -1730,7 +1424,7 @@ export async function descargarFacturaPDF() {
   try {
     await html2pdf().set(opt).from(pdfContainer).save();
   } catch (e) {
-    console.error("Error al generar PDF:", e);
+    console.error("Error generating PDF:", e);
   } finally {
     pdfContainer.remove();
   }
@@ -1739,8 +1433,6 @@ export async function descargarFacturaPDF() {
 /* ==============================
   6. EVENTOS DE CATEGORÍAS
 ============================== */
-
-/* TOGGLE CATEGORÍAS MUJER/HOMBRE */
 btnCategoriaMujer.classList.add("activado");
 
 function toggleMujer() {
@@ -1781,8 +1473,6 @@ function toggleHombre() {
 
 toggleMujer();
 toggleHombre();
-
-/* RENDER CATEGORÍAS */
 export function renderCategoria(categoria) {
   const container = document.querySelector(
     `.categoria-${categoria}-container[data-template="${categoria}"]`,
@@ -1802,14 +1492,8 @@ export function renderCategoria(categoria) {
       productoMenu.querySelector("h3").textContent = item.nombre;
 
       const img = productoMenu.querySelector("img");
-
-      // Obtener la colección correcta
       const coleccion = categoria === "mujer" ? dataMujeres : dataHombres;
-
-      // "Vestidos" => "vestidos"
       const clave = item.nombre.toLowerCase();
-
-      // Primera imagen de la categoría
       img.src = coleccion[clave]?.[3]?.src || "";
       img.alt = item.nombre;
 
@@ -1819,15 +1503,11 @@ export function renderCategoria(categoria) {
     }
   });
 }
-
-/* TOGGLE GRID LATERAL */
 function toggleGridLateral(event) {
   const elementoClickeado = event.currentTarget;
   const titulo = elementoClickeado.querySelector("h3").textContent.trim();
   const contenedorPadre = elementoClickeado.closest("[data-template]");
   const genero = contenedorPadre ? contenedorPadre.dataset.template : null;
-
-  // Elegimos el mapa según el género
   const mapaMujerCategorias = {
     Vestidos: ".vestidos-container",
     Blusas: ".blusas-container",
@@ -1849,13 +1529,10 @@ function toggleGridLateral(event) {
   const mapaCategorias =
     genero === "mujer" ? mapaMujerCategorias : mapaHombreCategorias;
   const selectorContenedor = mapaCategorias[titulo];
-
-  // Desactivamos todos los contenedores
   containers.forEach((c) => c.classList.remove("activado"));
 
   sincronizarBotonCarrito();
   sincronizarBotonFavorito();
-  // Activamos solo el contenedor correspondiente y eliminamos capa lateral
 
   const capaLateral = document.querySelector(".capaLateral");
   const contenedorActivar = document.querySelector(selectorContenedor);
@@ -1864,7 +1541,6 @@ function toggleGridLateral(event) {
 
     favoritosContainer.classList.remove("activado");
     carritoContainer.classList.remove("activado");
-    //
     buscarContainer.classList.remove("activado");
   }
   body.style.overflowY = "hidden";
@@ -1875,17 +1551,12 @@ function toggleGridLateral(event) {
     menuCategorias.classList.add("activado");
     menuCategoriasContainer.classList.add("activado");
   }
-
-  // Eliminamos capa lateral si existe
   if (capaLateral) capaLateral.remove();
 }
 
 /* ==============================
   7. EVENTOS DE PERFIL
 ============================== */
-
-/* EDITAR PERFIL */
-
 const formPerfil = document.querySelector(".perfil-info");
 
 formPerfil.addEventListener("submit", (e) => {
@@ -1904,9 +1575,6 @@ formPerfil.addEventListener("submit", (e) => {
 
   document.querySelector(".nombre-perfil-usuario").textContent = usuario.nombre;
 });
-/*==================== */
-//Cambio de Contraseña
-/*==================== */
 const formCambiarContraseña = document.querySelector(
   ".form-cambiar-contraseña-usuario",
 );
@@ -1914,13 +1582,9 @@ const formCambiarContraseña = document.querySelector(
 formCambiarContraseña.addEventListener("submit", (e) => {
   e.preventDefault();
   const usuario = state.usuarioActivo;
-
-  // Verificar si hay usuario activo
   if (!usuario) {
     return;
   }
-
-  // Obtener valores del formulario
   const contraseñaActual = document.getElementById(
     "contraseña-guardada-usuario",
   ).value;
@@ -1930,52 +1594,36 @@ formCambiarContraseña.addEventListener("submit", (e) => {
   const confirmarContraseña = document.getElementById(
     "confirm-contraseña-usuario",
   ).value;
-
-  // Validar que todos los campos estén completos
   if (!contraseñaActual || !nuevaContraseña || !confirmarContraseña) {
     return;
   }
-
-  // Validar que la contraseña actual sea correcta
   if (contraseñaActual !== usuario.contraseña) {
     return;
   }
-
-  // Validar que las nuevas contraseñas coincidan
   if (nuevaContraseña !== confirmarContraseña) {
     return;
   }
-
-  // Validar que la nueva contraseña sea diferente a la actual
   if (nuevaContraseña === usuario.contraseña) {
     return;
   }
-
-  // Validar longitud mínima de la contraseña
   if (nuevaContraseña.length < 9) {
     return;
   }
 
-  // Actualizar la contraseña del usuario
   usuario.contraseña = nuevaContraseña;
 
-  // Limpiar el formulario
   formCambiarContraseña.reset();
 });
-//Btn De Perfil
 btnsPerfil.forEach((boton) => {
   boton.addEventListener("click", () => {
     const target = boton.getAttribute("data-target");
     const contenidoActivo = document.getElementById(target);
 
     if (!contenidoActivo) return;
-
-    // Cambiar contenido
     contenedoresPerfil.forEach((contenido) => {
       contenido.classList.remove("activado");
     });
     contenidoActivo.classList.add("activado");
-    //
     if (width <= 767) {
       const algunoActivado = [...contenedoresPerfil].some((contenido) =>
         contenido.classList.contains("activado"),
@@ -1983,19 +1631,15 @@ btnsPerfil.forEach((boton) => {
       imgVolver.classList.toggle("activado", algunoActivado);
     }
 
-    //
     if (contenidoActivo.id === "metodosPago") {
       setMetodoPago("tarjeta");
     }
-
-    // Remover todos los btn
     btnsPerfil.forEach((btn) => {
       btn.classList.remove("activado", "suave");
     });
 
     boton.classList.add("activado");
   });
-  // Hover
   boton.addEventListener("mouseenter", () => {
     btnsPerfil.forEach((btn) => {
       if (btn.classList.contains("activado")) {
@@ -2015,18 +1659,13 @@ btnsPerfil.forEach((boton) => {
     btn.classList.add("activado");
   });
 });
-//
-// Evento del botón volver
 imgVolver.addEventListener("click", () => {
-  // Ocultar todos los contenedores del perfil
   contenedoresPerfil.forEach((contenido) =>
     contenido.classList.remove("activado"),
   );
-  //Animacion del Nombre del Perfil del Usuario
   renderPerfilUsuario();
   const nombrePerfilUsario = document.querySelector(".nombre-perfil-usuario");
   aplicarAnimacionLetras(nombrePerfilUsario);
-  // Ocultar otros contenedores si existen
   const encabezadoPedidoContainer = document.querySelector(
     ".encabezado-pedido-container",
   );
@@ -2042,14 +1681,11 @@ imgVolver.addEventListener("click", () => {
     tablaEstadosPedidosContainer.classList.remove("activado");
   }
 
-  // Limpiar botones activados
   btnsPerfil.forEach((btn) => btn.classList.remove("activado", "suave"));
 
-  // Ocultar el botón volver
   imgVolver.classList.remove("activado");
 });
 
-//Renderizar Btn  Visa / Mastercard y Paypal
 function setMetodoPago(tipo) {
   btnVisaMastercard.classList.remove("activado");
   btnPaypal.classList.remove("activado");
@@ -2069,16 +1705,12 @@ function setMetodoPago(tipo) {
     formPaypal.classList.add("activado");
   }
 }
-// Visa / Mastercard
 btnVisaMastercard.addEventListener("click", () => {
   setMetodoPago("tarjeta");
 });
-
-// PayPal
 btnPaypal.addEventListener("click", () => {
   setMetodoPago("paypal");
 });
-/*====HISTORIAL DE PEDIDOS===== */
 btnHistorial.addEventListener("click", () => {
   if (historialPedidos == 0) {
     alert("No hay Historial");
@@ -2089,8 +1721,6 @@ btnHistorial.addEventListener("click", () => {
     renderEstadoTabla();
   }
 });
-
-/* TABLA PEDIDOS */
 btnTablaPedido.addEventListener("click", () => {
   if (estadosPedidosTabla == 0) {
     alert("No hay Pedidos en la Tabla");
@@ -2101,40 +1731,28 @@ btnTablaPedido.addEventListener("click", () => {
     renderEstadoTabla();
   }
 });
-
-/*Btn Cerrar Seccion  */
 const btnCerrarSeccion = document.querySelector(".btn-cerrar-seccion");
 
 btnCerrarSeccion.addEventListener("click", () => {
-  // Limpiar estado
   state.usuarioActivo = null;
   saveToLocalStorage();
-
-  // Restaurar icono de login
 
   iconoLogin.style.display = "block";
   const userlogInActivoAll = document.querySelectorAll(".userlogInActivo");
   userlogInActivoAll.forEach((i) => {
     i.style.display = "none";
   });
-
-  //
-  // Ocultamos el perfil logueado y restauramos el login  ---
   perfilContainer.classList.remove("activado");
   loginContainer.classList.remove("activado");
   opcionesLoginContainer.classList.remove("desactivado");
   formLogIn.classList.remove("desactivado");
-  //
   sincronizarLogoMarca();
-  //Remover Todos las Clases de los Contenedores delPerfil
   contenedoresPerfil.forEach((c) => {
     c.classList.remove("activado");
   });
   btnsPerfil.forEach((c) => {
     c.classList.remove("activado");
   });
-
-  //Devolver el Scroll
   const algunoActivado = [...containers].some((container) =>
     container.classList.contains("activado"),
   );
@@ -2148,23 +1766,16 @@ btnCerrarSeccion.addEventListener("click", () => {
 /* ==============================
   8. EVENTOS LATERALES
 ============================== */
-
-/* LOGIN - LATERAL */
 logInLateral.addEventListener("click", () => {
   menuCategorias.classList.remove("activado");
   categoriasMenuLateralWrapper.classList.remove("activado");
-
-  // Animacion del Nombre del Perfil del Usuario
   const nombrePerfilUsario = document.querySelector(".nombre-perfil-usuario");
   aplicarAnimacionLetras(nombrePerfilUsario);
-
-  // Le quitamos el Z-Index a Favoritos y Carrito
   favoritosContainer.style.zIndex = "-9";
   carritoContainer.style.zIndex = "-9";
   containers.forEach((c) => (c.style.zIndex = "-9"));
 
   cerrarZoom();
-  // Manejo según si hay usuario logueado o no
   const usuarioLogueado = state.usuarioActivo;
 
   if (usuarioLogueado) {
@@ -2172,14 +1783,11 @@ logInLateral.addEventListener("click", () => {
     perfilContainer.classList.add("activado");
     sincronizarLogoMarca();
 
-    // Renderizar contenido SOLO si hay usuario
     renderHistorialPedidos();
     renderDashboard();
     renderPerfilUsuario();
     renderizarTarjetas();
     mostrarMensajeSinTarjetas();
-
-    // Para escritorio
     if (width >= 768) {
       if (!editarPerfil.classList.contains("activado")) {
         btnActivoFijo.classList.remove("activado");
@@ -2191,16 +1799,12 @@ logInLateral.addEventListener("click", () => {
       imgVolver.classList.remove("activado");
       btnActivoFijo.classList.remove("activado");
     }
-
-    // Le quitamos el z-Index de las Categorias
     containers.forEach((c) => (c.style.zIndex = "-9"));
     body.style.overflowY = "hidden";
   } else {
     loginContainer.classList.add("activado");
     perfilContainer.classList.remove("activado");
     sincronizarLogoMarca();
-
-    // Si los Container no Tienen la Class activado
     const todosContenedores = [
       ...containersTienda,
       favoritosContainer,
@@ -2217,23 +1821,18 @@ logInLateral.addEventListener("click", () => {
 
     body.style.overflowY = "hidden";
   }
-
-  // Eliminar Capa lateral específica para logInLateral
   const capaLateral = document.querySelector(".capaLateral");
 
   if (capaLateral) {
     capaLateral.remove();
   }
 
-  // Crear exitLogInLateral
   const exitLogInLateralExiste = document.querySelector(".exitLogInLateral");
 
   if (exitLogInLateralExiste) {
     exitLogInLateralExiste.remove();
   }
-
-  /* ====================== EXIT LOGIN ====================== */
-  const exitLogInExiste = document.querySelector(".exitLogIn");
+const exitLogInExiste = document.querySelector(".exitLogIn");
 
   if (!exitLogInExiste) {
     const exitLogIn = exitGenerico();
@@ -2246,15 +1845,12 @@ logInLateral.addEventListener("click", () => {
     });
   }
 });
-// Función centralizada para cerrar todo el perfil/login
 function cerrarPerfilLogin() {
-  // Limpiar TODO siempre
   loginContainer.classList.remove("activado");
   perfilContainer.classList.remove("activado");
   editarPerfil.classList.remove("activado");
   btnActivoFijo.classList.remove("activado");
 
-  // Limpiar botones y contenidos internos
   btnsPerfil.forEach((btn) => btn.classList.remove("activado", "suave"));
   contenedoresPerfil.forEach((contenido) => {
     contenido.classList.remove("activado");
@@ -2263,10 +1859,7 @@ function cerrarPerfilLogin() {
   encabezadoPedidoContainer.classList.remove("activado");
   tablaEstadosPedidosContainer.classList.remove("activado");
   imgVolver.classList.remove("activado");
-
-  // Restaurar visual y z-index
   sincronizarLogoMarca();
-  //Devolver el Scroll
   if (
     !favoritosContainer.classList.contains("activado") &&
     !carritoContainer.classList.contains("activado") &&
@@ -2279,16 +1872,12 @@ function cerrarPerfilLogin() {
   carritoContainer.style.zIndex = "";
   containers.forEach((c) => (c.style.zIndex = ""));
 }
-
-/* FAVORITOS LATERAL */
 favoritoLateral.addEventListener("click", () => {
   favoritosContainer.classList.add("activado");
   menuCategorias.classList.remove("activado");
   categoriasMenuLateralWrapper.classList.remove("activado");
-  //
   buscarContainer.classList.remove("activado");
   body.style.overflow = "hidden";
-  // Eliminar Capa lateral
   const capaLateral = document.querySelector(".capaLateral");
   if (capaLateral) {
     capaLateral.remove();
@@ -2297,28 +1886,21 @@ favoritoLateral.addEventListener("click", () => {
 
   sincronizarContenedorVacio();
 });
-
-/* CARRITO LATERAL */
 carritoLateral.addEventListener("click", () => {
   carritoContainer.classList.add("activado");
   menuCategorias.classList.remove("activado");
   categoriasMenuLateralWrapper.classList.remove("activado");
-  //
   buscarContainer.classList.remove("activado");
   body.style.overflow = "hidden";
-  //
   detallesCompra();
   sincronizarBotonCarrito();
   sincronizarContenedorVacio();
 
-  // Ocultar cuando se Muestra Carrito
   if (miniModalCarrito.classList.contains("activado")) {
     miniModalCarrito.classList.remove("activado");
   }
 
   menuCategorias.classList.remove("activado");
-
-  // Eliminar Capa lateral
   const capaLateral = document.querySelector(".capaLateral");
   if (capaLateral) {
     capaLateral.remove();

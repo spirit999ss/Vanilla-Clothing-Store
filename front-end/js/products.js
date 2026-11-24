@@ -3,7 +3,6 @@
 const API_URL =
   "https://vanilla-clothing-store-backend.vercel.app/api/products-with-images";
 
-//
 export let products = [];
 
 export let dataMujeres = {
@@ -43,10 +42,10 @@ export const categorias = {
   ],
 };
 
-function procesarProductos(products) {
+function processProducts(products) {
   const CLOUD_NAME = "vz7kcusz";
 
-  // Limpiar arrays para evitar duplicados
+  // Clear arrays to prevent duplicate products
   Object.keys(dataMujeres).forEach((key) => {
     dataMujeres[key] = [];
   });
@@ -82,7 +81,7 @@ export async function loadProducts() {
   const CACHE_KEY = "products_cache";
   const CACHE_TIME_KEY = "products_cache_time";
 
-  // 1 año
+  // Cache duration: one year
   const CACHE_DURATION = 365 * 24 * 60 * 60 * 1000;
 
   const cachedProducts = localStorage.getItem(CACHE_KEY);
@@ -95,7 +94,7 @@ export async function loadProducts() {
   ) {
     products = JSON.parse(cachedProducts);
 
-    procesarProductos(products);
+    processProducts(products);
 
     return products;
   }
@@ -109,7 +108,7 @@ export async function loadProducts() {
 
   localStorage.setItem(CACHE_TIME_KEY, Date.now().toString());
 
-  procesarProductos(products);
+  processProducts(products);
 
   return products;
 }

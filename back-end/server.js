@@ -56,7 +56,7 @@ admin.initializeApp({
 const db = admin.firestore();
 
 // =====================================================
-// Helpers de Cloudinary
+// Cloudinary helpers
 // =====================================================
 
 const CLOUD_NAME = process.env.CLOUDINARY_CLOUD_NAME;
@@ -92,7 +92,7 @@ function getCloudinaryOriginalUrl(image) {
 }
 
 // =====================================================
-// Helpers de migración
+// Migration helpers
 // =====================================================
 
 const imageManualMap = {};
@@ -310,7 +310,7 @@ function findBestCloudinaryMatch(
 }
 
 // =====================================================
-// Routes básicas
+// Basic routes
 // =====================================================
 
 app.get("/", (req, res) => {
@@ -318,7 +318,7 @@ app.get("/", (req, res) => {
 });
 
 // =====================================================
-// Ver imágenes directamente desde Cloudinary
+// View images directly from Cloudinary
 // =====================================================
 
 app.get("/api/images", async (req, res) => {
@@ -339,7 +339,7 @@ app.get("/api/images", async (req, res) => {
 });
 
 // =====================================================
-// Verificar Firebase
+// Verify Firebase
 // =====================================================
 
 app.get("/api/check-firebase", async (req, res) => {
@@ -365,7 +365,7 @@ app.get("/api/check-firebase", async (req, res) => {
 });
 
 // =====================================================
-// Productos desde Firestore con URLs generadas
+// Products from Firestore with generated URLs
 // =====================================================
 app.get("/api/products-with-images", async (req, res) => {
   try {
@@ -448,7 +448,7 @@ app.get("/api/products-with-images", async (req, res) => {
 });
 
 // =====================================================
-// Lista de URLs lista para copiar
+// Copy-ready URL list
 // =====================================================
 
 app.get("/api/image-urls", async (req, res) => {
@@ -494,7 +494,7 @@ app.get("/api/image-urls", async (req, res) => {
 });
 
 // =====================================================
-// Lista simple de URLs en texto plano
+// Simple plain-text URL list
 // =====================================================
 
 app.get("/api/image-urls-text", async (req, res) => {
@@ -522,7 +522,7 @@ app.get("/api/image-urls-text", async (req, res) => {
 });
 
 // =====================================================
-// Revisar múltiples pendientes
+// Check unresolved duplicates
 // =====================================================
 
 app.get("/api/multiple-candidates", async (req, res) => {
@@ -603,7 +603,7 @@ app.get("/api/multiple-candidates", async (req, res) => {
 });
 
 // =====================================================
-// Migración
+// Migration
 // =====================================================
 
 app.post("/api/migrate-image-urls", async (req, res) => {

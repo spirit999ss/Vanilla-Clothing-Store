@@ -1,22 +1,19 @@
 /* ============================================
-   STATE - ESTADO DE LA APLICACIÓN
+   STATE - APPLICATION STATE
    ============================================ */
 
 /**
- * Módulo: state.js
- * Descripción: Gestiona el estado global de la aplicación
- * Exporta: historialPedidos, estadosPedidosTabla, contadorPedidos,
+ * Module: state.js
+ * Description: Manages the application's global state.
+ * Exports: historialPedidos, estadosPedidosTabla, contadorPedidos,
  *          generarNumeroPedido, dataGeneralBusqueda, favoritos,
  *          carrito, state, imgTarjetas
  */
 
-// Importa data base del catálogo
 import { products } from "./products.js";
-
-//Import Assets
 import { assets } from "./assets.js";
 /* ============================================
-   SECCIÓN 2: ESTADO DE PEDIDOS (TABLA)
+   SECTION 2: ORDER STATUS TABLE
    ============================================ */
 
 export let estadosPedidosTabla = [];
@@ -39,43 +36,43 @@ export function generarNumeroPedido() {
 }
 
 /* ============================================
-   SECCIÓN 3: BÚSQUEDA GLOBAL
+   SECTION 3: GLOBAL SEARCH
    ============================================ */
 
 /**
- * Lista plana de todos los productos para búsquedas
- * Combina todos los productos de mujeres y hombres
+ * Flat list of all products used for search
+ * Combines all women's and men's products
  * @type {Array}
  */
 export const dataGeneralBusqueda = [];
 
 /* ============================================
-   SECCIÓN 4: FAVORITOS Y CARRITO
+   SECTION 4: FAVORITES AND CART
    ============================================ */
 
 /**
- * Productos marcados como favoritos por el usuario
+ * Products marked as favorites by the user
  * @type {Array}
  */
 export let favoritos = [];
 
 /**
- * Productos agregados al carrito de compras
+ * Products added to the shopping cart
  * @type {Array}
  */
 export let carrito = [];
 
 /* ============================================
-   SECCIÓN 5: USUARIOS Y ESTADO
+   SECTION 5: USERS AND STATE
    ============================================ */
 
 /**
- * Estado global de la aplicación
- * Contiene usuarios registrados y usuario activo
+ * Global application state
+ * Contains registered users and the active user
  * @type {Object}
  */
 export const state = {
-  /** Usuarios registrados en el sistema */
+  /** Registered users */
   usuarios: {
     u1: {
       nombre: "Messi Ronaldo",
@@ -196,16 +193,16 @@ export const state = {
     },
   },
 
-  /** Usuario actualmente logueado (null si no hay sesión) */
+  /** Currently logged-in user (null when no session exists) */
   usuarioActivo: null,
 };
 
 /* ============================================
-   SECCIÓN 6: IMÁGENES DE TARJETAS
+   SECTION 6: PAYMENT CARD IMAGES
    ============================================ */
 
 /**
- * Rutas de imágenes para los diferentes tipos de tarjeta
+ * Image paths for the different card types
  * @type {Object}
  */
 export const imgTarjetas = {

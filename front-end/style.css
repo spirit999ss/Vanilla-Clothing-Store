@@ -1,4 +1,3 @@
-/*=== Global ===*/
 * {
   margin: 0;
   padding: 0;
@@ -7,63 +6,42 @@
   border: 0;
   box-sizing: border-box;
 }
-/*============================*/
-/*=====GLOBAL VARIABLES======*/
-/*==========================*/
 :root {
-  /* FONDOS OSCUROS  */
-  --color-bg-primary: #ffffff;
+--color-bg-primary: #ffffff;
   --color-bg-secondary: #f5f5f5;
   --color-bg-box: #f3e7d3;
   --color-bg-box2: #999;
   --color-bg-footer: #2c3e50;
-
-  /* BUTTONS  */
-  --btn-primary-bg: #7b68ee;
+--btn-primary-bg: #7b68ee;
   --btn-primary-text: #ffffff;
   --btn-secondary-bg: #2c3e50;
   --btn-secondary-text: #ffffff;
   --btn-accent-bg: #5042a3;
   --btn-accent-text: #ffffff;
-
-  /* TEXT  */
-  --text-primary: #333333;
+--text-primary: #333333;
   --text-secondary: #666666;
   --text-accent: #e74c3c;
   --text-input: #333333;
-
-  /* INPUTS */
-  --input-bg: #9149a5;
+--input-bg: #9149a5;
   --input-border: #bdc3c7;
   --input-border-focus: #3498db;
   --input-placeholder: #95a5a6;
-
-  /* BORDERS AND SHADOWS*/
-  --color-border: 1px solid #673f8f;
+--color-border: 1px solid #673f8f;
   --shadow-base: rgba(44, 62, 80, 0.2);
-
-  /* Hover / Active */
-  --hover-accent: #27bd60;
+--hover-accent: #27bd60;
   --active-accent: #27ae60;
   --hover-btn-primary: #02642e;
   --hover-btn-secondary: #34495e;
-
-  /*Animation*/
-  --transition-out:
+--transition-out:
     opacity 0.4s ease-out, visibility 0.4s ease-out, z-index 0s linear 0.4s;
   --transition-in: opacity 0.6s ease-out, visibility 0.6s ease-out;
 }
-/*==========================*/
-/*=====GENERAL BODY=========*/
-/*==========================*/
-
 body {
   width: 100%;
   background-color: var(--color-bg-primary);
   font-family: sans-serif, Arial;
   overflow-x: hidden;
 }
-/* Scrollbar */
 ::-webkit-scrollbar {
   width: 3.6px;
   background-color: #f5f5f5;
@@ -73,16 +51,11 @@ body {
   background-color: #bdc3c7;
 }
 button {
-  /* Quitar el marco / fondo azul del navegador */
-  -webkit-tap-highlight-color: transparent;
+-webkit-tap-highlight-color: transparent;
   outline: none;
   -webkit-appearance: none;
   appearance: none;
 }
-
-/*======//////==============*/
-/*======HEADER==============*/
-/*======//////==============*/
 header {
   position: sticky;
   top: 0;
@@ -96,7 +69,6 @@ header {
   background-color: #ffffff;
   z-index: 3;
 }
-/* Btn Menu Categorías */
 .menu-category-container .menu-btn {
   display: flex;
   align-items: center;
@@ -113,7 +85,6 @@ header {
   width: 100%;
   height: auto;
 }
-/*Logo */
 .logo-container {
   display: flex;
   align-items: center;
@@ -131,8 +102,6 @@ header {
   width: 40vw;
   height: 100%;
 }
-/* MODAL LOGIN*/
-
 .login-container {
   position: fixed;
   display: flex;
@@ -170,8 +139,6 @@ header {
 .logo-marca.desactivado {
   display: none;
 }
-
-/* Exit Log In y Log In Lateral */
 .exitLogIn,
 .exitLogInLateral {
   position: absolute;
@@ -192,7 +159,6 @@ header {
   width: 90%;
   height: 90%;
 }
-/* Login Form */
 .login-form {
   display: flex;
   flex-direction: column;
@@ -242,8 +208,6 @@ header {
   border-radius: 9px;
   color: var(--text-primary);
 }
-
-/* Btn  Iniciar Sesión */
 .btn-iniciar-sesion {
   align-self: center;
   width: 70%;
@@ -260,8 +224,6 @@ header {
 .btn-iniciar-sesion:hover {
   background-color: var(--btn-accent-bg);
 }
-
-/* Crear Cuenta */
 .crear-cuenta {
   display: flex;
   flex-direction: row;
@@ -283,7 +245,6 @@ header {
 .crear-cuenta a:hover {
   color: var(--btn-accent-bg);
 }
-/* Modal de Registro */
 #modal-registro {
   display: none;
   position: fixed;
@@ -395,8 +356,6 @@ select {
   background: #fff;
   color: #333;
 }
-
-/* Botón de Registro */
 .btn-registrarse {
   width: 100%;
   padding: 16px;
@@ -430,8 +389,6 @@ select {
 .btn-registrarse:active {
   transform: translateY(0);
 }
-
-/* Enlace de login */
 .ya-tienes-cuenta {
   text-align: center;
   margin-top: 25px;
@@ -450,8 +407,6 @@ select {
 #btn-login-modal:hover {
   color: (--btn-accent-bg);
 }
-
-/* Opciones de login */
 .opciones-login-container {
   display: flex;
   flex-direction: column;
@@ -491,8 +446,6 @@ select {
   border: none;
   border-bottom: 1.8px solid #bdc3c7;
 }
-
-/* Opciones Login diferentes Formas */
 .opciones-login {
   display: flex;
   flex-direction: row;
@@ -528,9 +481,6 @@ select {
 .opcion-caja--apple img {
   width: 42%;
 }
-/* ============================= */
-/* === Perfil del Usuario    === */
-/* ============================= */
 .perfil-container {
   display: flex;
   flex-direction: column;
@@ -550,11 +500,6 @@ select {
   visibility: visible;
   z-index: 999;
 }
-
-/* ============================= */
-/* ========= HEADER     =========*/
-/* ============================= */
-
 .perfil-header {
   position: relative;
   text-align: center;
@@ -574,8 +519,6 @@ select {
   border: 3px solid #bdc3c7;
   margin-bottom: 10px;
 }
-
-/* btn de editar Img */
 .edit-label {
   position: absolute;
   top: 70px;
@@ -609,8 +552,6 @@ select {
 #uploadImage {
   display: none;
 }
-/* Nombre del Usuario */
-
 .perfil-header p {
   font-family: "Arial", sans-serif;
   font-size: 15px;
@@ -618,7 +559,6 @@ select {
   text-align: center;
   letter-spacing: 1px;
 }
-/*Nombre del Perfil del Usuario*/
 .perfil-header .nombre-perfil-usuario {
   font-size: 18px;
   font-weight: 600;
@@ -638,7 +578,6 @@ select {
   background: rgba(79, 107, 237, 0.18);
   transform: translateY(-1px);
 }
-/* Estilos para las letras animadas */
 .nombre-perfil-usuario .letra-hover {
   display: inline-block;
   opacity: 0.8;
@@ -655,10 +594,6 @@ select {
     0 2px 4px rgba(79, 107, 237, 0.2),
     0 4px 8px rgba(79, 107, 237, 0.1);
 }
-/* ============================= */
-/* MENU DEL PERFIL */
-/* ============================= */
-
 .perfil-menu {
   display: flex;
   flex-direction: column;
@@ -674,8 +609,6 @@ select {
 .perfil-item {
   width: 100%;
 }
-
-/* Botones principales de el Menu de Usuario */
 .perfil-btn {
   width: 100%;
   padding: 14px;
@@ -690,7 +623,6 @@ select {
 
   transition: 0.3s ease;
 }
-/* Hover y Activado de btn de Perfil */
 .perfil-btn:hover {
   background-color: var(--btn-accent-bg);
   color: var(--btn-primary-text);
@@ -710,11 +642,6 @@ select {
   color: var(--btn-accent-text);
   opacity: 0.7;
 }
-
-/* ============================= */
-/*  Editar Perfil */
-/* ============================= */
-
 .perfil-contenido {
   width: 100vw;
   height: 100vh;
@@ -751,7 +678,6 @@ select {
 .perfil-info strong {
   color: #555;
 }
-/* Editar Perfil */
 #editarPerfil {
   position: fixed;
   top: 0;
@@ -812,8 +738,6 @@ select {
 .perfil-info label + label {
   margin-top: 10px;
 }
-
-/* Botón guardar */
 .btn-editar {
   margin-top: 20px;
   width: 100%;
@@ -831,7 +755,6 @@ select {
   background-color: var(--hover-btn-secondary);
   transform: translateY(-2px);
 }
-/*  Métodos de Pago  */
 #metodosPago {
   position: fixed;
   top: 0;
@@ -884,8 +807,6 @@ select {
   transition: 0.2s ease;
   cursor: pointer;
 }
-
-/* Contenedor de tarjetas */
 .tarjeta-guardada-container {
   position: relative;
   display: flex;
@@ -943,7 +864,6 @@ select {
   font-size: 0.6rem;
   opacity: 0.8;
 }
-/*Contenedor de Btn de Editar y Eliminar Tarjeta*/
 .btn-tarjetas-guardadas-container {
   display: flex;
   flex-direction: row;
@@ -963,7 +883,6 @@ select {
   width: 27px;
   height: 27px;
 }
-/* Agregar tarjeta */
 .agregar-tarjeta {
   display: flex;
   flex-direction: column;
@@ -980,7 +899,6 @@ select {
   padding: 10px;
   text-align: center;
 }
-/*Btn de los tipos de tarjetas */
 .botones-tipo-pago {
   display: flex;
   padding: 6px;
@@ -1018,7 +936,6 @@ select {
   box-shadow: 0 4px 12px var(--btn-primary-bg);
   transition: box-shadow 0.2s ease;
 }
-/*  */
 fieldset {
   width: 100%;
   border: 2px solid #bdc3c7;
@@ -1032,7 +949,6 @@ legend {
   font-weight: bold;
   color: #333;
 }
-/* Form de Visa y Mastercard */
 .form-tarjeta {
   display: flex;
   flex-direction: column;
@@ -1046,16 +962,11 @@ legend {
 .form-tarjeta.desactivado {
   display: none;
 }
-
-/* Etiquetas */
 .form-tarjeta label {
   width: 100%;
   font-weight: 500;
   margin: 9px;
 }
-
-/* Inputs y select */
-
 .agregar-tarjeta .form-tarjeta input[type="password"],
 #titular-tarjeta {
   width: 100%;
@@ -1078,7 +989,6 @@ legend {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   background-color: #fff;
 }
-/* Img de los input de add tarjeta y paypal  de usuario */
 .form-tarjeta div,
 .form-paypal div {
   position: relative;
@@ -1101,7 +1011,6 @@ legend {
   margin-bottom: 6px;
   padding-left: 39px;
 }
-/* Botón Guardar */
 .agregar-tarjeta .form-tarjeta button {
   padding: 12px 0;
   width: 100%;
@@ -1118,8 +1027,6 @@ legend {
 .agregar-tarjeta .form-tarjeta button:hover {
   background-color: var(--hover-accent);
 }
-
-/*Form de Paypal*/
 .form-paypal {
   display: none;
   flex-direction: column;
@@ -1134,16 +1041,12 @@ legend {
 .form-paypal.activado {
   display: flex;
 }
-
-/* Etiquetas */
 .form-paypal label {
   width: 100%;
   text-align: left;
   font-weight: 500;
   margin: 9px;
 }
-
-/* Inputs */
 #titular-paypal,
 #email-paypal,
 #confirm-email-paypal {
@@ -1163,8 +1066,6 @@ legend {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   background-color: #fff;
 }
-
-/* Botón Guardar */
 .form-paypal button {
   padding: 12px 0;
   width: 100%;
@@ -1180,9 +1081,6 @@ legend {
 .form-paypal button:hover {
   background-color: var(--hover-accent);
 }
-/*=============================*/
-/*=== Mis Pedidos===*/
-/*=============================*/
 #misPedidos {
   position: fixed;
   top: 0;
@@ -1253,8 +1151,6 @@ legend {
   outline: 2px solid var(--btn-primary-bg);
   outline-offset: 2px;
 }
-
-/* Iconos para los botones */
 .btn-historial::before {
   content: "📋";
   margin-right: 10px;
@@ -1279,8 +1175,6 @@ legend {
   font-weight: 600;
   color: #333;
 }
-
-/* Produtos del Historial de Pedidos */
 .btn-historial {
   display: flex;
   flex-direction: column;
@@ -1384,7 +1278,6 @@ legend {
   opacity: 1;
   visibility: visible;
 }
-/*  */
 .historial-pedidos-container #imgHistorialPedidos {
   width: 100%;
   height: 33%;
@@ -1400,7 +1293,6 @@ legend {
   text-align: center;
   padding: 10px;
 }
-/* Renderizar el Estado del Producto en la Tabla */
 .estado-preparando {
   color: #f39c12;
   font-weight: 600;
@@ -1414,7 +1306,6 @@ legend {
   color: var(--active-accent);
   font-weight: 600;
 }
-/*Tabla de pedidos */
 .tabla-estados-pedidos-container {
   display: none;
   width: 100%;
@@ -1566,7 +1457,6 @@ legend {
 .btn-ver {
   cursor: pointer;
 }
-/* Render Pedidos */
 #pedido-modal {
   position: fixed;
   top: 0;
@@ -1657,11 +1547,6 @@ legend {
   transform: rotate(360deg);
   font-size: 1.8rem;
 }
-/*==================*/
-/*==== Seguridad=====*/
-/*==================*/
-
-/* Contenedor principal de seguridad */
 #seguridad {
   position: fixed;
   top: 0;
@@ -1716,10 +1601,6 @@ legend {
   overflow: hidden;
   z-index: 1;
 }
-/* ============================= */
-/* === FORMULARIO CAMBIO CONTRASEÑA === */
-/* ============================= */
-
 .cambiar-contraseña-usuario-container {
   display: flex;
   align-items: center;
@@ -1734,8 +1615,6 @@ legend {
   max-height: 500px;
   padding: 0 30px 30px;
 }
-
-/* Formulario */
 .cambiar-contraseña-usuario {
   width: 81%;
   background-color: #f5f5f5;
@@ -1745,8 +1624,6 @@ legend {
 .cambiar-contraseña-usuario fieldset {
   width: 100%;
 }
-
-/* Labels */
 .cambiar-contraseña-usuario label {
   display: block;
   font-size: 0.95rem;
@@ -1760,8 +1637,6 @@ legend {
 .cambiar-contraseña-usuario label:focus-within {
   color: var(--btn-primary-bg);
 }
-
-/* Inputs */
 .cambiar-contraseña-usuario input[type="password"] {
   width: 100%;
   padding: 14px 18px;
@@ -1787,8 +1662,6 @@ legend {
 .cambiar-contraseña-usuario input[type="password"]:hover {
   border-color: #cbd5e0;
 }
-
-/* Contenedor de input con icono */
 .input-contenedor {
   position: relative;
   margin-bottom: 5px;
@@ -1807,8 +1680,6 @@ legend {
 .input-contenedor i:hover {
   color: var(--btn-primary-bg);
 }
-
-/* Botón del formulario */
 .btn-cambiar-contraseña-usuario {
   width: 100%;
   padding: 16px;
@@ -1822,11 +1693,6 @@ legend {
   overflow: hidden;
   letter-spacing: 0.5px;
 }
-
-/* ============================= */
-/* BOTONES */
-/* ============================= */
-
 .btn-editar-perfil,
 .btn-cerrar {
   width: 100%;
@@ -1838,8 +1704,6 @@ legend {
   transition: 0.3s ease;
   font-weight: 600;
 }
-
-/* Editar */
 .btn-editar-perfil {
   background-color: var(--btn-accent-bg);
   color: white;
@@ -1848,8 +1712,6 @@ legend {
 .btn-editar:hover {
   background-color: #c0392b;
 }
-
-/* Cambiar foto */
 .btn-editar-img {
   background-color: #eee;
 }
@@ -1857,8 +1719,6 @@ legend {
 .btn-editar-img:hover {
   background-color: #ddd;
 }
-
-/* Botón de Cerrar Sesión  Perfil*/
 .btn-cerrar-seccion {
   width: 100%;
   padding: 12px;
@@ -1878,9 +1738,6 @@ legend {
   background-color: #c0392b;
   transform: scale(1.03);
 }
-/*======================================== */
-/*======== MENÚ CATEGORÍAS MÓVIL ========*/
-/*======================================== */
 .menu-categorias {
   position: fixed;
   top: 0;
@@ -1903,9 +1760,6 @@ legend {
   visibility: visible;
   transition: var(--transition-in);
 }
-
-/* Menu BackDroop Lateral*/
-
 .capaLateral {
   position: fixed;
   top: 0px;
@@ -1955,8 +1809,6 @@ legend {
   background-color: var(--btn-primary-bg);
   color: #fff;
 }
-
-/* Categorías de Menu Lateral  */
 .categorias-menu-lateral-wrapper {
   display: none;
   flex: 1 1 auto;
@@ -2030,8 +1882,6 @@ legend {
   height: 100%;
   object-fit: cover;
 }
-
-/* User lateral*/
 .user-lateral {
   display: flex;
   width: 100%;
@@ -2086,9 +1936,6 @@ legend {
   width: 1.5rem;
   height: auto;
 }
-/* ===================== */
-/*  BARRA DE BÚSQUEDA   */
-/* ===================== */
 .buscar-container {
   position: fixed;
   top: 0;
@@ -2115,7 +1962,6 @@ legend {
   height: 21vh;
   background: var(--color-bg-box2);
 }
-/* Buscar vacío */
 .searchEmpty {
   display: flex;
   flex-direction: column;
@@ -2150,8 +1996,6 @@ legend {
 .searchEmpty strong {
   color: #222;
 }
-
-/* Buscar img */
 .buscar-container img {
   width: 1.5rem;
 }
@@ -2253,7 +2097,6 @@ legend {
   color: var(--text-accent);
   display: block;
 }
-/* Mensaje de Busqueda */
 .mensaje-busqueda {
   position: absolute;
   top: 100%;
@@ -2279,10 +2122,6 @@ legend {
   background: #e7f3ff;
   border-color: #b3d7ff;
 }
-
-/* ====================*/
-/*ACCIONES DE USUARIO */
-/* ====================== */
 .user-container {
   width: 180px;
   display: flex;
@@ -2312,15 +2151,12 @@ legend {
   width: 24px;
   height: 24px;
 }
-/* userlogInActivo */
 .user-container .userlogInActivo {
   width: 330px;
   height: 33px;
   border-radius: 10px;
   border: 1px solid #bdc3c7;
 }
-
-/* Buscar Header */
 .buscar-btn-container {
   background-color: transparent;
   cursor: pointer;
@@ -2328,8 +2164,6 @@ legend {
 .buscar {
   margin-right: 0.33rem;
 }
-
-/*Contador de Carrito*/
 .contador-add-carrito {
   position: absolute;
   bottom: 6px;
@@ -2351,9 +2185,6 @@ legend {
 .span-contador {
   color: var(--btn-primary-bg);
 }
-
-/*=== Utils y Funciones Reutilizables ===*/
-/*---Exit Menu ------*/
 .exitMenuContainer {
   position: absolute;
   top: 0vh;
@@ -2381,8 +2212,6 @@ legend {
   width: 100%;
   height: 100%;
 }
-
-/*---Exit Buscar ------*/
 .exitBuscarContainer {
   position: fixed;
   top: 9px;
@@ -2410,7 +2239,6 @@ main {
   width: 100vw;
   height: auto;
 }
-/*Title*/
 .title {
   display: flex;
   flex-shrink: 0;
@@ -2427,9 +2255,6 @@ h1 {
   font-weight: 600;
   text-align: center;
 }
-/*==========================*/
-/*  Slider de imágenes      */
-/*==========================*/
 #slider-contenedor {
   width: 100%;
   height: 72vw;
@@ -2453,8 +2278,6 @@ h1 {
   aspect-ratio: 16 / 9;
   cursor: pointer;
 }
-
-/* Btn  de Navegación  Slider*/
 .previuw-next-container {
   position: absolute;
   top: 50%;
@@ -2488,8 +2311,6 @@ h1 {
   background: white;
   transform: scale(1.1);
 }
-
-/* Paginación Slider */
 .swiper-pagination {
   position: absolute;
   bottom: 20px;
@@ -2505,8 +2326,6 @@ h1 {
 .swiper-pagination-bullet-active {
   background: var(--btn-primary-bg);
 }
-
-/* Scrollbar Slider */
 .swiper-scrollbar {
   background: rgba(0, 0, 0, 0.1);
   height: 6px;
@@ -2515,9 +2334,6 @@ h1 {
 .swiper-scrollbar-drag {
   background: var(--btn-primary-bg);
 }
-/*====================*/
-/* SECCIÓN CATEGORÍAS */
-/*====================*/
 .categorias-wrapper {
   display: flex;
   flex-direction: column;
@@ -2535,7 +2351,6 @@ h1 {
   background: #999;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.28);
 }
-/*Categorias Mujer y Hombre */
 #categoria-mujer,
 #categoria-hombre {
   display: flex;
@@ -2585,9 +2400,6 @@ h1 {
   height: 90%;
   aspect-ratio: 16 / 9;
 }
-/*===============*/
-/*===Productos===*/
-/*===============*/
 .vestidos-container,
 .blusas-container,
 .pantalones-mujer-container,
@@ -2665,7 +2477,6 @@ h1 {
   cursor: default;
   background-color: var(--color-bg-box);
 }
-/* Hombre */
 .camisas-grid,
 .pantalones-hombre-grid,
 .gorras-grid,
@@ -2674,8 +2485,6 @@ h1 {
 .accesorios-hombre-grid {
   background-color: var(--color-bg-box);
 }
-
-/* Producto Item */
 .productoItem {
   position: relative;
   display: flex;
@@ -2688,7 +2497,6 @@ h1 {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   border-radius: 0 0 6.3px 6.3px;
 }
-/*  Backdrop  del Zoom de las img  */
 .backdropZoomImg {
   position: fixed;
   top: 63px;
@@ -2729,8 +2537,6 @@ h1 {
   height: 100%;
   z-index: 999;
 }
-/* Img */
-
 .imgContainer {
   position: relative;
   height: 63%;
@@ -2742,8 +2548,6 @@ h1 {
   transition: var(--transition-in);
   cursor: pointer;
 }
-
-/* Zoom */
 .productoItem.ZoomImg {
   position: fixed;
   top: 0;
@@ -2760,13 +2564,10 @@ h1 {
   cursor: zoom-out;
   transform: scale(1);
 }
-/* Desaparezco los Botones y Descripcion*/
 .productoItem.ZoomImg .botonesProducto,
 .productoItem.ZoomImg .descripcionProducto {
   display: none;
 }
-
-/* Cambiar Izquierda Y Derecha */
 .izquierdaContainer,
 .derechaContainer {
   position: absolute;
@@ -2806,7 +2607,6 @@ h1 {
 .derechaContainer:hover {
   background-color: #fff;
 }
-/* Descripcion del Producto */
 .descripcionContainer {
   display: flex;
   align-items: center;
@@ -2816,7 +2616,6 @@ h1 {
   margin: 3px;
   text-align: center;
 }
-/* Botones Producto */
 .botonesProducto {
   display: flex;
   flex-direction: column;
@@ -2833,7 +2632,6 @@ h1 {
   font-weight: 600;
   padding: 9px;
 }
-/*  */
 .selectTallasContainer {
   width: 100%;
 }
@@ -2843,8 +2641,6 @@ h1 {
   border-radius: 0;
   padding: 9px 9px;
 }
-
-/*  */
 .btnCarrito {
   width: 100%;
   padding: 9px;
@@ -2877,8 +2673,6 @@ h1 {
 
   background-color: var(--active-accent);
 }
-
-/* Favorito y Relleno de Favorito */
 .btnFavoritoContainer {
   position: absolute;
   bottom: 6px;
@@ -2933,7 +2727,6 @@ h1 {
   visibility: visible;
   transform: scale(1);
 }
-/* Aviso de no Poder Agregar 2 Veces el Mismo Producto */
 .noAgregarDosVecesContainer {
   position: fixed;
   top: 50%;
@@ -2958,7 +2751,7 @@ h1 {
   z-index: 1000;
 }
 
-/* 
+/*
 ============================
                 FOOTER
     ============================  */
@@ -2986,8 +2779,6 @@ h1 {
   width: 100%;
   text-align: center;
 }
-
-/* Texto de copyright */
 .info-container > p {
   font-size: 0.9rem;
   color: #cccccc;
@@ -2995,8 +2786,6 @@ h1 {
   font-weight: 300;
   letter-spacing: 0.5px;
 }
-
-/* Navegación del footer */
 .site-footer nav {
   width: 100%;
   max-width: 500px;
@@ -3030,8 +2819,6 @@ h1 {
 .site-footer nav a:hover {
   color: var(--hover-accent);
 }
-
-/* Efecto subrayado al hover */
 .site-footer nav a::after {
   content: "";
   position: absolute;
@@ -3046,8 +2833,6 @@ h1 {
 .site-footer nav a:hover::after {
   width: 100%;
 }
-
-/* Línea divisoria opcional */
 .info-container::before {
   content: "";
   display: block;
@@ -3061,9 +2846,6 @@ h1 {
   );
   margin-bottom: 1rem;
 }
-/*============================ */
-/*===Contenedor de Favoritos */
-/*============================ */
 .favoritos-container {
   position: fixed;
   top: 63px;
@@ -3095,8 +2877,6 @@ h1 {
   height: 100vh;
   background-color: #95a5a6;
 }
-/* Productos Favoritos  */
-
 .favoritos-productos {
   width: 100vw;
   height: 100vh;
@@ -3152,7 +2932,6 @@ h1 {
   height: 9rem;
   text-align: center;
 }
-/* Detalles Producto Favoritos */
 .detallesProducto {
   display: flex;
   flex-direction: column;
@@ -3169,7 +2948,6 @@ h1 {
   font-weight: 600;
   padding: 9px;
 }
-/* Favoritos Add a Carrito */
 .favoritoAgregarCarrito {
   width: 100%;
   padding: 10px;
@@ -3196,9 +2974,6 @@ h1 {
 
   background-color: var(--active-accent);
 }
-/*============================ */
-/*===Contenedor de Carrito */
-/*============================ */
 .carrito-container {
   position: fixed;
   top: 63px;
@@ -3235,8 +3010,6 @@ h1 {
   height: 100vh;
   background-color: #95a5a6;
 }
-/* Productos Carrito */
-
 .carrito-productos {
   width: 98vw;
   height: 54vh;
@@ -3300,7 +3073,6 @@ h1 {
 
   margin-bottom: 6px;
 }
-/* Contenedor de Precio , Talla y Cantidad */
 .infoCompraCarrito {
   display: flex;
   align-items: center;
@@ -3309,7 +3081,6 @@ h1 {
   height: 50%;
   font-weight: 600;
 }
-/*Cambiar la Talla y Actualizar la talla*/
 .overlayActualizar {
   position: fixed;
   top: 0;
@@ -3373,7 +3144,6 @@ h1 {
   object-fit: cover;
   flex-shrink: 0;
 }
-/* Carrito Add a Favoritos */
 .carritoAgregarFavorito {
   position: absolute;
   bottom: 0;
@@ -3384,15 +3154,12 @@ h1 {
   text-align: center;
   background-color: var(--active-accent);
 }
-/* Contenedor del contador con select */
 .contadorContainer {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 4px;
 }
-
-/* Estilo del select */
 .contadorContainer select.cantidad-select {
   border-radius: 3.6px;
   border: 1px solid #ccc;
@@ -3408,8 +3175,6 @@ h1 {
 .contadorContainer select.cantidad-select:focus {
   border-color: var(--btn-primary-bg);
 }
-
-/* Detalles de Compra Carrito*/
 .detalles-compra-container {
   display: flex;
   flex-grow: 1;
@@ -3494,9 +3259,6 @@ h1 {
   background-color: #27ae60;
   transform: scale(0.97);
 }
-/*=====================*/
-/*===Modal de Compra===*/
-/*=====================*/
 .modal-comprar-container {
   position: fixed;
   inset: 0;
@@ -3518,7 +3280,6 @@ h1 {
   transition: var(--transition-in);
   z-index: 1000;
 }
-/* Exit Modal de Compra  */
 .exitModalCompra {
   position: fixed;
   top: 0;
@@ -3537,8 +3298,6 @@ h1 {
   transition: all 0.3s ease;
   cursor: pointer;
 }
-
-/* Modal de Compra */
 .modal-comprar-container-wrapper {
   display: flex;
   flex-direction: column;
@@ -3559,7 +3318,6 @@ h1 {
   gap: 10px;
   justify-content: center;
 }
-/* Productos a Comprar */
 .productos-modal-compra-container {
   position: relative;
   display: flex;
@@ -3569,8 +3327,6 @@ h1 {
   height: 540px;
   background-color: var(--color-bg-box2);
 }
-/* Eliminar todos los Productos */
-
 .eliminarTodoLosProductosContainer {
   position: absolute;
   top: 8px;
@@ -3603,7 +3359,6 @@ h1 {
   font-size: 14px;
   color: #777777;
 }
-/* Producto Modal de Compra */
 .productos-modal-compra {
   display: flex;
   flex-direction: column;
@@ -3640,8 +3395,6 @@ h1 {
   width: 24px;
   height: 24px;
 }
-
-/*Detalles de la Compra  Modal   */
 .detallesModalCompra {
   position: relative;
   width: 100%;
@@ -3652,7 +3405,6 @@ h1 {
   width: 89%;
   height: 70%;
 }
-/*  */
 .infoCompraModalCompra {
   display: flex;
   align-items: center;
@@ -3662,7 +3414,6 @@ h1 {
   font-size: 12px;
   font-weight: 600;
 }
-/* Detalles de la Compra*/
 .detalles-compra {
   width: 93%;
   height: 210px;
@@ -3704,8 +3455,6 @@ h1 {
   font-size: 16px;
   color: #222222;
 }
-
-/* Flujo de compra */
 .proceso-compra-container {
   display: flex;
   justify-content: center;
@@ -3723,7 +3472,6 @@ h1 {
 .centrar-contenido-compra div {
   width: 100%;
 }
-/* Verificaciond e Tarjeta */
 .verificacion-tarjeta-container {
   width: 100%;
   display: flex;
@@ -3784,7 +3532,6 @@ h1 {
 .btn-forma-pago-paypal.activado {
   border-bottom: 3px solid var(--btn-primary-bg);
 }
-/*  */
 .verificacion-tarjeta-container h3 {
   font-size: 16px;
   margin: 10px 0 5px;
@@ -3799,7 +3546,6 @@ h1 {
   color: #555555;
   width: 90%;
 }
-/* Input Numero tarjeta para Compra */
 .verificacion-tarjeta-container #nombre,
 #input-numero-tarjeta-compra {
   width: 100%;
@@ -3817,7 +3563,6 @@ h1 {
   border-color: var(--btn-primary-bg);
   outline: none;
 }
-/*  Img del input de tarjeta cambia dinamicamente */
 .input-numero-tarjeta-compra {
   position: relative;
   display: block;
@@ -3846,8 +3591,6 @@ h1 {
   pointer-events: none;
   transition: opacity 0.3s ease;
 }
-
-/* Img del input de Paypal cambia dinamicamente   */
 .input-email-paypal-compra {
   position: relative;
   display: block;
@@ -3886,9 +3629,6 @@ h1 {
 .tarjeta-icon.imgInputTarjetaActiva {
   opacity: 1;
 }
-/*  */
-
-/* Expiración */
 .fecha-expiracion-container {
   display: flex;
   flex-direction: row;
@@ -3920,8 +3660,6 @@ h1 {
 #btn-tarjetas-pago:hover {
   background-color: var(--hover-btn-primary);
 }
-/* Form Paypal Pago */
-
 .form-tarjetas-pago.desactivado {
   display: none;
 }
@@ -3954,8 +3692,6 @@ h1 {
   width: 100%;
   padding-left: 58px;
 }
-
-/* Eliminar Todos los Productos de Modal de Compra */
 .eliminarProductosConfirmar {
   position: fixed;
   top: 0;
@@ -3968,10 +3704,8 @@ h1 {
   align-items: center;
   z-index: 9999;
 }
-
-/* Contenedor central del mensaje */
 .eliminarTodoConfirmarModalCompra {
-  background-color: #fff; /* blanco */
+  background-color: #fff;
   padding: 25px 30px;
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
@@ -4015,8 +3749,6 @@ h1 {
 .eliminarTodoConfirmarModalCompra button:nth-of-type(2):hover {
   background-color: #7f8c8d;
 }
-
-/*Favortos y Carrito Vacio  */
 .mostrar-mensaje-vacio {
   position: fixed;
   top: 63px;
@@ -4070,7 +3802,6 @@ h1 {
   gap: 20px;
   padding: 20px 0;
 }
-/* Factura Container */
 .factura-container {
   width: 794px;
   max-width: 794px;
@@ -4095,8 +3826,6 @@ h1 {
   box-sizing: border-box;
   position: relative;
 }
-
-/* Exit Factura */
 .exit-factura {
   position: fixed;
   top: 15px;
@@ -4128,8 +3857,6 @@ h1 {
   height: 70%;
   background-color: transparent;
 }
-
-/* Multipágina */
 .facturas-modal.multi-pagina .exit-factura {
   position: fixed;
   top: 15px;
@@ -4332,8 +4059,6 @@ h1 {
 .detalles-pago p span:first-child {
   font-weight: 600;
 }
-/* Descargar Factura */
-
 .btn-descargar-factura-container {
   position: fixed;
   bottom: 15px;
@@ -4359,9 +4084,6 @@ h1 {
   cursor: pointer;
   white-space: nowrap;
 }
-/*====================================*/
-/*PDF*/
-/*====================================*/
 .pdf-temp-container {
   width: 794px;
   margin: 0;
@@ -4397,7 +4119,6 @@ h1 {
 .factura-wrapper[data-es-ultima="true"] .ultima-pagina-only {
   display: block;
 }
-/* Conteo de Numero */
 .pagina-numero {
   position: absolute;
   bottom: 18px;
@@ -4464,9 +4185,6 @@ h1 {
     display: table-row-group;
   }
 }
-/* ===================== */
-/*====== DashBoard */
-/* ===================== */
 .dashboard-container {
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   max-width: 1400px;
@@ -4613,8 +4331,6 @@ h1 {
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(239, 71, 111, 0.4);
 }
-
-/* Product Info */
 .product-info {
   background: #f8f9fa;
   border-radius: 10px;
@@ -4650,7 +4366,7 @@ h1 {
   color: #666;
 }
 /*==================================
-Responsive y Media Queries 
+Responsive y Media Queries
 =================================*/
 @media (max-width: 424px) {
   .productoFavoritos {
@@ -4684,7 +4400,6 @@ Responsive y Media Queries
     grid-template-columns: repeat(3, 1fr);
   }
 }
-/* Tablet */
 @media (min-width: 768px) {
   .title {
     display: flex;
@@ -4695,11 +4410,7 @@ Responsive y Media Queries
     margin-top: 1.8vh;
     margin-bottom: 1.8vh;
   }
-
-  /*======//////==============*/
-  /*======HEADER==============*/
-  /*======//////==============*/
-  .header {
+.header {
     justify-content: space-between;
     justify-content: center;
     margin-bottom: 72px;
@@ -4709,13 +4420,10 @@ Responsive y Media Queries
     visibility: hidden;
     opacity: 0;
   }
-  /*Btn  Menu Categorías ---(oculto en tablet/desktop)---*/
-  .menu-category-container .menu-btn {
+.menu-category-container .menu-btn {
     display: none;
   }
-
-  /* Logo */
-  .logo-container {
+.logo-container {
     order: -1;
     margin-left: 12px;
   }
@@ -4740,8 +4448,7 @@ Responsive y Media Queries
     visibility: visible;
     overflow: visible;
   }
-  /*Wrapper de Menu*/
-  .menu-categorias-container {
+.menu-categorias-container {
     position: relative;
     top: 0px;
     display: none;
@@ -4757,8 +4464,7 @@ Responsive y Media Queries
     display: flex;
     transition: var(--transition-in);
   }
-  /* Menu Btn Categorias */
-  .menu-btn-container {
+.menu-btn-container {
     position: static;
     display: flex;
     width: 18vw;
@@ -4787,10 +4493,7 @@ Responsive y Media Queries
   .menu-btn-container button[data-categoria="categorias-btn-hombre"].activado {
     background-color: var(--btn-primary-bg);
   }
-
-  /* Menu Categorias Mujer-Hombre*/
-
-  .categorias-menu-lateral-wrapper {
+.categorias-menu-lateral-wrapper {
     position: relative;
     display: flex;
     flex: initial;
@@ -4807,8 +4510,7 @@ Responsive y Media Queries
   .categorias-menu-lateral-wrapper ul {
     width: 100%;
   }
-  /**/
-  .categoria-mujer-container,
+.categoria-mujer-container,
   .categoria-hombre-container {
     top: 0px;
     left: 0;
@@ -4820,9 +4522,7 @@ Responsive y Media Queries
     border-radius: 0 0 12px 12px;
     background: var(--color-bg-box2);
   }
-
-  /* Productos del Menu */
-  .producto-mujer-menu,
+.producto-mujer-menu,
   .producto-hombre-menu {
     display: flex;
     justify-content: center;
@@ -4844,16 +4544,12 @@ Responsive y Media Queries
   }
 
   /*========================
-  MENÚ LATERAL DE USUARIO (oculto en tablet/desktop) 
+  MENÚ LATERAL DE USUARIO (oculto en tablet/desktop)
   ========================*/
   .user-lateral {
     display: none;
   }
-  /* ============================= */
-  /* === Perfil del Usuario    === */
-  /* ============================= */
-
-  .login-container.activado {
+.login-container.activado {
     padding: 0;
   }
   .perfil-container {
@@ -4891,9 +4587,7 @@ Responsive y Media Queries
   .btn-cerrar:hover {
     color: aliceblue;
   }
-  /* Editar Perfil */
-
-  .perfil-contenido .editar-perfil.activado {
+.perfil-contenido .editar-perfil.activado {
     opacity: 1;
     visibility: visible;
     z-index: 999;
@@ -4901,20 +4595,16 @@ Responsive y Media Queries
   #editarPerfil {
     width: calc(100vw - 240px);
   }
-  /*  Métodos de Pago  */
-  #metodosPago {
+#metodosPago {
     width: calc(100vw - 240px);
   }
-  /* Mis Pedidos*/
-  #misPedidos {
+#misPedidos {
     width: calc(100vw - 240px);
   }
-  /*Mis Favoritos*/
-  #misFavoritos {
+#misFavoritos {
     width: calc(100vw - 240px);
   }
-  /*Seguridad */
-  #seguridad {
+#seguridad {
     width: calc(100vw - 240px);
   }
 
@@ -4983,8 +4673,7 @@ Responsive y Media Queries
     overflow-y: auto;
     z-index: 12;
   }
-  /* Exit Del La Barra de Busquedad */
-  .exitBuscarContainer {
+.exitBuscarContainer {
     display: none;
   }
   /* =====================
@@ -5004,9 +4693,7 @@ Responsive y Media Queries
     width: 100vw;
     min-height: 100vh;
   }
-  /*  Slider de imágenes */
-
-  #slider-contenedor {
+#slider-contenedor {
     display: flex;
     width: 85vw;
     height: 45vh;
@@ -5038,10 +4725,6 @@ Responsive y Media Queries
     width: 100%;
     height: 100%;
   }
-  /*====================*/
-  /* SECCIÓN CATEGORÍAS */
-  /*====================*/
-  /*Categorias Mujer y Hombre */
   .vestidos-container.activado,
   .blusas-container.activado,
   .pantalones-mujer-container.activado,
@@ -5081,10 +4764,7 @@ Responsive y Media Queries
     padding-bottom: 100px;
     justify-content: space-around;
   }
-
-  /*===Favoritos Container==*/
-
-  .favoritos-container,
+.favoritos-container,
   .carrito-container {
     top: 115px;
   }
@@ -5092,11 +4772,7 @@ Responsive y Media Queries
   .carrito-container h3 {
     padding-top: 15px;
   }
-
-  /*============================ */
-  /*===Contenedor de Favoritos */
-  /*============================ */
-  .favoritos-productos {
+.favoritos-productos {
     height: 91vh;
   }
   .productoFavoritosContainer {
@@ -5104,12 +4780,7 @@ Responsive y Media Queries
     grid-template-columns: repeat(3, 1fr);
     gap: 1px;
   }
-
-  /*============================ */
-  /*===Contenedor de Carrito */
-  /*============================ */
-
-  .carrito-container .wrapper-carrito {
+.carrito-container .wrapper-carrito {
     flex-direction: row;
     align-items: flex-start;
     overflow-y: scroll;
@@ -5129,8 +4800,7 @@ Responsive y Media Queries
     margin-right: 9px;
     gap: 1px;
   }
-  /* Detalles de Compra Carrito*/
-  .detalles-compra-container {
+.detalles-compra-container {
     width: 170px;
     height: 240px;
     margin-top: 9px;
@@ -5140,8 +4810,7 @@ Responsive y Media Queries
   .metodos-pago {
     gap: 10px;
   }
-  /* Mini Modal de Compra */
-  .mini-modal-carrito-container.activado {
+.mini-modal-carrito-container.activado {
     display: block;
     position: absolute;
     top: 45px;
@@ -5172,8 +4841,7 @@ Responsive y Media Queries
     border-bottom: 10px solid #95a5a6;
     z-index: 999;
   }
-  /* Solo la imagen del producto */
-  #imgMiniModal {
+#imgMiniModal {
     width: 120px;
     max-width: 120px;
     height: 100%;
@@ -5181,9 +4849,7 @@ Responsive y Media Queries
     object-fit: cover;
     flex-shrink: 0;
   }
-
-  /*  */
-  .tituloMiniModalContainer {
+.tituloMiniModalContainer {
     position: relative;
     display: flex;
     justify-content: space-around;
@@ -5292,8 +4958,7 @@ Responsive y Media Queries
     width: 90%;
     height: 90%;
   }
-  /*Subtotal a Pagar Mini Modal  */
-  .subtotalContainer {
+.subtotalContainer {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -5308,9 +4973,7 @@ Responsive y Media Queries
     color: #2c3e50;
     font-weight: 500;
   }
-
-  /* Btn de Mini Modal */
-  .btnMiniModalContainer {
+.btnMiniModalContainer {
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -5354,20 +5017,14 @@ Responsive y Media Queries
     padding: 10px;
     background-color: #95a5a6;
   }
-
-  /*=====================*/
-  /*===Modal de Compra===*/
-  /*=====================*/
-
-  .modal-comprar-container-wrapper {
+.modal-comprar-container-wrapper {
     flex-direction: row;
     overflow-y: hidden;
   }
   .modal-comprar-container-wrapper > div {
     height: 90vh;
   }
-  /* Producto Modal de Compra */
-  .productos-modal-compra {
+.productos-modal-compra {
     flex: 1;
     min-height: 200px;
     max-height: 400px;
@@ -5377,8 +5034,7 @@ Responsive y Media Queries
   .productoModalCompra {
     height: 120px;
   }
-  /* Flujo de compra */
-  .proceso-compra-container {
+.proceso-compra-container {
     height: 100vh;
   }
 
@@ -5395,15 +5051,10 @@ Responsive y Media Queries
     align-items: center;
     height: 100%;
   }
-
-  /* Dashboardh */
-  .stats-container {
+.stats-container {
     grid-template-columns: repeat(3, 1fr);
   }
-
-  /* Mostrar estado de pedido */
-
-  .modal-close-btn {
+.modal-close-btn {
     position: fixed;
     top: 9px;
     right: 9px;
@@ -5417,7 +5068,6 @@ Responsive y Media Queries
     font-size: 3rem;
   }
 }
-/* Desktop */
 @media (min-width: 992px) {
   /* =====================
     BODY
@@ -5426,27 +5076,18 @@ Responsive y Media Queries
   .title {
     width: 84vw;
   }
-  /*======//////==============*/
-  /*======HEADER==============*/
-  /*======//////==============*/
-  /* Logo */
   .logo-container {
     margin-left: 27px;
   }
   /* =====================
   MENÚ  CATEGORÍAS
   ===================== */
-
-  /*Menu Btn Categorias */
-
-  .menu-btn-container {
+.menu-btn-container {
     position: static;
     display: flex;
     align-items: center;
   }
-  /* Menu Categorias Mujer-Hombre*/
-
-  .categorias-menu-lateral-wrapper {
+.categorias-menu-lateral-wrapper {
     width: 84vw;
   }
 
@@ -5471,18 +5112,13 @@ Responsive y Media Queries
   /*  ============================
     CONTENIDO PRINCIPAL
     ============================*/
-  /*slider*/
-  #slider-contenedor {
+#slider-contenedor {
     display: flex;
     width: 84vw;
     height: 54vh;
     justify-content: center;
   }
-  /*====================*/
-  /* SECCIÓN CATEGORÍAS */
-  /*====================*/
-
-  .vestidos-grid,
+.vestidos-grid,
   .blusas-grid,
   .pantalones-mujer-grid,
   .faldas-grid,
@@ -5496,13 +5132,9 @@ Responsive y Media Queries
   .accesorios-hombre-grid {
     grid-template-columns: repeat(3, 1fr);
   }
-
-  /*============================ */
-  /*===Contenedor de Carrito */
-  /*============================ */
-  .productoCarritoContainer {
+.productoCarritoContainer {
     grid-template-columns: repeat(4, 1fr);
-  } /* Detalles de Compra Carrito*/
+  }
   .detalles-compra-container {
     flex-grow: 1;
     width: 170px;
@@ -5511,10 +5143,7 @@ Responsive y Media Queries
   .imgPago {
     width: 54px;
   }
-  /*============================ */
-  /*===Contenedor de Favoritos */
-  /*============================ */
-  .favoritos-productos {
+.favoritos-productos {
     height: 91vh;
   }
   .productoFavoritosContainer {
@@ -5522,10 +5151,7 @@ Responsive y Media Queries
     grid-template-columns: repeat(4, 1fr);
     gap: 1px;
   }
-  /*============================ */
-  /*===Contenedor de Carrito */
-  /*============================ */
-  .mini-modal-carrito.activado::before {
+.mini-modal-carrito.activado::before {
     right: 39px;
   }
 }
